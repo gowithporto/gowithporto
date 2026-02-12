@@ -1,12 +1,14 @@
 {
-  "home.title": "Planeie a sua viagem perfeita a Porto",
-  "home.subtitle": "Experiência de viagem a Porto alimentada por IA",
-  "home.cta": "Gerar plano de IA",
-  "home.explore": "Explorar produtos",
-  "home.card.ai": "Itinerários IA",
-  "home.card.ai.desc": "Planos inteligentes dia a dia baseados no seu orçamento.",
-  "home.card.guides": "Guias locais",
-  "home.card.guides.desc": "Contrate guias verificados de Porto.",
-  "home.card.souvenirs": "Souvenirs",
-  "home.card.souvenirs.desc": "Produtos locais autênticos entregues."
+  "nav.shop": "Loja",
+  "nav.cart": "Carrinho",
+  "nav.ai": "Planner de IA",
+  "nav.dashboard": "Painel de Controle",
+  "nav.store-dashboard": "Painel de Controle da Loja",
+  "nav.logout": "Sair",
+  "nav.login": "Entrar",
+  "home.title": "Planeie a sua viagem perfeita ao Porto",
+  "home.withai": "com IA",
+  "home.subtitle": "Descubra o charme do Porto com planeamento de viagem assistido por IA.",
+  "home.cta": "Gerar plano de viagem",
+  "home.explore": "Explorar produtos"
 }

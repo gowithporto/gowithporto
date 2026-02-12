@@ -1,12 +1,14 @@
 {
+  "nav.shop": "Boutique",
+  "nav.cart": "Panier",
+  "nav.ai": "Planificateur IA",
+  "nav.dashboard": "Panneau de contrôle",
+  "nav.store-dashboard": "Panneau de contrôle de la boutique",
+  "nav.logout": "Déconnexion",
+  "nav.login": "Connexion",
   "home.title": "Planifiez votre voyage parfait à Porto",
-  "home.subtitle": "Expérience de voyage à Porto alimentée par IA",
-  "home.cta": "Générer un plan IA",
-  "home.explore": "Explorer les produits",
-  "home.card.ai": "Itinéraires IA",
-  "home.card.ai.desc": "Plans intelligents jour par jour basés sur votre budget.",
-  "home.card.guides": "Guides locaux",
-  "home.card.guides.desc": "Engagez des guides Porto vérifiés.",
-  "home.card.souvenirs": "Souvenirs",
-  "home.card.souvenirs.desc": "Produits locaux authentiques livrés."
+  "home.withai": "avec l'IA",
+  "home.subtitle": "Découvrez le charme de Porto avec une planification de voyage assistée par l'IA.",
+  "home.cta": "Générer un plan de voyage IA",
+  "home.explore": "Explorer les produits"
 }

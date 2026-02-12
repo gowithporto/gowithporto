@@ -18,9 +18,20 @@ export default function ShopPage() {
   const { data: session } = useSession();
 
   useEffect(() => {
-    fetch("/api/categories")
-      .then((res) => res.json())
-      .then(setCategories);
+    const loadCategories = async () => {
+      try {
+        const res = await fetch("/api/categories");
+        const data = await res.json();
+
+        // THIS is the important fix
+        setCategories(Array.isArray(data) ? data : data.categories || []);
+      } catch (err) {
+        console.error("Failed to load categories", err);
+        setCategories([]);
+      }
+    };
+
+    loadCategories();
   }, []);
 
   useEffect(() => {
@@ -35,17 +46,18 @@ export default function ShopPage() {
   }, [category, sort]);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="pt-20 px-4 sm:p-28 space-y-6">
       <h1 className="text-3xl font-bold">Shop Porto Souvenirs</h1>
 
       <div className="flex gap-4">
         <Select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="">All Categories</option>
-          {categories.map((c) => (
-            <option key={c} value={c}>
-              {c.charAt(0).toUpperCase() + c.slice(1)}
-            </option>
-          ))}
+          {Array.isArray(categories) &&
+            categories.map((c) => (
+              <option key={c} value={c}>
+                {c.charAt(0).toUpperCase() + c.slice(1)}
+              </option>
+            ))}
         </Select>
 
         <select onChange={(e) => setSort(e.target.value)}>

@@ -1,44 +1,140 @@
+"use client";
+
+import LineFooter from "@/assets/center line 2 crop.png";
+import FooterFrameBottom from "@/assets/footer frame bottom.png";
+import FooterFrameTop from "@/assets/footer frame top.png";
+import Image from "next/image";
+import Link from "next/link";
+import { FaBoxOpen, FaChartLine, FaClipboardList } from "react-icons/fa";
+
 export default function StoreOwnerFooter() {
   return (
-    <footer className="border-t mt-12 px-6 py-12 text-sm text-gray-600 bg-gray-50">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-8">
-        <div className="max-w-md space-y-4">
-          <h3 className="font-bold text-lg text-black">
-            Our Commitment to You
-          </h3>
-          <p>
-            At GoWithPorto, we are dedicated to empowering local businesses. We
-            provide the tools you need to reach more customers, manage your
-            inventory efficiently, and grow your brand in the digital age. Your
-            success is our success.
-          </p>
+    <footer className="relative w-full flex justify-center sm:mt-20">
+      {/* TOP FRAME */}
+      <Image
+        src={FooterFrameTop}
+        alt=""
+        aria-hidden
+        priority
+        className="
+          pointer-events-none select-none
+          w-full max-w-dvw
+          absolute top-0 left-1/2 -translate-x-1/2
+          z-0
+        "
+      />
+
+      {/* CONTENT */}
+      <div
+        className="
+          relative z-10
+          w-full max-w-5xl
+          px-6
+          sm:px-12
+          lg:px-20
+          text-center
+          sm:py-80
+        "
+      >
+        {/* Divider */}
+        <Image
+          src={LineFooter}
+          alt="line divider"
+          aria-hidden
+          priority
+          className="mx-auto h-auto w-20 sm:w-60 mb-5 sm:mb-20 mt-10 sm:mt-[-30]"
+        />
+
+        {/* GRID */}
+        <div className="grid gap-12 text-[#4b5b66] sm:grid-cols-3 text-base">
+          {/* PARTNER MESSAGE */}
+          <div className="space-y-4">
+            <h3 className="font-serif text-xl text-[#415a6b]">
+              Partner Program
+            </h3>
+
+            <p className="text-sm leading-relaxed">
+              GoWithPorto helps local Porto businesses reach travelers
+              worldwide. Manage your shop, track orders, and grow your digital
+              presence.
+            </p>
+
+            <div className="flex items-center justify-center gap-2 text-[#2c6e9b]">
+              <span>Your shop is part of Porto experience</span>
+            </div>
+          </div>
+
+          {/* MANAGEMENT TOOLS */}
+          <div className="space-y-3">
+            <h3 className="font-serif text-xl text-[#415a6b]">
+              Store Management
+            </h3>
+
+            <Link
+              href="/store-owner"
+              className="flex items-center justify-center gap-2 hover:text-[#2c6e9b] transition"
+            >
+              <FaChartLine />
+              Dashboard
+            </Link>
+
+            <Link
+              href="/store-owner/products"
+              className="flex items-center justify-center gap-2 hover:text-[#2c6e9b] transition"
+            >
+              <FaBoxOpen />
+              Manage Products
+            </Link>
+
+            <Link
+              href="/store-owner/orders"
+              className="flex items-center justify-center gap-2 hover:text-[#2c6e9b] transition"
+            >
+              <FaClipboardList />
+              Orders & Sales
+            </Link>
+          </div>
+
+          {/* SUPPORT */}
+          <div className="space-y-3 grid grid-row-[1fr-auto]">
+            <h3 className="font-serif text-xl text-[#415a6b]">
+              Merchant Support
+            </h3>
+
+            <Link href="#" className="hover:text-[#2c6e9b] transition">
+              Getting Started Guide
+            </Link>
+
+            <Link href="#" className="hover:text-[#2c6e9b] transition">
+              Commission & Payments
+            </Link>
+
+            <Link href="#" className="hover:text-[#2c6e9b] transition">
+              Contact Partner Support
+            </Link>
+          </div>
         </div>
 
-        <div className="space-y-4">
-          <h4 className="font-semibold text-black">Store Owner Resources</h4>
-          <ul className="space-y-2">
-            <li>
-              <a href="/store-owner" className="hover:underline">
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a href="/store-owner/products" className="hover:underline">
-                Manage Products
-              </a>
-            </li>
-            <li>
-              <a href="/store-owner/orders" className="hover:underline">
-                View Orders
-              </a>
-            </li>
-          </ul>
-        </div>
+        {/* COPYRIGHT */}
+        <p className="m-14 text-sm text-gray-500">
+          © {new Date().getFullYear()} GoWithPorto Partner Network — Supporting
+          Local Porto Businesses
+        </p>
       </div>
 
-      <div className="text-center mt-12 pt-8 border-t">
-        <p>© {new Date().getFullYear()} GoWithPorto Partner Program.</p>
-      </div>
+      {/* BOTTOM FRAME */}
+      <Image
+        src={FooterFrameBottom}
+        alt=""
+        aria-hidden
+        priority
+        className="
+          pointer-events-none select-none
+          w-full max-w-dvw
+          absolute left-1/2 -translate-x-1/2
+          z-0 bottom-0
+        "
+      />
     </footer>
   );
 }
