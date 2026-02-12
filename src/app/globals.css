@@ -1,23 +1,27 @@
 @import "tailwindcss";
 
+/* LIGHT THEME (Porto parchment paper) */
 :root {
-  --bg: #F1EDE1;
-  --text: #1a1a1a;
-  --card: #eeeeee;
+  --bg: #ffffff;
+  --text: #2c6e9b;
+  --primary: #2c6e9b;
+  --accent: #eab657;
 }
 
+/* DARK THEME (Porto night river) */
 .dark {
-  --bg: #1a1a1a;
-  --text: #eeeeee;
-  --card: #242527;
+  --bg: #0f1720;
+  --text: #e6edf3;
+  --primary: #5aa6d6;
+  --accent: #eab657;
 }
 
 html,
 body {
-  background: var(--bg);
-  color: var(--text);
+  transition: background-color .35s ease, color .35s ease;
+  font-family: var(--font-inter), system-ui, sans-serif;
 }
 
-body {
-  font-family: var(--font-inter), system-ui, sans-serif;
+.dark img {
+  filter: brightness(.85) contrast(1.05);
 }

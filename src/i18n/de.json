@@ -1,12 +1,14 @@
 {
+  "nav.shop": "Geschäft",
+  "nav.cart": "Warenkorb",
+  "nav.ai": "KI-Planer",
+  "nav.dashboard": "Dashboard",
+  "nav.store-dashboard": "Geschäfts-Dashboard",
+  "nav.logout": "Abmelden",
+  "nav.login": "Anmelden",
   "home.title": "Planen Sie Ihre perfekte Porto-Reise",
-  "home.subtitle": "KI-gestützte Porto-Reiseerfahrung",
-  "home.cta": "KI-Plan generieren",
-  "home.explore": "Produkte erkunden",
-  "home.card.ai": "KI-Reiserouten",
-  "home.card.ai.desc": "Intelligente Tag-für-Tag-Pläne basierend auf Ihrem Budget.",
-  "home.card.guides": "Lokale Führer",
-  "home.card.guides.desc": "Verifizierte Porto-Führer anheuern.",
-  "home.card.souvenirs": "Souvenirs",
-  "home.card.souvenirs.desc": "Authentische lokale Produkte geliefert."
+  "home.withai": "mit KI",
+  "home.subtitle": "Erleben Sie den Charme von Porto mit KI-gestützter Reiseplanung.",
+  "home.cta": "KI-Reiseplan generieren",
+  "home.explore": "Produkte erkunden"
 }

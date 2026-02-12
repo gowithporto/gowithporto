@@ -1,12 +1,14 @@
 {
+  "nav.shop": "Shop",
+  "nav.cart": "Cart",
+  "nav.ai": "AI Planner",
+  "nav.dashboard": "Dashboard",
+  "nav.store-dashboard": "Store Dashboard",
+  "nav.logout": "Logout",
+  "nav.login": "Login",
   "home.title": "Plan Your Perfect Porto Trip",
-  "home.subtitle": "AI-powered Porto travel experience",
-  "home.cta": "Generate AI Plan",
-  "home.explore": "Explore Products",
-  "home.card.ai": "AI Itineraries",
-  "home.card.ai.desc": "Smart day-by-day plans based on your budget.",
-  "home.card.guides": "Local Guides",
-  "home.card.guides.desc": "Hire verified Porto guides.",
-  "home.card.souvenirs": "Souvenirs",
-  "home.card.souvenirs.desc": "Authentic local products delivered."
+  "home.withai": "with AI",
+  "home.subtitle": "Experience the charm of Porto with AI-powered travel planning.",
+  "home.cta": "Generate AI Trip Plan",
+  "home.explore": "Explore Products"
 }

@@ -1,81 +1,84 @@
 "use client";
 
-import Grid from "@/components/layout/Grid";
 import Button from "@/components/ui/Button";
-import Card from "@/components/ui/Card";
 import { t } from "@/i18n";
 import { useLanguage } from "@/providers/LanguageProvider";
-import { useTheme } from "next-themes";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+
+import Link from "next/link";
+import backgroundImage from "../assets/HERO BG.png";
+import bottomLeftLine1 from "../assets/bottom left line 1.png";
+import bottomRightLine1 from "../assets/bottom right line 1.png";
 
 export default function Home() {
-  const { theme, setTheme } = useTheme();
-  const { lang, setLang } = useLanguage();
+  const [show, setShow] = useState(false);
+  const { lang } = useLanguage();
+
+  useEffect(() => {
+    setTimeout(() => setShow(true), 200);
+  }, []);
 
   return (
-    <main className="p-8 space-y-14 transition-colors">
-      {/* HERO */}
-      <section className="relative rounded-3xl border border-black/5 bg-[var(--card)] p-10 shadow-sm">
-        {/* UI Controls — HERO ONLY */}
-        <div className="absolute right-6 top-6 flex gap-3">
-          {/* Theme Toggle */}
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="rounded-xl border px-4 py-2 text-sm hover:scale-105 transition"
-          >
-            {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
-          </button>
+    <main className="relative min-h-screen overflow-hidden">
+      <section className="relative flex min-h-screen items-center px-[10%]">
+        {/* Background */}
+        <Image
+          src={backgroundImage}
+          alt="Porto Hero"
+          fill
+          priority
+          className="object-cover"
+        />
 
-          {/* Language Switch */}
-          <select
-            value={lang}
-            onChange={(e) => setLang(e.target.value as any)}
-            className="rounded-xl border px-3 py-2 text-sm bg-transparent"
+        {/* Content */}
+        <div
+          className={`relative z-10 max-w-xl transition-all duration-1000
+          ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+        >
+          <h1
+            className="font-serif text-[clamp(2.5rem,6vw,4rem)] text-[var(--primary)]
+ leading-tight"
           >
-            <option value="en">EN</option>
-            <option value="pt">PT</option>
-            <option value="fr">FR</option>
-            <option value="es">ES</option>
-            <option value="de">DE</option>
-          </select>
+            {t(lang, "home.title")}{" "}
+            <span className="text-[#eab657]">{t(lang, "home.withai")}</span>
+          </h1>
+
+          <p className="mt-5 text-lg text-[var(--text)]">
+            {t(lang, "home.subtitle")}
+          </p>
+
+          <div className="mt-8 flex gap-4">
+            <Link href="/ai">
+              <Button className="cursor-pointer">{t(lang, "home.cta")}</Button>
+            </Link>
+            <Link href="/shop">
+              <Button
+                className="cursor-pointer text-[var(--text)]"
+                variant="secondary"
+              >
+                {t(lang, "home.explore")}
+              </Button>
+            </Link>
+          </div>
         </div>
 
-        <h1 className="text-5xl font-serif text-primary">
-          {t(lang, "home.title")}
-        </h1>
-
-        <p className="mt-3 text-lg opacity-80">{t(lang, "home.subtitle")}</p>
-
-        <div className="mt-8 flex gap-4">
-          <Button>{t(lang, "home.cta")}</Button>
-          <Button variant="secondary">{t(lang, "home.explore")}</Button>
-        </div>
+        {/* Bottom Azulejo */}
+        <Image
+          src={bottomLeftLine1}
+          alt=""
+          width={300}
+          height={80}
+          className="absolute bottom-16 left-0 hidden lg:block"
+        />
+        <Image
+          src={bottomRightLine1}
+          alt=""
+          width={300}
+          height={80}
+          className="absolute bottom-16 right-0 hidden lg:block"
+        />
       </section>
-
-      {/* CARDS */}
-      <Grid>
-        <Card>
-          <h3 className="font-serif text-xl">{t(lang, "home.card.ai")}</h3>
-          <p className="mt-2 text-sm opacity-80">
-            {t(lang, "home.card.ai.desc")}
-          </p>
-        </Card>
-
-        <Card>
-          <h3 className="font-serif text-xl">{t(lang, "home.card.guides")}</h3>
-          <p className="mt-2 text-sm opacity-80">
-            {t(lang, "home.card.guides.desc")}
-          </p>
-        </Card>
-
-        <Card>
-          <h3 className="font-serif text-xl">
-            {t(lang, "home.card.souvenirs")}
-          </h3>
-          <p className="mt-2 text-sm opacity-80">
-            {t(lang, "home.card.souvenirs.desc")}
-          </p>
-        </Card>
-      </Grid>
     </main>
   );
 }
