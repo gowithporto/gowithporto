@@ -15,7 +15,7 @@ export default async function Layout({
   const showSidebar = session && session.user.role === "STORE_OWNER";
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen mt-32">
       {showSidebar && <StoreOwnerSidebar />}
       <main className="flex-1 p-6">{children}</main>
     </div>

@@ -19,7 +19,7 @@ export default function Button({
     primary: "bg-[#57BAEA] text-white hover:scale-[1.02] hover:shadow-md",
     secondary: "bg-[#AABBCC] text-[#1a1a1a] hover:scale-[1.02] hover:shadow-md",
     outline:
-      "bg-transparent text-gray-100 border border-gray-600 hover:bg-gray-50",
+      "bg-transparent text-[var(--text)] border border-gray-600 hover:bg-gray-50",
   };
 
   const { disabled } = props;

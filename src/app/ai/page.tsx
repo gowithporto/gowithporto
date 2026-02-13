@@ -34,7 +34,6 @@ export default function AIFormPage() {
     window.location.href = data.url;
   }
 
-
   async function handleSubmit() {
     if (!session) {
       alert("Please login first to generate a travel plan.");
@@ -70,7 +69,6 @@ export default function AIFormPage() {
       } else {
         throw new Error("Invalid response from server");
       }
-
     } catch (error) {
       console.error(error);
       alert("Something went wrong. Please try again.");
@@ -79,7 +77,7 @@ export default function AIFormPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16">
+    <div className="max-w-3xl mx-auto px-6 py-16 mt-34">
       <h1 className="font-serif text-3xl mb-6">Plan your Porto trip with AI</h1>
 
       <Card className="space-y-6">
