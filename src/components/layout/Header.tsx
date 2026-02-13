@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
+import { FaOpencart } from "react-icons/fa";
 import Logo from "../../assets/GOWITHPORTO LOGO.png";
 import TopLeftLine from "../../assets/top left line 1.png";
 import TopRightLine from "../../assets/top right line 1.png";
@@ -80,7 +81,9 @@ export default function Header() {
             {session && !isStoreOwner && (
               <>
                 <Link className="hover:text-[#eab657]/80" href="/cart">
-                  {t(lang, "nav.cart")} {cartCount > 0 && `(${cartCount})`}
+                  <FaOpencart className="inline-block" />
+                  {t(lang, "nav.cart")}
+                  {cartCount > 0 && `(${cartCount})`}
                 </Link>
                 <Link className="hover:text-[#eab657]/80" href="/ai">
                   {t(lang, "nav.ai")}

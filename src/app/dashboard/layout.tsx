@@ -18,7 +18,7 @@ export default function DashboardLayout({
   ];
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6 mt-32">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
         <div className="flex border-b overflow-x-auto">

@@ -53,7 +53,7 @@ export default function StoreOwnerLoginPage() {
 
         <button
           type="submit"
-          className="w-full rounded bg-black py-2 text-white"
+          className="w-full rounded bg-[#2c6e9b] py-2 text-white hover:bg-[#2c6e9b]/90"
         >
           Login
         </button>
