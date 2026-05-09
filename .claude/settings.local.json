@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\HP\\\\Desktop\\\\gowithporto\\\\src\\\\components\" -Recurse | Select-Object -Property FullName | ForEach-Object { $_.FullName.Replace\\(\"C:\\\\Users\\\\HP\\\\Desktop\\\\gowithporto\\\\\", \"\"\\) })",
+      "Bash(Get-ChildItem \"C:\\\\Users\\\\HP\\\\Desktop\\\\gowithporto\\\\src\\\\assets\\\\1. home page\" -Recurse)",
+      "Bash(Select-Object FullName)",
+      "Bash(Sort-Object FullName)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\HP\\\\Desktop\\\\gowithporto\\\\src\\\\assets\" -Recurse -File | ForEach-Object { $_.FullName })"
+    ]
+  }
+}
