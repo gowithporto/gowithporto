@@ -10,19 +10,21 @@ import { FaBoxOpen, FaChartLine, FaClipboardList } from "react-icons/fa";
 export default function StoreOwnerFooter() {
   return (
     <footer className="relative w-full flex justify-center sm:mt-20">
-      {/* TOP FRAME */}
-      <Image
-        src={FooterFrameTop}
-        alt=""
-        aria-hidden
-        priority
-        className="
-          pointer-events-none select-none
-          w-full max-w-dvw
-          absolute top-0 left-1/2 -translate-x-1/2
-          z-0
-        "
-      />
+      {/* TOP FRAME (clipped to the footer's own height so its transparent
+          lower half can't add phantom scrollable space below the page) */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <Image
+          src={FooterFrameTop}
+          alt=""
+          aria-hidden
+          priority
+          className="
+            select-none
+            w-full max-w-dvw
+            absolute top-0 left-1/2 -translate-x-1/2
+          "
+        />
+      </div>
 
       {/* CONTENT */}
       <div
@@ -33,7 +35,9 @@ export default function StoreOwnerFooter() {
           sm:px-12
           lg:px-20
           text-center
-          sm:py-80
+          sm:py-16
+          lg:py-24
+          xl:py-28
         "
       >
         {/* Divider */}

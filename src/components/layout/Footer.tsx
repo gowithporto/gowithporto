@@ -1,6 +1,6 @@
 "use client";
 
-import LineFooter from "@/assets/center line 2 crop.png";
+import LineFooter from "@/assets/center line 3.png";
 import FooterFrameBottom from "@/assets/footer frame bottom.png";
 import FooterFrameTop from "@/assets/footer frame top.png";
 import { useSession } from "next-auth/react";
@@ -26,18 +26,20 @@ export default function Footer() {
   /* ---------------- MAIN FOOTER ---------------- */
   return (
     <footer className="relative sm:mt-24 w-full flex justify-center">
-      {/* TOP AZULEJO FRAME */}
-      <Image
-        src={FooterFrameTop}
-        alt=""
-        priority
-        className="
-          pointer-events-none select-none
-          w-full max-w-dvw
-          absolute top-0 left-1/2 -translate-x-1/2
-          z-0 
-        "
-      />
+      {/* TOP AZULEJO FRAME (clipped to the footer's own height so its
+          transparent lower half can't add phantom scrollable space below the page) */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <Image
+          src={FooterFrameTop}
+          alt=""
+          priority
+          className="
+            select-none
+            w-full max-w-dvw
+            absolute top-0 left-1/2 -translate-x-1/2
+          "
+        />
+      </div>
 
       {/* CONTENT AREA */}
       <div
@@ -48,7 +50,9 @@ export default function Footer() {
           sm:px-12
           lg:px-20
           text-center
-          sm:py-80
+          sm:py-16
+          lg:py-24
+          xl:py-28
         "
       >
         {/* decorative divider */}

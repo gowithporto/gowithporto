@@ -16,7 +16,7 @@ export default function Button({
     "inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-medium transition-all duration-300";
 
   const variants: Record<ButtonVariant, string> = {
-    primary: "bg-[#57BAEA] text-white hover:scale-[1.02] hover:shadow-md",
+    primary: "bg-[#2c6e9b] text-white hover:scale-[1.02] hover:shadow-md",
     secondary: "bg-[#AABBCC] text-[#1a1a1a] hover:scale-[1.02] hover:shadow-md",
     outline:
       "bg-transparent text-[var(--text)] border border-gray-600 hover:bg-gray-50",
@@ -28,7 +28,9 @@ export default function Button({
       className={cn(
         base,
         variants[variant],
-        disabled && "opacity-50 cursor-not-allowed pointer-events-none",
+        disabled
+          ? "opacity-50 cursor-not-allowed pointer-events-none"
+          : undefined,
         className,
       )}
       disabled={disabled}

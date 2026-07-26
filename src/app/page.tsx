@@ -11,6 +11,12 @@ import backgroundImage from "../assets/HERO BG.png";
 import bottomLeftLine1 from "../assets/bottom left line 1.png";
 import bottomRightLine1 from "../assets/bottom right line 1.png";
 
+import BikeRentalBanner from "@/components/home/BikeRentalBanner";
+import DiscoverPorto from "@/components/home/DiscoverPorto";
+import LocalFlavors from "@/components/home/LocalFlavors";
+import PopularCategories from "@/components/home/PopularCategories";
+import WhyChooseStayInspired from "@/components/home/WhyChooseStayInspired";
+
 export default function Home() {
   const [show, setShow] = useState(false);
   const { lang } = useLanguage();
@@ -69,16 +75,22 @@ export default function Home() {
           alt=""
           width={300}
           height={80}
-          className="absolute bottom-16 left-0 hidden lg:block"
+          className="absolute bottom-0 left-0 hidden lg:block"
         />
         <Image
           src={bottomRightLine1}
           alt=""
           width={300}
           height={80}
-          className="absolute bottom-16 right-0 hidden lg:block"
+          className="absolute bottom-0 right-0 hidden lg:block"
         />
       </section>
+
+      <PopularCategories />
+      <DiscoverPorto />
+      <BikeRentalBanner />
+      <LocalFlavors />
+      <WhyChooseStayInspired />
     </main>
   );
 }
