@@ -1,114 +1,103 @@
 "use client";
 
-import Button from "@/components/ui/Button";
-import Card from "@/components/ui/Card";
-import Select from "@/components/ui/Select";
-import { addToCart } from "@/store/slices/cartSlice";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { useEffect, useMemo, useState } from "react";
+
+import CategorySidebar from "@/components/shop/CategorySidebar";
+import InfoStrip from "@/components/shop/InfoStrip";
+import ProductCard from "@/components/shop/ProductCard";
+import ShopAdCard from "@/components/shop/ShopAdCard";
+import ShopBanner from "@/components/shop/ShopBanner";
+import SortSidebar from "@/components/shop/SortSidebar";
 
 export default function ShopPage() {
   const [products, setProducts] = useState<any[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
   const [category, setCategory] = useState("");
   const [sort, setSort] = useState("");
-  const dispatch = useDispatch();
-  const { data: session } = useSession();
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        const res = await fetch("/api/categories");
-        const data = await res.json();
-
-        // THIS is the important fix
-        setCategories(Array.isArray(data) ? data : data.categories || []);
-      } catch (err) {
-        console.error("Failed to load categories", err);
-        setCategories([]);
-      }
-    };
-
-    loadCategories();
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(Array.isArray(data) ? data : []))
+      .catch(() => setProducts([]));
   }, []);
 
-  useEffect(() => {
-    const params = new URLSearchParams();
+  const categoryCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const p of products) {
+      if (!p.category) continue;
+      counts.set(p.category, (counts.get(p.category) || 0) + 1);
+    }
+    return Array.from(counts.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [products]);
 
-    if (category) params.append("category", category);
-    if (sort) params.append("sort", sort);
+  const visibleProducts = useMemo(() => {
+    let list = products;
 
-    fetch(`/api/products?${params.toString()}`)
-      .then((res) => res.json())
-      .then(setProducts);
-  }, [category, sort]);
+    if (category) list = list.filter((p) => p.category === category);
+
+    if (search.trim()) {
+      const q = search.trim().toLowerCase();
+      list = list.filter((p) => p.title?.toLowerCase().includes(q));
+    }
+
+    list = [...list];
+    if (sort === "price-asc") list.sort((a, b) => a.price - b.price);
+    if (sort === "price-desc") list.sort((a, b) => b.price - a.price);
+    if (sort === "name-asc") list.sort((a, b) => a.title.localeCompare(b.title));
+    if (sort === "name-desc") list.sort((a, b) => b.title.localeCompare(a.title));
+
+    return list;
+  }, [products, category, search, sort]);
 
   return (
-    <div className="pt-20 px-4 sm:p-28 space-y-6">
-      <h1 className="text-3xl font-bold">Shop Porto Souvenirs</h1>
+    <div className="space-y-10 px-4 pt-24 pb-16 sm:px-8 sm:pt-28 lg:px-12">
+      <ShopBanner />
 
-      <div className="flex gap-4">
-        <Select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="">All Categories</option>
-          {Array.isArray(categories) &&
-            categories.map((c) => (
-              <option key={c} value={c}>
-                {c.charAt(0).toUpperCase() + c.slice(1)}
-              </option>
-            ))}
-        </Select>
+      <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
+        <aside className="space-y-6">
+          <CategorySidebar
+            categories={categoryCounts}
+            totalCount={products.length}
+            selected={category}
+            onSelect={setCategory}
+          />
+          <SortSidebar selected={sort} onSelect={setSort} />
+          <ShopAdCard />
+        </aside>
 
-        <select onChange={(e) => setSort(e.target.value)}>
-          <option value="">Default</option>
-          <option value="price-asc">Price: Low → High</option>
-          <option value="price-desc">Price: High → Low</option>
-          <option value="name-asc">Name: A → Z</option>
-          <option value="name-desc">Name: Z → A</option>
-        </select>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {products.map((p) => (
-          <Card key={p._id} className="space-y-2">
-            {/* ONE Link only */}
-            <Link href={`/shop/${p.slug}`} className="block space-y-2">
-              <img
-                src={p.images?.[0]}
-                alt={p.title}
-                className="h-48 w-full object-cover rounded"
+        <div className="space-y-6">
+          <div className="flex justify-end">
+            <div className="relative w-full sm:w-72">
+              <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-xl border border-black/10 bg-white py-3 pl-9 pr-4 text-sm outline-none focus:border-[#2c6e9b] focus:ring-2 focus:ring-[#2c6e9b]/20"
               />
-              <h3 className="font-semibold">{p.title}</h3>
-              <p className="text-sm text-gray-500">{p.storeId?.name}</p>
-              <p className="font-bold">€{p.price}</p>
-              <p className="text-sm text-gray-600">
-                Available: {p.quantity || 0}
-              </p>
-            </Link>
+            </div>
+          </div>
 
-            {/* Button is NOT inside Link */}
-            {session?.user.role !== "STORE_OWNER" && (
-              <Button
-                className="mt-2 w-full"
-                onClick={() =>
-                  dispatch(
-                    addToCart({
-                      productId: p._id,
-                      title: p.title,
-                      price: p.price,
-                      image: p.images?.[0],
-                      quantity: 1,
-                    }),
-                  )
-                }
-              >
-                Add to Cart
-              </Button>
-            )}
-          </Card>
-        ))}
+          {visibleProducts.length === 0 ? (
+            <p className="py-16 text-center text-sm text-gray-500">
+              No products found.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+              {visibleProducts.map((p) => (
+                <ProductCard key={p._id} product={p} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
+
+      <InfoStrip />
     </div>
   );
 }
