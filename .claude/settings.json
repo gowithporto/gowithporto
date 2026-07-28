@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:3000/ai/result-preview -o /tmp/rp.html -w \"HTTP %{http_code}\\\\n\")",
+      "Bash(npx --yes playwright@latest screenshot --viewport-size=1440,1000 --full-page \"http://localhost:3000/ai/result-preview\" \"/c/Users/HP/AppData/Local/Temp/claude/c--Users-HP-Desktop-gowithporto/437e5780-3e74-4b34-9384-75d993060da4/scratchpad/ai-result.png\")",
+      "Bash(NODE_PATH=\"/c/Users/HP/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules\" node /tmp/shot.mjs)",
+      "Bash(cp /tmp/shot.mjs \"/c/Users/HP/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/shot.mjs\")",
+      "Bash(node shot.mjs)"
+    ]
+  }
+}

@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
     // ✅ ALWAYS parse body
     const body = await req.json();
-    const { days, budget, people } = body;
+    const { days, budget, people, dates } = body;
 
     await connectDB();
 
@@ -59,7 +59,7 @@ const aiResponse = await generateAIResponse({
     // ✅ SAVE AI RESPONSE
     const savedResponse = await AIResponse.create({
       userEmail: session.user.email,
-      prompt: { days, budget, people },
+      prompt: { days, budget, people, dates },
       response: aiResponse,
     });
 
