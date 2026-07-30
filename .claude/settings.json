@@ -14,7 +14,9 @@
       "Bash(curl -s http://localhost:3000/checkout -o /tmp/checkout.html -w \"HTTP %{http_code}\\\\n\")",
       "Bash(curl -s \"http://localhost:3000/checkout/success\" -o /tmp/success_missing.html -w \"no session_id -> HTTP %{http_code}\\\\n\")",
       "Bash(curl -s \"http://localhost:3000/checkout/success?session_id=test123\" -o /tmp/success_confirming.html -w \"with session_id -> HTTP %{http_code}\\\\n\")",
-      "Bash(curl -s \"http://localhost:3000/checkout/cancel\" -o /tmp/cancel.html -w \"HTTP %{http_code}\\\\n\")"
+      "Bash(curl -s \"http://localhost:3000/checkout/cancel\" -o /tmp/cancel.html -w \"HTTP %{http_code}\\\\n\")",
+      "Bash(grep -n '\"@/\\\\*\"' -A2 tsconfig.json)",
+      "Bash(npx next *)"
     ]
   }
 }

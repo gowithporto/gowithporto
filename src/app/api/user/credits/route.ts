@@ -15,5 +15,8 @@ export async function GET() {
 
   const user = await User.findOne({ email: session.user.email });
 
-  return NextResponse.json({ credits: user?.credits ?? 0 });
+  return NextResponse.json({
+    credits: user?.credits ?? 0,
+    memberSince: user?.createdAt ?? null,
+  });
 }
