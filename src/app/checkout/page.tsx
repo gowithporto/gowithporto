@@ -1,18 +1,46 @@
 "use client";
 
-import { RootState } from "@/store";
-import { useState } from "react";
+import {
+  BuildingStorefrontIcon,
+  ChevronLeftIcon,
+  ShoppingBagIcon,
+  TruckIcon,
+} from "@heroicons/react/24/outline";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
+import centerLine from "@/assets/center line 3.png";
+import OrderReviewCard from "@/components/checkout/OrderReviewCard";
+import Input from "@/components/ui/Input";
+import { RootState } from "@/store";
+
+type Address = {
+  name: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+};
+
+const REQUIRED_FIELDS: (keyof Address)[] = [
+  "name",
+  "street",
+  "city",
+  "postalCode",
+  "country",
+];
+
 export default function CheckoutPage() {
+  const [mounted, setMounted] = useState(false);
   const cart = useSelector((state: RootState) => state.cart.items);
 
-  const [deliveryType, setDeliveryType] = useState<"pickup" | "delivery">(
-    "pickup"
-  );
+  const [deliveryType, setDeliveryType] = useState<"pickup" | "delivery">("pickup");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<Partial<Record<keyof Address, string>>>({});
 
-  const [address, setAddress] = useState({
+  const [address, setAddress] = useState<Address>({
     name: "",
     street: "",
     city: "",
@@ -20,110 +48,214 @@ export default function CheckoutPage() {
     country: "Portugal",
   });
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <p className="pt-32 text-center text-gray-500">Loading checkout…</p>;
+  }
+
+  const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
   const handleCheckout = async () => {
     if (deliveryType === "delivery") {
-      for (const key of Object.keys(address)) {
-        if (!address[key as keyof typeof address]) {
-          alert("Please fill in all delivery address fields.");
-          return;
-        }
+      const nextErrors: Partial<Record<keyof Address, string>> = {};
+      for (const field of REQUIRED_FIELDS) {
+        if (!address[field].trim()) nextErrors[field] = "Required";
+      }
+      if (Object.keys(nextErrors).length > 0) {
+        setErrors(nextErrors);
+        return;
       }
     }
-
+    setErrors({});
     setLoading(true);
 
-    const res = await fetch("/api/payments/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        items: cart,
-        deliveryType,
-        address: deliveryType === "delivery" ? address : null,
-      }),
-    });
+    try {
+      const res = await fetch("/api/payments/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: cart,
+          deliveryType,
+          address: deliveryType === "delivery" ? address : null,
+        }),
+      });
 
-    const data = await res.json();
-    window.location.href = data.url;
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+      else setLoading(false);
+    } catch {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Checkout</h1>
+    <div className="space-y-10 px-4 pt-24 pb-16 sm:px-8 sm:pt-28 lg:px-12">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="font-serif text-3xl text-[var(--primary)]">Checkout</h1>
+          <Image src={centerLine} alt="" className="mt-2 h-auto w-32" />
+          <p className="mt-3 text-sm text-gray-500">
+            Choose delivery and confirm your order
+          </p>
+        </div>
 
-      {/* DELIVERY TYPE */}
-      <div className="space-y-2">
-        <label className="flex gap-2 items-center">
-          <input
-            type="radio"
-            checked={deliveryType === "pickup"}
-            onChange={() => setDeliveryType("pickup")}
-          />
-          Pick up from store (Free)
-        </label>
-
-        <label className="flex gap-2 items-center">
-          <input
-            type="radio"
-            checked={deliveryType === "delivery"}
-            onChange={() => setDeliveryType("delivery")}
-          />
-          Delivery (fee applies)
-        </label>
+        <Link
+          href="/cart"
+          className="relative z-60 flex items-center gap-1 text-sm text-[#2c6e9b] hover:underline"
+        >
+          <ChevronLeftIcon className="h-4 w-4" />
+          Back to Cart
+        </Link>
       </div>
 
-      {/* ADDRESS FORM */}
-      {deliveryType === "delivery" && (
-        <div className="space-y-3 border p-4 rounded">
-          <h2 className="font-semibold">Delivery Address</h2>
+      {cart.length === 0 ? (
+        <div className="flex flex-col items-center gap-4 rounded-2xl border border-black/5 bg-white py-20 text-center shadow-sm">
+          <ShoppingBagIcon className="h-12 w-12 text-[#2c6e9b]/40" />
+          <p className="text-[var(--text)]">Your cart is empty.</p>
+          <Link
+            href="/shop"
+            className="rounded-xl bg-[#2c6e9b] px-6 py-3 text-sm font-medium text-white transition hover:scale-[1.02] hover:shadow-md"
+          >
+            Start Shopping
+          </Link>
+        </div>
+      ) : (
+        <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
+          <div className="space-y-6">
+            <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
+              <h2 className="font-semibold text-[var(--text)]">Delivery Method</h2>
 
-          <input
-            className="w-full border p-2 rounded"
-            placeholder="Full Name"
-            value={address.name}
-            onChange={(e) => setAddress({ ...address, name: e.target.value })}
-          />
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <label
+                  className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition ${
+                    deliveryType === "pickup"
+                      ? "border-[#2c6e9b] bg-[#2c6e9b]/5"
+                      : "border-black/10 hover:border-black/20"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="deliveryType"
+                    value="pickup"
+                    checked={deliveryType === "pickup"}
+                    onChange={() => setDeliveryType("pickup")}
+                    className="sr-only"
+                  />
+                  <BuildingStorefrontIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-[#2c6e9b]" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-[var(--text)]">
+                      Pick up from store
+                    </p>
+                    <p className="text-xs text-gray-500">Collect your order in person</p>
+                  </div>
+                  <span className="text-xs font-medium text-green-600">Free</span>
+                </label>
 
-          <input
-            className="w-full border p-2 rounded"
-            placeholder="Street Address"
-            value={address.street}
-            onChange={(e) => setAddress({ ...address, street: e.target.value })}
-          />
+                <label
+                  className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition ${
+                    deliveryType === "delivery"
+                      ? "border-[#2c6e9b] bg-[#2c6e9b]/5"
+                      : "border-black/10 hover:border-black/20"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="deliveryType"
+                    value="delivery"
+                    checked={deliveryType === "delivery"}
+                    onChange={() => setDeliveryType("delivery")}
+                    className="sr-only"
+                  />
+                  <TruckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-[#2c6e9b]" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-[var(--text)]">Delivery</p>
+                    <p className="text-xs text-gray-500">Shipped to your address</p>
+                  </div>
+                  <span className="text-xs font-medium text-gray-500">Fee applies</span>
+                </label>
+              </div>
+            </div>
 
-          <input
-            className="w-full border p-2 rounded"
-            placeholder="City"
-            value={address.city}
-            onChange={(e) => setAddress({ ...address, city: e.target.value })}
-          />
+            {deliveryType === "delivery" && (
+              <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
+                <h2 className="font-semibold text-[var(--text)]">Delivery Address</h2>
 
-          <input
-            className="w-full border p-2 rounded"
-            placeholder="Postal Code"
-            value={address.postalCode}
-            onChange={(e) =>
-              setAddress({ ...address, postalCode: e.target.value })
-            }
-          />
+                <div className="mt-4 space-y-4">
+                  <div>
+                    <Input
+                      label="Full Name"
+                      value={address.name}
+                      onChange={(e) => setAddress({ ...address, name: e.target.value })}
+                    />
+                    {errors.name && (
+                      <p className="mt-1 text-xs text-red-500">{errors.name}</p>
+                    )}
+                  </div>
 
-          <input
-            className="w-full border p-2 rounded"
-            placeholder="Country"
-            value={address.country}
-            onChange={(e) =>
-              setAddress({ ...address, country: e.target.value })
-            }
+                  <div>
+                    <Input
+                      label="Street Address"
+                      value={address.street}
+                      onChange={(e) => setAddress({ ...address, street: e.target.value })}
+                    />
+                    {errors.street && (
+                      <p className="mt-1 text-xs text-red-500">{errors.street}</p>
+                    )}
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <Input
+                        label="City"
+                        value={address.city}
+                        onChange={(e) => setAddress({ ...address, city: e.target.value })}
+                      />
+                      {errors.city && (
+                        <p className="mt-1 text-xs text-red-500">{errors.city}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <Input
+                        label="Postal Code"
+                        value={address.postalCode}
+                        onChange={(e) =>
+                          setAddress({ ...address, postalCode: e.target.value })
+                        }
+                      />
+                      {errors.postalCode && (
+                        <p className="mt-1 text-xs text-red-500">{errors.postalCode}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div>
+                    <Input
+                      label="Country"
+                      value={address.country}
+                      onChange={(e) => setAddress({ ...address, country: e.target.value })}
+                    />
+                    {errors.country && (
+                      <p className="mt-1 text-xs text-red-500">{errors.country}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <OrderReviewCard
+            items={cart}
+            subtotal={subtotal}
+            deliveryType={deliveryType}
+            loading={loading}
+            onSubmit={handleCheckout}
           />
         </div>
       )}
-
-      <button
-        onClick={handleCheckout}
-        disabled={loading}
-        className="w-full bg-black text-white py-3 rounded"
-      >
-        {loading ? "Redirecting..." : "Proceed to Payment"}
-      </button>
     </div>
   );
 }

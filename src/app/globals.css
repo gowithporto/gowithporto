@@ -25,3 +25,12 @@ body {
 .dark img {
   filter: brightness(.85) contrast(1.05);
 }
+
+@keyframes shrink-width {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}

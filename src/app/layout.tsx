@@ -1,4 +1,5 @@
 import { Inter, Playfair_Display } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 import ConditionalFooter from "@/components/layout/ConditionalFooter";
@@ -34,6 +35,18 @@ export default function RootLayout({
           <ThemeProvider>
             <ReduxProvider>
               <LanguageProvider>
+                <Toaster
+                  position="top-right"
+                  toastOptions={{
+                    style: {
+                      borderRadius: "0.75rem",
+                      background: "var(--bg)",
+                      color: "var(--text)",
+                      boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
+                    },
+                    success: { iconTheme: { primary: "#2c6e9b", secondary: "#fff" } },
+                  }}
+                />
                 <Header />
                 {children}
                 <ConditionalFooter />

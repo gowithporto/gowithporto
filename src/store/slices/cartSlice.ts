@@ -6,6 +6,8 @@ type CartItem = {
   price: number;
   image?: string;
   quantity: number;
+  category?: string;
+  storeName?: string;
 };
 
 type CartState = {
@@ -49,6 +51,17 @@ const cartSlice = createSlice({
       saveCart(state.items);
     },
 
+    updateQuantity(state, action) {
+      const item = state.items.find(
+        (i) => i.productId === action.payload.productId
+      );
+
+      if (item) {
+        item.quantity = Math.max(1, action.payload.quantity);
+        saveCart(state.items);
+      }
+    },
+
     clearCart(state) {
       state.items = [];
       if (typeof window !== "undefined") {
@@ -58,5 +71,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity, clearCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

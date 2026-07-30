@@ -1,10 +1,14 @@
 "use client";
 
-import { HeartIcon as HeartOutline, ShoppingCartIcon } from "@heroicons/react/24/outline";
+import {
+  HeartIcon as HeartOutline,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
 import Button from "@/components/ui/Button";
@@ -67,9 +71,9 @@ export default function ProductCard({ product }: { product: Product }) {
       <div className="px-4 pb-4">
         {session?.user?.role !== "STORE_OWNER" && (
           <Button
-            className="w-full gap-2"
+            className="w-full gap-2 cursor-grabbing"
             disabled={!product.quantity}
-            onClick={() =>
+            onClick={() => {
               dispatch(
                 addToCart({
                   productId: product._id,
@@ -77,9 +81,12 @@ export default function ProductCard({ product }: { product: Product }) {
                   price: product.price,
                   image: product.images?.[0],
                   quantity: 1,
+                  category: product.category,
+                  storeName: product.storeId?.name,
                 }),
-              )
-            }
+              );
+              toast.success(`${product.title} added to cart`);
+            }}
           >
             <ShoppingCartIcon className="h-4 w-4" />
             Add to Cart

@@ -5,7 +5,16 @@
       "Bash(npx --yes playwright@latest screenshot --viewport-size=1440,1000 --full-page \"http://localhost:3000/ai/result-preview\" \"/c/Users/HP/AppData/Local/Temp/claude/c--Users-HP-Desktop-gowithporto/437e5780-3e74-4b34-9384-75d993060da4/scratchpad/ai-result.png\")",
       "Bash(NODE_PATH=\"/c/Users/HP/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules\" node /tmp/shot.mjs)",
       "Bash(cp /tmp/shot.mjs \"/c/Users/HP/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/shot.mjs\")",
-      "Bash(node shot.mjs)"
+      "Bash(node shot.mjs)",
+      "Bash(curl -s http://localhost:3000/cart -w \"\\\\nHTTP %{http_code}\\\\n\" -o /tmp/cart.html)",
+      "Bash(curl -s http://localhost:3000/shop -w \"\\\\nHTTP %{http_code}\\\\n\" -o /tmp/shop3.html)",
+      "Bash(curl -s http://localhost:3000/shop/azulejo-ceramic-tile -w \"\\\\nHTTP %{http_code}\\\\n\" -o /tmp/pdp.html)",
+      "Bash(curl -s http://localhost:3000/cart -o /tmp/cart2.html -w \"cart HTTP %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:3000/shop/azulejo-ceramic-tile -o /tmp/pdp2.html -w \"pdp HTTP %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:3000/checkout -o /tmp/checkout.html -w \"HTTP %{http_code}\\\\n\")",
+      "Bash(curl -s \"http://localhost:3000/checkout/success\" -o /tmp/success_missing.html -w \"no session_id -> HTTP %{http_code}\\\\n\")",
+      "Bash(curl -s \"http://localhost:3000/checkout/success?session_id=test123\" -o /tmp/success_confirming.html -w \"with session_id -> HTTP %{http_code}\\\\n\")",
+      "Bash(curl -s \"http://localhost:3000/checkout/cancel\" -o /tmp/cancel.html -w \"HTTP %{http_code}\\\\n\")"
     ]
   }
 }
