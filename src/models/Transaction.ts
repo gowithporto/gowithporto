@@ -7,6 +7,8 @@ const TransactionSchema = new Schema(
     amount: { type: Number, required: true },
     currency: { type: String, default: "eur" },
     creditsAdded: { type: Number, required: true },
+    cardBrand: { type: String },
+    cardLast4: { type: String },
   },
   { timestamps: true }
 );

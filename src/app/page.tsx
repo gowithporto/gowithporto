@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import Link from "next/link";
-import backgroundImage from "../assets/HERO BG.png";
+import backgroundImage from "../assets/1. home page/Hero banner.png";
 import bottomLeftLine1 from "../assets/bottom left line 1.png";
 import bottomRightLine1 from "../assets/bottom right line 1.png";
 
@@ -36,6 +36,9 @@ export default function Home() {
           priority
           className="object-cover"
         />
+
+        {/* Legibility scrim so text stays readable over the full-bleed artwork */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg)] via-[var(--bg)]/70 to-transparent" />
 
         {/* Content */}
         <div

@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
+import Product from "@/models/Product";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -33,6 +34,11 @@ export async function POST(req: Request) {
 
   const productIds = session.metadata?.productIds?.split(",") || [];
 
+  const products = await Product.find({ _id: { $in: productIds } });
+  const imageByProductId = new Map(
+    products.map((p) => [p._id.toString(), p.images?.[0]])
+  );
+
   // 2️⃣ Build order items from Stripe line items
   const items =
     session.line_items?.data
@@ -42,6 +48,7 @@ export async function POST(req: Request) {
         title: li.description,
         price: li.price?.unit_amount ? li.price.unit_amount / 100 : 0,
         quantity: li.quantity || 1,
+        image: imageByProductId.get(productIds[index]),
       })) || [];
 
   // 3️⃣ Calculate total

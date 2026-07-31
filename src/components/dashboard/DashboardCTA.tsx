@@ -1,3 +1,5 @@
+"use client";
+
 import {
   CreditCardIcon,
   SparklesIcon,
@@ -5,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 
 import bottomBannerAd from "@/assets/6. user dashboard page/bottom banner ad.png";
@@ -33,7 +36,13 @@ const infoItems = [
   },
 ];
 
+// Pages that render their own dedicated bottom CTA already.
+const EXCLUDED_PATHS = ["/dashboard/transactions"];
+
 export default function DashboardCTA() {
+  const pathname = usePathname();
+  if (EXCLUDED_PATHS.includes(pathname)) return null;
+
   return (
     <section className="relative mt-8 overflow-hidden rounded-2xl border border-black/5">
       <Image src={bottomBannerAd} alt="" fill className="object-cover" />

@@ -25,8 +25,20 @@ export async function POST(req: Request) {
 
     // 1. Verify the session with Stripe to get amount details
     console.log("Retrieving Stripe session:", sessionId);
-    const stripeSession = await stripe.checkout.sessions.retrieve(sessionId);
+    const stripeSession = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ["payment_intent.payment_method"],
+    });
     console.log("Stripe session retrieved. Status:", stripeSession.payment_status);
+
+    const paymentIntent =
+      typeof stripeSession.payment_intent === "object"
+        ? stripeSession.payment_intent
+        : null;
+    const paymentMethod =
+      paymentIntent && typeof paymentIntent.payment_method === "object"
+        ? paymentIntent.payment_method
+        : null;
+    const card = paymentMethod?.card;
     
     if (stripeSession.payment_status !== "paid") {
       console.warn("Payment not paid for session:", sessionId);
@@ -54,6 +66,8 @@ export async function POST(req: Request) {
       amount: stripeSession.amount_total ?? 500,
       currency: stripeSession.currency ?? "eur",
       creditsAdded: creditsToAdd,
+      cardBrand: card?.brand,
+      cardLast4: card?.last4,
     });
     console.log("Transaction created successfully:", newTransaction._id);
 
