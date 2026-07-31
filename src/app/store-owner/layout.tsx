@@ -14,10 +14,14 @@ export default async function Layout({
   // Only show sidebar if session exists and user is STORE_OWNER
   const showSidebar = session && session.user.role === "STORE_OWNER";
 
+  if (!session) {
+    return <>{children}</>;
+  }
+
   return (
-    <div className="flex min-h-screen mt-32">
+    <div className="flex min-h-screen mt-32 bg-[#f4f6f9] dark:bg-[#0b1219]">
       {showSidebar && <StoreOwnerSidebar />}
-      <main className="flex-1 p-6">{children}</main>
+      <main className="flex-1 p-6 lg:p-8">{children}</main>
     </div>
   );
 }

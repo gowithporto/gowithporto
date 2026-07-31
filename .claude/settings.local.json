@@ -5,7 +5,20 @@
       "Bash(Get-ChildItem \"C:\\\\Users\\\\HP\\\\Desktop\\\\gowithporto\\\\src\\\\assets\\\\1. home page\" -Recurse)",
       "Bash(Select-Object FullName)",
       "Bash(Sort-Object FullName)",
-      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\HP\\\\Desktop\\\\gowithporto\\\\src\\\\assets\" -Recurse -File | ForEach-Object { $_.FullName })"
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\HP\\\\Desktop\\\\gowithporto\\\\src\\\\assets\" -Recurse -File | ForEach-Object { $_.FullName })",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/store-owner/login)",
+      "Bash(curl -s http://localhost:3000/store-owner/login)",
+      "Bash(npx --yes playwright@1.62.1 install chromium)",
+      "Bash(node shot.js login-light.png login-dark.png)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/store-owner/login --max-time 5)",
+      "Bash(timeout 40 bash -c 'until curl -sf http://localhost:3000 >/dev/null 2>&1; do sleep 1; done')",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"const s=require\\('fs'\\).statSync\\('src/assets/HERO BG.png'\\); console.log\\(s.size\\)\")",
+      "Bash(node shot.js login-light2.png login-dark2.png)",
+      "Bash(node scripts/validate_palette.js \"#2c6e9b\" --mode light)",
+      "Bash(node dashboard.js)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/store-owner/orders --max-time 5)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/admin/login --max-time 5)"
     ]
   }
 }
