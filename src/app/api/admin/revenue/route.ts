@@ -14,21 +14,34 @@ export async function GET() {
 
     await connectDB();
 
+    // Orders are counted as revenue once payment has been captured — i.e. any
+    // status past "paid" (paid/shipped/delivered/completed), matched
+    // case-insensitively since store-owner and admin flows both write
+    // lowercase statuses ("paid", "shipped").
+    const revenueStatusMatch = {
+      $expr: {
+        $in: [
+          { $toLower: "$status" },
+          ["paid", "shipped", "delivered", "completed"],
+        ],
+      },
+    };
+
     // 1. Total Revenue
     const totalRevenueAgg = await Order.aggregate([
-      { $match: { status: { $in: ["DELIVERED", "COMPLETED", "PAID"] } } }, // Adjust statuses as per Order model
-      { $group: { _id: null, total: { $sum: "$totalAmount" } } },
+      { $match: revenueStatusMatch },
+      { $group: { _id: null, total: { $sum: "$total" } } },
     ]);
     const totalRevenue = totalRevenueAgg[0]?.total || 0;
 
     // 2. Revenue by Store
     // We need to lookup store details if Order only has storeId
     const revenueByStore = await Order.aggregate([
-      { $match: { status: { $in: ["DELIVERED", "COMPLETED", "PAID"] } } },
+      { $match: revenueStatusMatch },
       {
         $group: {
           _id: "$storeId",
-          total: { $sum: "$totalAmount" },
+          total: { $sum: "$total" },
           count: { $sum: 1 },
         },
       },
@@ -51,21 +64,22 @@ export async function GET() {
         };
     });
 
-    // 3. Daily Revenue (Last 30 days)
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    // 3. Daily Revenue (Last 60 days — wide enough for the dashboard to
+    // derive both the current and previous 30-day windows for MoM deltas)
+    const sixtyDaysAgo = new Date();
+    sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
 
     const dailyRevenue = await Order.aggregate([
       {
         $match: {
-          status: { $in: ["DELIVERED", "COMPLETED", "PAID"] },
-          createdAt: { $gte: thirtyDaysAgo },
+          ...revenueStatusMatch,
+          createdAt: { $gte: sixtyDaysAgo },
         },
       },
       {
         $group: {
             _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-            total: { $sum: "$totalAmount" }
+            total: { $sum: "$total" }
         }
       },
       { $sort: { _id: 1 } }

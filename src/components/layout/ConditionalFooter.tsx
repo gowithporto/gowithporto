@@ -8,6 +8,10 @@ import { useSession } from "next-auth/react";
 export default function ConditionalFooter() {
   const { data: session } = useSession();
 
+  if (session?.user?.role === "ADMIN") {
+    return null;
+  }
+
   if (session?.user?.role === "STORE_OWNER") {
     return <StoreOwnerFooter />;
   }
