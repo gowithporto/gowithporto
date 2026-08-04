@@ -12,6 +12,7 @@ const OrderSchema = new mongoose.Schema(
   {
     userEmail: String,
     storeId: { type: mongoose.Schema.Types.ObjectId, ref: "Store" },
+    stripeSessionId: { type: String, unique: true, sparse: true },
     items: [
       {
         productId: mongoose.Schema.Types.ObjectId,
@@ -22,6 +23,9 @@ const OrderSchema = new mongoose.Schema(
       },
     ],
     total: Number,
+    platformFeeAmount: Number,
+    storeOwnerAmount: Number,
+    storeStripeAccountId: String,
     address: AddressSchema,
     status: {
       type: String,

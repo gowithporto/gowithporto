@@ -37,6 +37,20 @@ export async function POST(req: Request) {
       };
     });
 
+  // Platform commission is taken from product sales only — the store owner
+  // keeps 100% of the delivery fee, since that's their shipping cost.
+  const productsSubtotalCents = products.reduce((sum, product) => {
+    const cartItem = items.find(
+      (i: any) => i.productId === product._id.toString()
+    );
+    return sum + Math.round(product.price * 100) * cartItem.quantity;
+  }, 0);
+
+  const canSplit = store.stripeAccountId && store.stripeOnboardingComplete;
+  const applicationFeeAmount = canSplit
+    ? Math.round(productsSubtotalCents * (store.commissionRate / 100))
+    : undefined;
+
   let deliveryFee = 0;
 
   if (deliveryType === "delivery") {
@@ -71,6 +85,15 @@ export async function POST(req: Request) {
       productIds: products.map((p) => p._id.toString()).join(","),
       storeId: storeId.toString(),
     },
+
+    ...(canSplit && {
+      payment_intent_data: {
+        application_fee_amount: applicationFeeAmount,
+        transfer_data: {
+          destination: store.stripeAccountId,
+        },
+      },
+    }),
   });
 
   return NextResponse.json({ url: session.url });

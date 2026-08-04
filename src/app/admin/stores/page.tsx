@@ -160,7 +160,10 @@ export default function StoresPage() {
                   step="0.01"
                   value={formData.deliveryFee}
                   onChange={(e) =>
-                    setFormData({ ...formData, deliveryFee: parseFloat(e.target.value) })
+                    setFormData({
+                      ...formData,
+                      deliveryFee: e.target.value === "" ? 0 : parseFloat(e.target.value),
+                    })
                   }
                 />
               </div>

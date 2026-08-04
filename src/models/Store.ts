@@ -12,6 +12,11 @@ export interface IStore extends Document {
   role: "STORE_OWNER";
   deliveryFee: number;
 
+  // 💳 Stripe Connect (payouts)
+  stripeAccountId?: string;
+  stripeOnboardingComplete: boolean;
+  commissionRate: number;
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -31,6 +36,11 @@ const StoreSchema = new Schema<IStore>(
       type: Number,
       default: 0,
     },
+
+    // 💳 Stripe Connect (payouts)
+    stripeAccountId: { type: String },
+    stripeOnboardingComplete: { type: Boolean, default: false },
+    commissionRate: { type: Number, default: 10 }, // percent kept by the platform
   },
   { timestamps: true }
 );

@@ -28,12 +28,12 @@ const navItems = [
   { name: "AI History", href: "/dashboard/ai-history", icon: SparklesIcon },
   { name: "Orders", href: "/dashboard/orders", icon: ShoppingBagIcon },
   { name: "Transactions", href: "/dashboard/transactions", icon: CreditCardIcon },
+  { name: "Profile Settings", href: "/dashboard/profile", icon: Cog6ToothIcon },
 ];
 
 const comingSoonItems = [
   { name: "Saved Trips", icon: BookmarkIcon },
   { name: "Favorites", icon: HeartIcon },
-  { name: "Profile Settings", icon: Cog6ToothIcon },
   { name: "Membership", icon: TrophyIcon, badge: "Premium" },
   { name: "Help Center", icon: QuestionMarkCircleIcon },
 ];

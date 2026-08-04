@@ -1,6 +1,6 @@
+import { buildOrderFromStripeSession } from "@/lib/buildOrderFromStripeSession";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
-import Product from "@/models/Product";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -15,7 +15,6 @@ export async function POST(req: Request) {
 
   await connectDB();
 
-  // 1️⃣ Retrieve Stripe session
   const session = await stripe.checkout.sessions.retrieve(sessionId, {
     expand: ["line_items"],
   });
@@ -27,44 +26,24 @@ export async function POST(req: Request) {
     );
   }
 
-  // 🔹 Extract address from metadata (OUR app, not Stripe)
-  const address = session.metadata?.address
-    ? JSON.parse(session.metadata.address)
-    : null;
+  // Create order — or return the one the webhook already created for this session
+  const existing = await Order.findOne({ stripeSessionId: session.id });
 
-  const productIds = session.metadata?.productIds?.split(",") || [];
+  if (existing) {
+    return NextResponse.json({ success: true, orderId: existing._id });
+  }
 
-  const products = await Product.find({ _id: { $in: productIds } });
-  const imageByProductId = new Map(
-    products.map((p) => [p._id.toString(), p.images?.[0]])
-  );
+  const orderData = await buildOrderFromStripeSession(session);
 
-  // 2️⃣ Build order items from Stripe line items
-  const items =
-    session.line_items?.data
-      .filter((li) => li.description !== "Delivery Fee")
-      .map((li, index) => ({
-        productId: productIds[index] || "",
-        title: li.description,
-        price: li.price?.unit_amount ? li.price.unit_amount / 100 : 0,
-        quantity: li.quantity || 1,
-        image: imageByProductId.get(productIds[index]),
-      })) || [];
-
-  // 3️⃣ Calculate total
-  const total = session.amount_total != null ? session.amount_total / 100 : 0;
-
-  // 4️⃣ Create order
-  const order = await Order.create({
-    userEmail: session.customer_details?.email,
-    items,
-    total,
-    status: "paid",
-    deliveryType: session.metadata?.deliveryType,
-    deliveryFee: Number(session.metadata?.deliveryFee || 0),
-    address: address || undefined,
-    storeId: session.metadata?.storeId,
-  });
-
-  return NextResponse.json({ success: true, orderId: order._id });
+  try {
+    const order = await Order.create(orderData);
+    return NextResponse.json({ success: true, orderId: order._id });
+  } catch (err: any) {
+    // Duplicate key on stripeSessionId means the webhook won the race — fine, fetch it.
+    if (err?.code === 11000) {
+      const order = await Order.findOne({ stripeSessionId: session.id });
+      return NextResponse.json({ success: true, orderId: order?._id });
+    }
+    throw err;
+  }
 }

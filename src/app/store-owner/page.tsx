@@ -78,10 +78,20 @@ function formatEuro(v: number) {
   })}`;
 }
 
+type ConnectStatus = {
+  connected: boolean;
+  onboardingComplete: boolean;
+  commissionRate: number;
+};
+
 export default function StoreOwnerDashboard() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [rangeDays, setRangeDays] = useState(30);
+  const [connectStatus, setConnectStatus] = useState<ConnectStatus | null>(
+    null,
+  );
+  const [connecting, setConnecting] = useState(false);
 
   useEffect(() => {
     fetch("/api/store-owner/orders", {
@@ -91,7 +101,33 @@ export default function StoreOwnerDashboard() {
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => setOrders(Array.isArray(data) ? data : []))
       .finally(() => setLoading(false));
+
+    fetch("/api/store-owner/connect", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then(setConnectStatus);
   }, []);
+
+  const handlePayoutSetup = async () => {
+    if (connectStatus?.onboardingComplete) {
+      toast.success("Payouts are active — funds settle automatically to your bank.");
+      return;
+    }
+
+    setConnecting(true);
+    try {
+      const res = await fetch("/api/store-owner/connect", { method: "POST" });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        toast.error("Couldn't start payout setup. Try again.");
+      }
+    } catch {
+      toast.error("Couldn't start payout setup. Try again.");
+    } finally {
+      setConnecting(false);
+    }
+  };
 
   const stats = useMemo(() => {
     const now = new Date();
@@ -383,10 +419,18 @@ export default function StoreOwnerDashboard() {
                 subtitle="Manage and track orders"
               />
               <QuickAction
-                onClick={() => toast("Coming soon!")}
+                onClick={handlePayoutSetup}
                 icon={CreditCardIcon}
-                title="Request Payout"
-                subtitle="Transfer your earnings"
+                title={
+                  connectStatus?.onboardingComplete
+                    ? "Payouts Active"
+                    : "Set Up Payouts"
+                }
+                subtitle={
+                  connectStatus?.onboardingComplete
+                    ? `You keep ${100 - (connectStatus?.commissionRate ?? 10)}% of each sale`
+                    : "Connect your bank to get paid"
+                }
               />
               <QuickAction
                 onClick={() => toast("Coming soon!")}
@@ -406,10 +450,15 @@ export default function StoreOwnerDashboard() {
                 {formatEuro(stats.pendingPayouts)}
               </p>
               <button
-                onClick={() => toast("Coming soon!")}
-                className="mt-5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white/15 py-3 text-sm font-semibold backdrop-blur transition hover:bg-white/25"
+                onClick={handlePayoutSetup}
+                disabled={connecting}
+                className="mt-5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white/15 py-3 text-sm font-semibold backdrop-blur transition hover:bg-white/25 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Request Payout
+                {connecting
+                  ? "Redirecting to Stripe..."
+                  : connectStatus?.onboardingComplete
+                    ? "Payouts Active"
+                    : "Set Up Payouts"}
               </button>
               <div className="mt-4 flex items-center justify-center gap-1.5 text-xs text-white/60">
                 <ShieldCheckIcon className="h-4 w-4" />
