@@ -1,4 +1,5 @@
 import { authOptions } from "@/lib/auth";
+import { sendCreditReceiptEmail } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
 import Transaction from "@/models/Transaction";
 import User from "@/models/User";
@@ -70,6 +71,19 @@ export async function POST(req: Request) {
       cardLast4: card?.last4,
     });
     console.log("Transaction created successfully:", newTransaction._id);
+
+    const user = await User.findOne({ email: session.user.email }).select("name");
+    await sendCreditReceiptEmail(session.user.email, {
+      recipientName: user?.name || session.user.email.split("@")[0],
+      creditsAdded: creditsToAdd,
+      amount: (stripeSession.amount_total ?? 500) / 100,
+      currency: stripeSession.currency ?? "eur",
+      date: new Date().toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

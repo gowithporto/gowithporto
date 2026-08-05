@@ -30,6 +30,14 @@ export async function buildOrderFromStripeSession(
 
   const total = session.amount_total != null ? session.amount_total / 100 : 0;
 
+  const paymentIntent =
+    typeof session.payment_intent === "object" ? session.payment_intent : null;
+  const paymentMethod =
+    paymentIntent && typeof paymentIntent.payment_method === "object"
+      ? paymentIntent.payment_method
+      : null;
+  const card = paymentMethod?.card;
+
   const store = session.metadata?.storeId
     ? await Store.findById(session.metadata.storeId)
     : null;
@@ -54,5 +62,7 @@ export async function buildOrderFromStripeSession(
     address: address || undefined,
     storeId: session.metadata?.storeId,
     stripeSessionId: session.id,
+    cardBrand: card?.brand,
+    cardLast4: card?.last4,
   };
 }

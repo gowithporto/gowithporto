@@ -27,6 +27,8 @@ const OrderSchema = new mongoose.Schema(
     storeOwnerAmount: Number,
     storeStripeAccountId: String,
     address: AddressSchema,
+    cardBrand: String,
+    cardLast4: String,
     status: {
       type: String,
       default: "paid",

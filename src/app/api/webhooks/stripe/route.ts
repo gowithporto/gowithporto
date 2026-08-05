@@ -1,4 +1,5 @@
 import { buildOrderFromStripeSession } from "@/lib/buildOrderFromStripeSession";
+import { sendOrderConfirmationForOrder } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import Store from "@/models/Store";
@@ -66,13 +67,14 @@ export async function POST(req: Request) {
   }
 
   const session = await stripe.checkout.sessions.retrieve(sessionSummary.id, {
-    expand: ["line_items"],
+    expand: ["line_items", "payment_intent.payment_method"],
   });
 
   const orderData = await buildOrderFromStripeSession(session);
 
   try {
     const order = await Order.create(orderData);
+    await sendOrderConfirmationForOrder(order);
     return NextResponse.json({ received: true, orderId: order._id });
   } catch (err: any) {
     // Duplicate key on stripeSessionId means /api/orders/confirm already created it — fine.

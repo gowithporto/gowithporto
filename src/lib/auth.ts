@@ -3,6 +3,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
+import { sendWelcomeEmail } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
 import { checkRateLimit } from "@/lib/rateLimit";
 import Store from "@/models/Store";
@@ -122,6 +123,10 @@ export const authOptions: NextAuthOptions = {
             name: user.name,
             image: user.image,
             role: "USER",
+          });
+
+          await sendWelcomeEmail(user.email, {
+            recipientName: user.name || user.email.split("@")[0],
           });
         }
       }

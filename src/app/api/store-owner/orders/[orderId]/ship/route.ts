@@ -1,4 +1,5 @@
 import { authOptions } from "@/lib/auth";
+import { sendOrderShippedForOrder } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import Product from "@/models/Product";
@@ -54,6 +55,7 @@ export async function PUT(
 
   order.status = "shipped";
   await order.save();
+  await sendOrderShippedForOrder(order);
 
   return NextResponse.json({ success: true });
 }

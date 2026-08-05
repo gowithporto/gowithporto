@@ -6,9 +6,10 @@ Update whenever a task completes or a new one is identified. Mirrors the live se
 
 - [x] Connect `gowithporto.pt` custom domain to the Vercel project (2026-08-04) — both `gowithporto.pt` and `www.gowithporto.pt` verified; no production deployment yet
 - [x] Full env var migration: `MONGODB_URI`, `NEXTAUTH_URL`/`NEXTAUTH_SECRET`, Google OAuth, Stripe sandbox keys, Gemini key, Cloudinary — into both Vercel and `.env.local` (2026-08-04) — first production deployment live on `www.gowithporto.pt`
-- [x] Register Stripe webhook endpoint, get `STRIPE_WEBHOOK_SECRET`, test checkout → order flow end-to-end (2026-08-04) — confirmed via `/api/orders/confirm`; webhook itself still 404s in production until the code below is pushed
-- [ ] **Push this session's work to GitHub and redeploy** — `src/app/api/webhooks/stripe`, `store-owner/connect`, `upload`, `user/profile`, `dashboard/profile`, and more have never been committed; production is still running the 2026-07-31 commit, which is why the Stripe webhook 404s
-- [ ] Create Resend account (`admin@gowithporto.pt`), wire order confirmation + AI credit receipt emails
+- [x] Register Stripe webhook endpoint, get `STRIPE_WEBHOOK_SECRET`, test checkout → order flow end-to-end (2026-08-04) — confirmed via `/api/orders/confirm`
+- [x] Push this session's work to GitHub (2026-08-04) — `cfd931c..51759e2` on `main`, auto-deployed by Vercel; Stripe webhook confirmed `200 OK` in production, order correctly saved to Mongo with fee split
+- [x] Resend account created (`admin@gowithporto.pt`), `gowithporto.pt` domain verified, wired 4 transactional emails: order confirmation (final design), order shipped / AI credit receipt / first-login welcome (placeholders, to be redesigned) (2026-08-05) — needs the code pushed to production before real purchases send mail (see note below)
+- [ ] Push this session's Resend work to GitHub/Vercel — until deployed, production's Stripe webhook (old code) keeps winning the order-creation race against local dev and silently skips email sending, since local and production share one MongoDB database
 
 ## Medium Priority
 

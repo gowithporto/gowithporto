@@ -1,4 +1,5 @@
 import { buildOrderFromStripeSession } from "@/lib/buildOrderFromStripeSession";
+import { sendOrderConfirmationForOrder } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import { NextResponse } from "next/server";
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
   await connectDB();
 
   const session = await stripe.checkout.sessions.retrieve(sessionId, {
-    expand: ["line_items"],
+    expand: ["line_items", "payment_intent.payment_method"],
   });
 
   if (session.payment_status !== "paid") {
@@ -37,6 +38,7 @@ export async function POST(req: Request) {
 
   try {
     const order = await Order.create(orderData);
+    await sendOrderConfirmationForOrder(order);
     return NextResponse.json({ success: true, orderId: order._id });
   } catch (err: any) {
     // Duplicate key on stripeSessionId means the webhook won the race — fine, fetch it.

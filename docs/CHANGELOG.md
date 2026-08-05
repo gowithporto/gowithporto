@@ -2,6 +2,16 @@
 
 Milestones only — not every commit. Newest at the top.
 
+## 2026-08-05
+
+- **Resend integration**: created the Resend account (`admin@gowithporto.pt`), verified the `gowithporto.pt` sending domain (DKIM/SPF/DMARC auto-configured via the Cloudflare integration), added `RESEND_API_KEY`/`EMAIL_FROM`/`SUPPORT_EMAIL` to `.env.local`
+- **Added** `src/lib/email.ts` — Resend client wrapper, every send wrapped so a failure never breaks the checkout/login/credits flow it's triggered from
+- **Added** 4 email templates in `src/lib/emailTemplates/`: order confirmation (final branded design, matches the founder's supplied mockup), order shipped / AI credit receipt / first-login welcome (plain placeholders — founder will supply branded HTML/CSS for these later)
+- **Wired triggers**: order paid → confirmation email (from both `/api/orders/confirm` and the Stripe webhook, whichever creates the order first); store owner marks shipped → shipped email; AI credits purchased → receipt email; first-ever Google sign-in → welcome email
+- **Added** `cardBrand`/`cardLast4` to the `Order` model, captured from the Stripe payment method, so the confirmation email can show "Visa •••• 4242" like the design
+- **Copied** the logo to `public/logo.png` so emails can load it from a real URL
+- **Debugged and root-caused** a confusing local-dev symptom where real test purchases never sent an email despite everything (Resend account, API key, code) checking out individually: local dev and production share one MongoDB database, and production's Stripe webhook (still running last session's code, with no knowledge of Resend) was winning the order-creation race against the local `/api/orders/confirm` call almost every time — so email sending never even got attempted locally. Confirmed via response-body instrumentation showing the local request consistently hit the "order already exists" branch, with the existing order's timestamp seconds before the local request ran. No code bug — resolves once this session's code is deployed.
+
 ## 2026-08-04
 
 - **Stripe MCP**: connected a restricted, test-mode Stripe MCP server (`https://mcp.stripe.com`) to Claude Code for the dev/test phase, configured via `~/.claude.json` with the key held in a `STRIPE_MCP_KEY` env var (not in any repo file)
