@@ -8,12 +8,13 @@ Update whenever a task completes or a new one is identified. Mirrors the live se
 - [x] Full env var migration: `MONGODB_URI`, `NEXTAUTH_URL`/`NEXTAUTH_SECRET`, Google OAuth, Stripe sandbox keys, Gemini key, Cloudinary — into both Vercel and `.env.local` (2026-08-04) — first production deployment live on `www.gowithporto.pt`
 - [x] Register Stripe webhook endpoint, get `STRIPE_WEBHOOK_SECRET`, test checkout → order flow end-to-end (2026-08-04) — confirmed via `/api/orders/confirm`
 - [x] Push this session's work to GitHub (2026-08-04) — `cfd931c..51759e2` on `main`, auto-deployed by Vercel; Stripe webhook confirmed `200 OK` in production, order correctly saved to Mongo with fee split
-- [x] Resend account created (`admin@gowithporto.pt`), `gowithporto.pt` domain verified, wired 4 transactional emails: order confirmation (final design), order shipped / AI credit receipt / first-login welcome (placeholders, to be redesigned) (2026-08-05) — needs the code pushed to production before real purchases send mail (see note below)
-- [ ] Push this session's Resend work to GitHub/Vercel — until deployed, production's Stripe webhook (old code) keeps winning the order-creation race against local dev and silently skips email sending, since local and production share one MongoDB database
+- [x] Resend account created (`admin@gowithporto.pt`), `gowithporto.pt` domain verified, wired 4 transactional emails: order confirmation (final design), order shipped / AI credit receipt / first-login welcome (placeholders, to be redesigned) (2026-08-05)
+- [x] Push Resend integration to GitHub/Vercel and verify in production (2026-08-05) — real purchase on `www.gowithporto.pt` produced a correctly formatted order-confirmation email; order shipped / AI credit receipt / welcome share the same send infrastructure but haven't each been individually triggered in production yet
 
 ## Medium Priority
 
-- [ ] Admin-panel view of total commission earned + connected-store onboarding status (currently only visible via Mongo/Stripe dashboard directly)
+- [ ] Swap in branded HTML/CSS for the 3 placeholder emails (order shipped, AI credit receipt, first-login welcome) once the founder designs them — order confirmation is already the final design; drop-in only touches `src/lib/emailTemplates/`, not the sending logic
+- [x] Admin-panel view of total commission earned + connected-store onboarding status (2026-08-05) — `/admin/revenue` now shows total platform commission vs. store payouts, per-store commission earned, and a Stripe Connect onboarding status table (Connected / Onboarding started / Not connected) for every store
 - [ ] Upgrade Vercel from Hobby to Pro before accepting any real traffic (Hobby's terms exclude commercial use)
 - [ ] Rotate the Gemini API key, OAuth client secret, and Cloudinary secret — all appeared in screenshots during setup
 
