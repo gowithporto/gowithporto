@@ -112,23 +112,44 @@ export default function RevenuePage() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {data.revenueByStore.length > 0 ? (
-                  data.revenueByStore.map((store) => (
-                    <tr key={store.storeId}>
-                      <td className="px-4 py-3 font-medium text-gray-900">
-                        {store.storeName}
-                      </td>
-                      <td className="px-4 py-3 text-gray-600">{store.orders}</td>
-                      <td className="px-4 py-3 text-right font-medium text-gray-900">
-                        ${store.total.toLocaleString()}
-                      </td>
-                      <td className="px-4 py-3 text-right text-green-600">
-                        ${store.commission.toLocaleString()}
-                        <span className="ml-1 text-xs text-gray-400">
-                          ({store.commissionRate}%)
-                        </span>
-                      </td>
-                    </tr>
-                  ))
+                  data.revenueByStore.map((store) => {
+                    // The store's configured rate (e.g. 10%) only applies to
+                    // orders placed after it connected to Stripe — orders
+                    // placed before that keep 100% as platform commission
+                    // (nothing to split to, since there's no connected
+                    // account yet). Show the actual blended rate for what's
+                    // in the Commission column, not the configured rate,
+                    // so the two numbers can't visually contradict each other.
+                    const effectiveRate =
+                      store.total > 0
+                        ? Math.round((store.commission / store.total) * 1000) / 10
+                        : 0;
+                    const blended = Math.abs(effectiveRate - store.commissionRate) > 0.1;
+                    return (
+                      <tr key={store.storeId}>
+                        <td className="px-4 py-3 font-medium text-gray-900">
+                          {store.storeName}
+                        </td>
+                        <td className="px-4 py-3 text-gray-600">{store.orders}</td>
+                        <td className="px-4 py-3 text-right font-medium text-gray-900">
+                          ${store.total.toLocaleString()}
+                        </td>
+                        <td className="px-4 py-3 text-right text-green-600">
+                          ${store.commission.toLocaleString()}
+                          <span
+                            className="ml-1 text-xs text-gray-400"
+                            title={
+                              blended
+                                ? `Blended rate — configured rate is ${store.commissionRate}%, but some orders were placed before this store connected to Stripe and kept 100% as commission`
+                                : undefined
+                            }
+                          >
+                            ({effectiveRate}%{blended ? "*" : ""})
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })
                 ) : (
                   <tr>
                     <td colSpan={4} className="px-4 py-8 text-center text-gray-500">No sales yet</td>

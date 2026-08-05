@@ -4,45 +4,49 @@
 
 ## Completed this session
 
-- **Admin commission dashboard**: `/admin/revenue` now shows total platform commission earned vs. store payouts, per-store commission breakdown, and a Stripe Connect onboarding status table (every store's connected/onboarding/not-connected state + commission rate) — closes the "commission earned + connected-store status" TODO item
-- Created the Resend account (`admin@gowithporto.pt`), verified `gowithporto.pt` as a sending domain
-- Built `src/lib/email.ts` + 4 templates in `src/lib/emailTemplates/` (order confirmation is the final branded design, matching the founder's supplied mockup; shipped/credit-receipt/welcome are plain placeholders)
-- Wired all 4 triggers: order paid (webhook + `/api/orders/confirm`), order shipped (store-owner ship action), AI credits purchased, first-ever Google login
-- Added `cardBrand`/`cardLast4` to the `Order` model so the confirmation email shows the card brand/last4
-- Copied the logo into `public/logo.png` for email use
-- Long debugging session on "why don't real local purchases send an email" — root cause found: local dev and production share one MongoDB database, and production's Stripe webhook (still on last session's pre-Resend code) almost always wins the order-creation race against the local request, so the local code's email-sending path never gets a chance to run. Confirmed via direct API tests and response-body timestamps. No code bug.
-- **Pushed to GitHub, Vercel auto-deployed, verified in production**: a real purchase on `www.gowithporto.pt` produced a correctly formatted order-confirmation email. The Resend integration is live and working.
+- **Admin commission dashboard**: `/admin/revenue` shows total platform commission vs. store payouts, per-store commission breakdown, and a Stripe Connect onboarding status table — pushed and live
+- **Fixed a real bug found while testing it**: `stripeOnboardingComplete` could get permanently stuck `false` even after Stripe fully approved a store, because the `account.updated` webhook needs a separate Connect-scoped webhook endpoint (a Dashboard setting, not something in the repo) that isn't configured. `GET /api/store-owner/connect` now self-heals by re-checking with Stripe directly — pushed and live
+- **Verified the Connect payout split end-to-end for the first time**: created a second test store (Porto Ceramics Co.), founder completed real Stripe Express onboarding, bought a product before and after connecting. Confirmed directly in Mongo: pre-connection order stayed 100% commission / $0 payout (correct — no connected account to split to yet), post-connection order split 10%/90% (correct)
+- **Fixed the commission-label bug that testing surfaced**: the per-store commission column showed the store's *configured* rate (e.g. "10%") next to a dollar figure that, for stores with mixed pre/post-connection orders, was nowhere near 10% of their revenue. Now computes and shows the actual blended rate, with a tooltip when it differs from the configured rate. **This fix is written and typechecked/linted clean but not yet committed.**
+- Resend transactional email integration (order confirmation, shipped, credit receipt, welcome) — shipped and verified in production in an earlier session
 
 ## What we were doing when we stopped
 
-Just finished building the admin commission dashboard (`/admin/revenue` + `/api/admin/revenue`). Typecheck (`tsc --noEmit`) and lint both pass clean. **Not yet committed/pushed** — needs a local click-through in the browser (log in as admin, open Revenue) before it ships, since it hasn't been visually verified yet this session.
+Just fixed the commission-label bug in `src/app/admin/revenue/page.tsx`. Not yet committed.
 
 ## Exact next step
 
-1. Founder: run the dev server locally, log into `/admin`, open `/admin/revenue`, confirm the three summary cards (Revenue / Commission / Payouts), the commission column on the top-stores table, and the new "Stripe Connect Onboarding" status table all render correctly with real data
-2. Commit and push (see commit message below) — never done by me, per standing instruction
-3. After that: pick up the next Medium-priority TODO item — Vercel Hobby → Pro upgrade, or key rotation (Gemini/OAuth/Cloudinary secrets) — or design the 3 placeholder email templates (shipped, credit receipt, welcome)
+1. Commit and push the label fix (see message below) — never done by me, per standing instruction
+2. Reload `/admin/revenue` and confirm both stores now show a sensible "(X%)" next to their commission — Porto Ceramics Co. should show something around 46% (blended, with the tooltip explaining why), not a flat "10%"
+3. After that: no code work queued. Pick up the next Medium-priority TODO item — Vercel Hobby → Pro upgrade (founder wants to wait until closer to real traffic, given budget), key rotation (Gemini/OAuth/Cloudinary secrets), or design the 3 placeholder email templates (shipped, credit receipt, welcome)
+4. Optional cleanup: the test store "Porto Ceramics Co." (`PCC-002`) and its 2 products are real records in the production database now — decide whether to keep them as a permanent QA store or delete via `/admin/stores` once done testing
 
 **Suggested commit message:**
 ```
-Add commission and Stripe Connect status to admin revenue dashboard
+Show blended commission rate instead of configured rate on admin revenue
 
-Total platform commission vs. store payouts, per-store commission
-breakdown, and onboarding status for every connected store — previously
-only visible by querying Mongo/Stripe directly.
+A store's configured rate (e.g. 10%) only applies to orders placed after
+it connects to Stripe — orders placed before that keep 100% as platform
+commission since there's no connected account to split to. Showing the
+configured rate next to a blended dollar total was misleading (e.g.
+"$17.15 (10%)" when $17.15 was actually ~46% of that store's revenue).
+Now computes the actual rate from the numbers shown, with a tooltip
+explaining any gap from the configured rate.
 ```
-**Files to stage**: `docs/CHANGELOG.md docs/SESSION_HANDOFF.md docs/TODO.md src/app/admin/revenue/page.tsx src/app/api/admin/revenue/route.ts`
+**Files to stage**: `docs/CHANGELOG.md docs/SESSION_HANDOFF.md src/app/admin/revenue/page.tsx`
 
 ## Blockers / things to verify
 
-- New commission dashboard code has not been run in a browser yet this session — verify before/immediately after pushing
 - `scripts/create-admin.js` still committed to the repo — flagged previously as a sensitive "make anyone admin" tool, still no decision on removing it
 - Key rotation still pending (Gemini, OAuth client secret, Cloudinary secret)
-- Vercel is still on the Hobby plan — its terms exclude commercial use, worth upgrading before real traffic
-- Resend integration (order confirmation, shipped, credit receipt, welcome) is live in production from the prior session; only order confirmation has been individually watched arriving so far
+- Vercel is still on the Hobby plan — founder has explicitly decided to wait on upgrading until closer to real traffic (budget-conscious), so don't flag this again unprompted
+- The "Pending Payouts" stat on the store-owner dashboard sums order *totals*, not actual `storeOwnerAmount` — not fixed, founder hasn't asked for it, just noted as known-inaccurate if it comes up again
+- Test store "Porto Ceramics Co." (PCC-002) is live in the production database with 2 real products — see step 4 above
 
 ## Files modified this session
 
-**Edited**: `src/app/api/admin/revenue/route.ts` (added `totalCommission`/`totalPayouts` aggregation, per-store commission, `connectStatus` for all stores), `src/app/admin/revenue/page.tsx` (summary cards for commission/payouts, commission column on top-stores table, new Stripe Connect onboarding status table), `docs/TODO.md`, `docs/CHANGELOG.md`, `docs/SESSION_HANDOFF.md`
+**Edited**: `src/app/api/admin/revenue/route.ts`, `src/app/admin/revenue/page.tsx` (commission dashboard + label fix), `src/app/api/store-owner/connect/route.ts` (self-heal fix), `docs/TODO.md`, `docs/CHANGELOG.md`, `docs/SESSION_HANDOFF.md`
 
-**Not yet committed**: everything above is local only — see "Exact next step" for the commit message and files to stage.
+**Committed and pushed**: commission dashboard (`e05286a`), Connect self-heal fix (`fe35178`)
+
+**Not yet committed**: the commission-label fix in `src/app/admin/revenue/page.tsx` — see "Exact next step" for the commit message.
