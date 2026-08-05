@@ -15,7 +15,9 @@ Update whenever a task completes or a new one is identified. Mirrors the live se
 
 - [ ] Swap in branded HTML/CSS for the 3 placeholder emails (order shipped, AI credit receipt, first-login welcome) once the founder designs them — order confirmation is already the final design; drop-in only touches `src/lib/emailTemplates/`, not the sending logic
 - [x] Admin-panel view of total commission earned + connected-store onboarding status (2026-08-05) — `/admin/revenue` now shows total platform commission vs. store payouts, per-store commission earned, and a Stripe Connect onboarding status table (Connected / Onboarding started / Not connected) for every store
-- [ ] Upgrade Vercel from Hobby to Pro before accepting any real traffic (Hobby's terms exclude commercial use)
+- [x] Verify Stripe Connect payout split end-to-end in production (2026-08-05) — created a real test store, completed Stripe Express onboarding, confirmed a post-onboarding order split 10%/90% correctly in Mongo. Found and fixed two real bugs along the way: `stripeOnboardingComplete` could get stuck `false` forever because the `account.updated` webhook needs a separate Connect-scoped endpoint in the Stripe Dashboard (fixed with a self-healing check in `GET /api/store-owner/connect`); and the commission column showed a store's configured rate next to a blended dollar total, which was misleading for stores with mixed pre/post-connection orders (fixed to show the actual blended rate)
+- [x] Replace the default Vercel favicon with the real GoWithPorto icon (2026-08-05) — added `src/app/icon.png` (32×32) and `src/app/apple-icon.png` (180×180) via Next.js's file-based icon convention, generated from `src/assets/Fav Icon.png`; removed the stale `favicon.ico`
+- [ ] Upgrade Vercel from Hobby to Pro before accepting any real traffic (Hobby's terms exclude commercial use) — founder has decided to wait until closer to real traffic given budget; don't re-flag unprompted
 - [ ] Rotate the Gemini API key, OAuth client secret, and Cloudinary secret — all appeared in screenshots during setup
 
 ## Low Priority
