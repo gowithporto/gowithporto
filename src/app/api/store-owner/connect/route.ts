@@ -66,6 +66,22 @@ export async function GET() {
     return NextResponse.json({ error: "Store not found" }, { status: 404 });
   }
 
+  // The `account.updated` webhook is the fast path for picking up onboarding
+  // completion, but it depends on the Stripe webhook endpoint being scoped to
+  // "events on connected accounts" (a separate Dashboard setting from the
+  // regular checkout webhook). Don't rely on that alone — re-check with
+  // Stripe directly whenever we haven't seen it flip yet, so a misconfigured
+  // or missing Connect webhook can't permanently strand a store as "not
+  // connected" even though Stripe already approved them.
+  if (store.stripeAccountId && !store.stripeOnboardingComplete) {
+    const account = await stripe.accounts.retrieve(store.stripeAccountId);
+    const onboardingComplete = !!(account.charges_enabled && account.payouts_enabled);
+    if (onboardingComplete !== store.stripeOnboardingComplete) {
+      store.stripeOnboardingComplete = onboardingComplete;
+      await store.save();
+    }
+  }
+
   return NextResponse.json({
     connected: !!store.stripeAccountId,
     onboardingComplete: store.stripeOnboardingComplete,
