@@ -1,4 +1,4 @@
-import { baseLayout, colors, formatEUR } from "./shared";
+import { aiUrl, baseLayout, button, colors, formatEUR, metaBar } from "./shared";
 
 export interface CreditReceiptData {
   recipientName: string;
@@ -15,7 +15,7 @@ export function creditReceiptSubject() {
 export function creditReceiptHtml(data: CreditReceiptData) {
   const body = `
     <tr>
-      <td align="center" style="font-family:Georgia,'Times New Roman',serif;color:${colors.navy};font-size:26px;padding-bottom:16px;">
+      <td align="center" style="font-family:Georgia,'Times New Roman',serif;color:${colors.navy};font-size:28px;padding-bottom:16px;">
         Credits Added to Your Account
       </td>
     </tr>
@@ -25,24 +25,15 @@ export function creditReceiptHtml(data: CreditReceiptData) {
         Thanks for your purchase — your AI itinerary credits are ready to use.
       </td>
     </tr>
+    ${metaBar([
+      { label: "Credits Added", value: `+${data.creditsAdded}` },
+      { label: "Amount Paid", value: formatEUR(data.amount) },
+      { label: "Date", value: data.date },
+    ])}
+    <tr><td style="height:24px;"></td></tr>
     <tr>
-      <td style="background-color:${colors.bg};border:1px solid ${colors.border};border-radius:12px;">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-          <tr>
-            <td style="padding:16px 20px;" align="center">
-              <div style="font-size:11px;color:${colors.muted};text-transform:uppercase;letter-spacing:0.03em;">Credits Added</div>
-              <div style="font-size:14px;font-weight:bold;color:${colors.navy};margin-top:4px;">+${data.creditsAdded}</div>
-            </td>
-            <td style="padding:16px 20px;border-left:1px solid ${colors.border};" align="center">
-              <div style="font-size:11px;color:${colors.muted};text-transform:uppercase;letter-spacing:0.03em;">Amount Paid</div>
-              <div style="font-size:14px;font-weight:bold;color:${colors.navy};margin-top:4px;">${formatEUR(data.amount)}</div>
-            </td>
-            <td style="padding:16px 20px;border-left:1px solid ${colors.border};" align="center">
-              <div style="font-size:11px;color:${colors.muted};text-transform:uppercase;letter-spacing:0.03em;">Date</div>
-              <div style="font-size:14px;font-weight:bold;color:${colors.navy};margin-top:4px;">${data.date}</div>
-            </td>
-          </tr>
-        </table>
+      <td align="center">
+        ${button("Start Planning", aiUrl)}
       </td>
     </tr>
   `;

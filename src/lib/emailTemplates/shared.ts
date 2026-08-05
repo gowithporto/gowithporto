@@ -14,6 +14,29 @@ export const colors = {
 export const logoUrl = `${BASE_URL}/logo.png`;
 export const shopUrl = `${BASE_URL}/shop`;
 export const ordersUrl = `${BASE_URL}/dashboard/orders`;
+export const aiUrl = `${BASE_URL}/ai`;
+
+/** Bordered info card matching the order-confirmation meta bar, for 2-3 label/value columns. */
+export function metaBar(cols: { label: string; value: string }[]) {
+  const cells = cols
+    .map(
+      (col, i) => `
+        <td style="padding:16px 20px;${i > 0 ? `border-left:1px solid ${colors.border};` : ""}" align="center">
+          <div style="font-size:11px;color:${colors.muted};text-transform:uppercase;letter-spacing:0.03em;">${col.label}</div>
+          <div style="font-size:14px;font-weight:bold;color:${colors.navy};margin-top:4px;">${col.value}</div>
+        </td>`
+    )
+    .join("");
+
+  return `
+    <tr>
+      <td style="background-color:${colors.bg};border:1px solid ${colors.border};border-radius:12px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          <tr>${cells}</tr>
+        </table>
+      </td>
+    </tr>`;
+}
 
 export function formatEUR(amount: number) {
   return `€${amount.toFixed(2)}`;

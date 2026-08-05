@@ -118,5 +118,10 @@ export async function sendOrderShippedForOrder(order: OrderLike) {
   await sendOrderShippedEmail(order.userEmail, {
     recipientName,
     orderNumber: orderNumber(order),
+    shippedDate: new Date().toLocaleDateString("en-GB", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }),
   });
 }
