@@ -35,26 +35,25 @@ export async function POST(req: Request) {
       });
     }
 
-    // 🎁 FREE OR CREDIT
+    // 🔮 REAL AI RESPONSE (Gemini) — generate before charging, so a failed
+    // generation never consumes the user's free try or a paid credit
+    const aiResponse = await generateAIResponse({
+      systemPrompt:
+        "You are a travel assistant for Porto. Generate a structured, helpful itinerary.",
+      userInput: {
+        days,
+        budget,
+        people,
+      },
+    });
+
+    // 🎁 FREE OR CREDIT — only charge once generation succeeded
     if (!user.freeUsed) {
       user.freeUsed = true;
     } else {
       user.credits -= 1;
     }
-  // Credit logic
     await user.save();
-
-    // 🔮 REAL AI RESPONSE (Gemini)
-const aiResponse = await generateAIResponse({
-  systemPrompt:
-    "You are a travel assistant for Porto. Generate a structured, helpful itinerary.",
-  userInput: {
-    days,
-    budget,
-    people,
-  },
-});
-
 
     // ✅ SAVE AI RESPONSE
     const savedResponse = await AIResponse.create({

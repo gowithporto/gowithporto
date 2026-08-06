@@ -2,6 +2,10 @@
 
 Milestones only — not every commit. Newest at the top.
 
+## 2026-08-06
+
+- **Fixed**: `POST /api/ai/preview` deducted the user's free try or a paid AI credit *before* calling Gemini, so any generation failure (e.g. the Gemini API returning a billing/quota error, as happened in local dev) permanently consumed the credit for nothing. Reordered so credits are only charged after a successful generation. Found while debugging a Gemini "prepayment credits depleted" error in local dev (a billing-tier issue on the Gemini API key, not a code bug)
+
 ## 2026-08-05
 
 - **Upgraded the 3 remaining email templates to match order confirmation's branding**: order shipped, AI credit receipt, and first-login welcome already shared the logo/colors/footer chrome via `emailTemplates/shared.ts`, but were plain text + a single button, unlike order confirmation's bordered info-card layout. Added a reusable `metaBar()` helper (the same bordered label/value box pattern) to `shared.ts` and used it in all three: order shipped now shows Order Number/Shipped Date/Status, welcome shows a 2-column "Shop / Plan with AI" box, and credit receipt (which had no call-to-action at all) now links to `/ai` with a "Start Planning" button
