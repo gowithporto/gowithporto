@@ -4,6 +4,7 @@ Milestones only — not every commit. Newest at the top.
 
 ## 2026-08-06
 
+- **Fixed**: the AI itinerary form collects `travelStyles` (Culture & History, Food & Wine, etc.) and free-text `interests`, but `POST /api/ai/preview` never read them from the request body — Gemini only ever saw days/budget/group, so generated itineraries had no relationship to what the user actually asked for. Now threaded through to the prompt. Also rewrote the Gemini system instruction and prompt template: requires the itinerary to visibly reflect the selected travel styles/interests, match pacing and price to the budget level and travel group, name real Porto places instead of generic descriptions, and never repeat a location across days
 - **Fixed**: `POST /api/ai/preview` deducted the user's free try or a paid AI credit *before* calling Gemini, so any generation failure (e.g. the Gemini API returning a billing/quota error, as happened in local dev) permanently consumed the credit for nothing. Reordered so credits are only charged after a successful generation. Found while debugging a Gemini "prepayment credits depleted" error in local dev (a billing-tier issue on the Gemini API key, not a code bug)
 
 ## 2026-08-05

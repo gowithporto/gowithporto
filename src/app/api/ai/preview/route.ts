@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
     // ✅ ALWAYS parse body
     const body = await req.json();
-    const { days, budget, people, dates } = body;
+    const { days, budget, people, dates, travelStyles, interests } = body;
 
     await connectDB();
 
@@ -39,11 +39,18 @@ export async function POST(req: Request) {
     // generation never consumes the user's free try or a paid credit
     const aiResponse = await generateAIResponse({
       systemPrompt:
-        "You are a travel assistant for Porto. Generate a structured, helpful itinerary.",
+        "You are the lead local trip designer for GoWithPorto, a Porto-based travel platform. " +
+        "You have deep, genuine knowledge of the city's neighborhoods, restaurants, viewpoints, and " +
+        "seasonal events. Write like an experienced local insider, not a generic tourist guidebook — " +
+        "name real, specific places in Porto and Vila Nova de Gaia wherever relevant instead of vague " +
+        "descriptions, and keep a warm, professional tone.",
       userInput: {
         days,
         budget,
         people,
+        dates,
+        travelStyles,
+        interests,
       },
     });
 
@@ -58,7 +65,7 @@ export async function POST(req: Request) {
     // ✅ SAVE AI RESPONSE
     const savedResponse = await AIResponse.create({
       userEmail: session.user.email,
-      prompt: { days, budget, people, dates },
+      prompt: { days, budget, people, dates, travelStyles, interests },
       response: aiResponse,
     });
 
