@@ -37,7 +37,7 @@ export default function CartPage() {
     <div className="space-y-10 px-4 pt-24 pb-16 sm:px-8 sm:pt-28 lg:px-12">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="font-serif text-3xl text-[var(--primary)]">Your Cart</h1>
+          <h1 className="font-serif text-3xl font-semibold text-[var(--primary)]">Your Cart</h1>
           <Image src={centerLine} alt="" className="mt-2 h-auto w-32" />
           <p className="mt-3 text-sm text-gray-500">
             Review your items and proceed to checkout

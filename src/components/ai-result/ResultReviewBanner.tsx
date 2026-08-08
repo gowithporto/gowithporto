@@ -33,7 +33,7 @@ export default function ResultReviewBanner() {
             <FaStar />
             <FaStar />
           </span>
-          <span className="font-serif text-[var(--primary)]">4.9/5</span>
+          <span className="font-serif font-semibold text-[var(--primary)]">4.9/5</span>
         </div>
         <p className="mt-1 text-sm text-gray-500">
           Join 1,000+ travelers who&apos;ve planned their perfect Porto trip

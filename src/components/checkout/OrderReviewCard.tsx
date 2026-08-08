@@ -28,7 +28,7 @@ export default function OrderReviewCard({
 }: Props) {
   return (
     <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-      <h2 className="text-center font-serif text-xl text-[var(--primary)]">
+      <h2 className="text-center font-serif text-xl font-medium text-[var(--primary)]">
         Order Review
       </h2>
       <Image src={centerLine} alt="" className="mx-auto mt-2 h-auto w-24" />
@@ -66,7 +66,7 @@ export default function OrderReviewCard({
       </div>
 
       <div className="mt-4 flex items-center justify-between border-t border-black/10 pt-4">
-        <span className="font-serif text-lg text-[var(--primary)]">Total</span>
+        <span className="font-serif text-lg font-medium text-[var(--primary)]">Total</span>
         <span className="text-lg font-bold text-[#2c6e9b]">
           €{subtotal.toFixed(2)}
           {deliveryType === "delivery" && " +"}

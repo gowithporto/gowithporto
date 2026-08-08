@@ -33,7 +33,7 @@ export default async function OrdersPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-serif text-3xl text-[#173d5c]">My Orders</h1>
+      <h1 className="font-serif text-3xl font-semibold text-[#173d5c]">My Orders</h1>
       <OrdersList orders={orders} />
     </div>
   );

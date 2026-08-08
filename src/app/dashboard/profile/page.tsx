@@ -49,7 +49,7 @@ export default function ProfileSettingsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-serif text-3xl text-[#173d5c] sm:text-4xl">
+        <h1 className="font-serif text-3xl font-semibold text-[#173d5c] sm:text-4xl">
           Profile Settings
         </h1>
         <p className="mt-2 text-sm text-gray-500 sm:text-base">

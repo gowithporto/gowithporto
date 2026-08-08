@@ -34,7 +34,7 @@ const inspirations = [
 export default function AIInspiredCarousel() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-16 sm:px-10">
-      <h2 className="text-center font-serif text-3xl text-[var(--primary)]">
+      <h2 className="text-center font-serif text-3xl font-medium text-[var(--primary)]">
         Get inspired by what&apos;s possible
       </h2>
       <Image

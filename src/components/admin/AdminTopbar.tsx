@@ -40,7 +40,7 @@ export default function AdminTopbar() {
     .toUpperCase();
 
   return (
-    <header className="flex h-16 shrink-0 items-center justify-end gap-3 border-b border-black/5 bg-white px-6 dark:border-white/10 dark:bg-[#0f1a24]">
+    <header className="relative z-20 flex h-16 shrink-0 items-center justify-end gap-3 border-b border-black/5 bg-white px-6 dark:border-white/10 dark:bg-[#0f1a24]">
       <div className="relative">
         <GlobeAltIcon className="pointer-events-none absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-black/40 dark:text-white/40" />
         <select
@@ -88,7 +88,7 @@ export default function AdminTopbar() {
         </button>
 
         {menuOpen && (
-          <div className="absolute top-11 right-0 w-56 rounded-xl border border-black/5 bg-white p-2 shadow-lg dark:border-white/10 dark:bg-[#111c27]">
+          <div className="absolute top-11 right-0 z-30 w-56 rounded-xl border border-black/5 bg-white p-2 shadow-lg dark:border-white/10 dark:bg-[#111c27]">
             <div className="px-2 py-1.5">
               <p className="truncate text-sm font-medium text-[#1d3d5c] dark:text-white">
                 {session?.user?.name || "Admin"}

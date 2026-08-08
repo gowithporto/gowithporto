@@ -83,7 +83,7 @@ export default function NearbyPlaces({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="font-serif text-xl text-[var(--primary)]">{title}</h2>
+        <h2 className="font-serif text-xl font-medium text-[var(--primary)]">{title}</h2>
         {rest.length > 0 && (
           <button
             type="button"

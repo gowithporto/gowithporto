@@ -37,7 +37,7 @@ export default function AIReviewBanner() {
               <FaStar />
               <FaStarHalfAlt />
             </div>
-            <span className="font-serif text-lg text-[var(--primary)]">
+            <span className="font-serif text-lg font-medium text-[var(--primary)]">
               4.9/5
             </span>
           </div>

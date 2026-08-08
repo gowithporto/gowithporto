@@ -98,7 +98,7 @@ export default async function TransactionsPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="font-serif text-3xl text-[#173d5c]">
+          <h1 className="font-serif text-3xl font-semibold text-[#173d5c]">
             AI Credits &amp; Transactions
           </h1>
           <p className="mt-1 text-gray-500">

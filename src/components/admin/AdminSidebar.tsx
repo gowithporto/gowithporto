@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ArrowLeftOnRectangleIcon,
   BanknotesIcon,
   BuildingStorefrontIcon,
   Cog6ToothIcon,
@@ -12,13 +11,11 @@ import {
   ShoppingBagIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
-import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 
-import Postcard from "@/assets/1. home page/discover_porto/9.png";
 import Logo from "@/assets/GOWITHPORTO LOGO.png";
 import { cn } from "@/utils/cn";
 
@@ -28,18 +25,17 @@ const navigation = [
   { name: "Stores", href: "/admin/stores", icon: BuildingStorefrontIcon },
   { name: "Attractions", href: "/admin/attractions", icon: MapPinIcon },
   { name: "Orders", href: "/admin/orders", icon: ShoppingBagIcon },
+  { name: "Users", href: "/admin/users", icon: UserGroupIcon },
   { name: "AI Settings", href: "/admin/ai-settings", icon: CpuChipIcon },
 ];
 
 const comingSoon = [
-  { name: "Users", icon: UserGroupIcon },
   { name: "Support", icon: LifebuoyIcon },
   { name: "Settings", icon: Cog6ToothIcon },
 ];
 
 export default function AdminSidebar() {
   const pathname = usePathname();
-  const { data: session } = useSession();
 
   return (
     <aside className="hidden h-full w-64 shrink-0 flex-col border-r border-black/5 bg-white dark:border-white/10 dark:bg-[#0f1a24] lg:flex">
@@ -93,47 +89,6 @@ export default function AdminSidebar() {
           </button>
         ))}
       </nav>
-
-      <div className="px-3">
-        <div className="overflow-hidden rounded-2xl border border-[#2c6e9b]/15 shadow-sm">
-          <Image
-            src={Postcard}
-            alt=""
-            className="h-36 w-full object-cover"
-          />
-        </div>
-        <p className="mt-3 flex items-center gap-1.5 px-1 text-xs text-black/40 dark:text-white/40">
-          <BuildingStorefrontIcon className="h-3.5 w-3.5 text-[#2c6e9b]" />
-          Authorized by Câmara Municipal do Porto
-        </p>
-      </div>
-
-      <div className="space-y-3 border-t border-black/5 p-4 dark:border-white/10">
-        <button
-          type="button"
-          onClick={() => signOut({ callbackUrl: "/admin/login" })}
-          className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-[#3d4f5c] transition hover:bg-red-50 hover:text-red-600 dark:text-white/70 dark:hover:bg-red-500/10 dark:hover:text-red-400"
-        >
-          <ArrowLeftOnRectangleIcon className="h-5 w-5" />
-          Sign Out
-        </button>
-
-        <div className="flex items-center gap-3 rounded-xl bg-black/2 px-3 py-2.5 dark:bg-white/5">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1d3d5c] text-sm font-semibold text-white">
-            {(session?.user?.name || session?.user?.email || "A")
-              .charAt(0)
-              .toUpperCase()}
-          </div>
-          <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-[#1d3d5c] dark:text-white">
-              {session?.user?.name || "Admin"}
-            </p>
-            <p className="truncate text-xs text-black/40 dark:text-white/40">
-              Administrator
-            </p>
-          </div>
-        </div>
-      </div>
     </aside>
   );
 }

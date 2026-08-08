@@ -33,7 +33,14 @@
       "Bash(taskkill //PID 14468 //F //T)",
       "Bash(curl -s http://localhost:3000/attractions/zz-test-preview-ribeira-riverside -o /tmp/detail2.html -w \"%{http_code}\\\\n\")",
       "Bash(taskkill //PID 7016 //F //T)",
-      "Bash(timeout 40 npx next build)"
+      "Bash(timeout 40 npx next build)",
+      "WebSearch",
+      "Bash(node -e \"console.log\\(require\\('c:/Users/HP/Desktop/gowithporto/node_modules/cloudinary'\\).v2 ? 'cloudinary ok' : 'missing'\\)\")",
+      "Bash(node \"C:\\\\Users\\\\HP\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-HP-Desktop-gowithporto\\\\4536f8d8-8906-4193-933a-440626063762\\\\scratchpad\\\\seed-all-attractions.cjs\")",
+      "Bash(timeout 60 npx next build)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\HP\\AppData\\Local\\Temp\\claude\\c--Users-HP-Desktop-gowithporto\\4536f8d8-8906-4193-933a-440626063762\\scratchpad"
     ]
   }
 }

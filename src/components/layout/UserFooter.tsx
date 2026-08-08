@@ -56,7 +56,7 @@ export default function UserFooter() {
         >
           {/* BRAND */}
           <div className="space-y-3 grid grid-row-[1fr-auto]">
-            <h3 className="font-serif text-xl text-[#415a6b]">GoWithPorto</h3>
+            <h3 className="font-serif text-xl font-medium text-[#415a6b]">GoWithPorto</h3>
             <p className="text-sm">
               Your personal AI travel companion for exploring Porto.
             </p>
@@ -71,7 +71,7 @@ export default function UserFooter() {
 
           {/* MY TRAVEL */}
           <div className="space-y-3 grid grid-row-[1fr-auto]">
-            <h3 className="font-serif text-xl text-[#415a6b]">My Travel</h3>
+            <h3 className="font-serif text-xl font-medium text-[#415a6b]">My Travel</h3>
 
             <Link
               href="/dashboard/ai-history"
@@ -93,7 +93,7 @@ export default function UserFooter() {
 
           {/* SUPPORT */}
           <div className="space-y-3 grid grid-row-[1fr-auto]">
-            <h3 className="font-serif text-xl text-[#415a6b]">Support</h3>
+            <h3 className="font-serif text-xl font-medium text-[#415a6b]">Support</h3>
 
             <Link href="/faq" className="hover:text-[#2c6e9b] transition">
               Help Center

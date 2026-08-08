@@ -73,7 +73,7 @@ export default function Footer() {
         >
           {/* Company */}
           <div className="space-y-3 grid grid-row-[1fr_auto]">
-            <h3 className="font-serif text-xl text-[#415a6b]">Company</h3>
+            <h3 className="font-serif text-xl font-medium text-[#415a6b]">Company</h3>
             <Link href="#">About Us</Link>
             <Link href="#">Contact</Link>
             <Link href="#">Blog</Link>
@@ -82,7 +82,7 @@ export default function Footer() {
 
           {/* Services */}
           <div className="space-y-3 grid grid-row-[1fr_auto]">
-            <h3 className="font-serif text-xl text-[#415a6b]">Services</h3>
+            <h3 className="font-serif text-xl font-medium text-[#415a6b]">Services</h3>
             <Link href="/ai">AI Trip Planner</Link>
             <Link href="/shop">Souvenirs Shop</Link>
             <Link href="#">Local Guides</Link>
@@ -91,7 +91,7 @@ export default function Footer() {
 
           {/* Support */}
           <div className="space-y-3 grid grid-row-[1fr_auto]">
-            <h3 className="font-serif text-xl text-[#415a6b]">Support</h3>
+            <h3 className="font-serif text-xl font-medium text-[#415a6b]">Support</h3>
             <Link href="#">FAQs</Link>
             <Link href="#">Help Center</Link>
             <Link href="#">Privacy Policy</Link>

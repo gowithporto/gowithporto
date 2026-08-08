@@ -126,7 +126,7 @@ export default function AIPlannerForm() {
   return (
     <div className="rounded-3xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
       <div className="text-[var(--primary)]">
-        <h2 className="font-serif text-xl sm:text-2xl">
+        <h2 className="font-serif text-xl font-medium sm:text-2xl">
           Let&apos;s plan your unforgettable Porto adventure
         </h2>
       </div>

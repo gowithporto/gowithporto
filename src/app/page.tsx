@@ -46,7 +46,7 @@ export default function Home() {
           ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
         >
           <h1
-            className="font-serif text-[clamp(2.5rem,6vw,4rem)] text-[var(--primary)]
+            className="font-serif text-[clamp(2.5rem,6vw,4rem)] font-medium text-[var(--primary)]
  leading-tight"
           >
             {t(lang, "home.title")}{" "}

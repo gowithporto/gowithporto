@@ -22,7 +22,7 @@ export default function CheckoutCancelPage() {
     <div className="flex min-h-[80vh] items-center justify-center px-4 pt-24 pb-16 sm:pt-28">
       <div className="w-full max-w-md rounded-2xl border border-black/5 bg-white p-10 text-center shadow-sm">
         <XCircleIcon className="mx-auto h-16 w-16 text-red-500" />
-        <h1 className="mt-6 font-serif text-2xl text-[var(--primary)]">
+        <h1 className="mt-6 font-serif text-2xl font-semibold text-[var(--primary)]">
           Payment Cancelled
         </h1>
         <p className="mt-2 text-sm text-gray-500">

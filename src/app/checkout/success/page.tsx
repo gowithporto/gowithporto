@@ -61,7 +61,7 @@ function SuccessContent() {
         {status === "confirming" && (
           <>
             <div className="mx-auto h-14 w-14 animate-spin rounded-full border-4 border-[#2c6e9b]/20 border-t-[#2c6e9b]" />
-            <h1 className="mt-6 font-serif text-2xl text-[var(--primary)]">
+            <h1 className="mt-6 font-serif text-2xl font-semibold text-[var(--primary)]">
               Confirming your payment…
             </h1>
             <p className="mt-2 text-sm text-gray-500">
@@ -73,7 +73,7 @@ function SuccessContent() {
         {status === "success" && (
           <>
             <CheckCircleIcon className="mx-auto h-16 w-16 text-green-500" />
-            <h1 className="mt-6 font-serif text-2xl text-[var(--primary)]">
+            <h1 className="mt-6 font-serif text-2xl font-semibold text-[var(--primary)]">
               Payment Successful!
             </h1>
             <p className="mt-2 text-sm text-gray-500">
@@ -88,7 +88,7 @@ function SuccessContent() {
         {status === "error" && (
           <>
             <ExclamationTriangleIcon className="mx-auto h-16 w-16 text-red-500" />
-            <h1 className="mt-6 font-serif text-2xl text-[var(--primary)]">
+            <h1 className="mt-6 font-serif text-2xl font-semibold text-[var(--primary)]">
               We couldn&apos;t confirm your payment
             </h1>
             <p className="mt-2 text-sm text-gray-500">
@@ -107,7 +107,7 @@ function SuccessContent() {
         {status === "missing" && (
           <>
             <ExclamationTriangleIcon className="mx-auto h-16 w-16 text-amber-500" />
-            <h1 className="mt-6 font-serif text-2xl text-[var(--primary)]">
+            <h1 className="mt-6 font-serif text-2xl font-semibold text-[var(--primary)]">
               No payment session found
             </h1>
             <p className="mt-2 text-sm text-gray-500">

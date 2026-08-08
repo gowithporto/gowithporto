@@ -37,7 +37,7 @@ export default function LocalFlavors() {
       id="local-flavors"
       className="mx-auto max-w-6xl px-6 py-16 sm:px-10"
     >
-      <h2 className="text-center font-serif text-3xl text-[var(--primary)]">
+      <h2 className="text-center font-serif text-3xl font-medium text-[var(--primary)]">
         Local Flavors of Porto
       </h2>
       <Image

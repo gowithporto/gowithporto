@@ -98,7 +98,7 @@ const TAG_SETS: { icon: IconType; label: string }[][] = [
 export default function ItineraryOverview({ itinerary }: { itinerary: Day[] }) {
   return (
     <section>
-      <h2 className="font-serif text-2xl text-[var(--primary)] sm:text-3xl">
+      <h2 className="font-serif text-2xl font-medium text-[var(--primary)] sm:text-3xl">
         Itinerary Overview
       </h2>
       <Image src={centerLine} alt="" className="mt-2 h-auto w-42" />
@@ -120,7 +120,7 @@ export default function ItineraryOverview({ itinerary }: { itinerary: Day[] }) {
                   <span className="text-[9px] font-semibold uppercase tracking-wide text-gray-400">
                     Day
                   </span>
-                  <span className="font-serif text-xl text-[#173d5c] sm:text-2xl">
+                  <span className="font-serif text-xl font-medium text-[#173d5c] sm:text-2xl">
                     {day.day}
                   </span>
                 </div>

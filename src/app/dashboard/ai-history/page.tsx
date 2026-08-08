@@ -30,7 +30,7 @@ export default async function AIHistoryPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-3xl text-[#173d5c]">AI History</h1>
+        <h1 className="font-serif text-3xl font-semibold text-[#173d5c]">AI History</h1>
         <p className="mt-1 text-gray-500">
           Review your past AI-generated plans.
         </p>

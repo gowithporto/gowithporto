@@ -165,7 +165,7 @@ export default function ProductDetailPage() {
                 {formatLabel(product.category)}
               </span>
             )}
-            <h1 className="font-serif text-3xl text-[var(--primary)] sm:text-4xl">
+            <h1 className="font-serif text-3xl font-semibold text-[var(--primary)] sm:text-4xl">
               {product.title}
             </h1>
             {product.storeId?.name && (

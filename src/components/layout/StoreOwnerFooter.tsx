@@ -53,7 +53,7 @@ export default function StoreOwnerFooter() {
         <div className="grid gap-12 text-[#4b5b66] sm:grid-cols-3 text-base">
           {/* PARTNER MESSAGE */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl text-[#415a6b]">
+            <h3 className="font-serif text-xl font-medium text-[#415a6b]">
               Partner Program
             </h3>
 
@@ -70,7 +70,7 @@ export default function StoreOwnerFooter() {
 
           {/* MANAGEMENT TOOLS */}
           <div className="space-y-3">
-            <h3 className="font-serif text-xl text-[#415a6b]">
+            <h3 className="font-serif text-xl font-medium text-[#415a6b]">
               Store Management
             </h3>
 
@@ -101,7 +101,7 @@ export default function StoreOwnerFooter() {
 
           {/* SUPPORT */}
           <div className="space-y-3 grid grid-row-[1fr-auto]">
-            <h3 className="font-serif text-xl text-[#415a6b]">
+            <h3 className="font-serif text-xl font-medium text-[#415a6b]">
               Merchant Support
             </h3>
 

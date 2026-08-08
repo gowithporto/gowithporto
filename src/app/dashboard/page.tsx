@@ -101,7 +101,7 @@ export default async function DashboardOverviewPage() {
       {/* Welcome banner */}
       <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
         <div>
-          <h1 className="font-serif text-3xl text-[#173d5c] sm:text-4xl">
+          <h1 className="font-serif text-3xl font-semibold text-[#173d5c] sm:text-4xl">
             Welcome back, {firstName}
           </h1>
           <p className="mt-2 text-sm text-gray-500 sm:text-base">
@@ -182,7 +182,7 @@ export default async function DashboardOverviewPage() {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <section className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-serif text-xl text-[#173d5c]">Recent Orders</h2>
+            <h2 className="font-serif text-xl font-medium text-[#173d5c]">Recent Orders</h2>
             <Link
               href="/dashboard/orders"
               className="text-sm text-[#2c6e9b] hover:underline"
@@ -232,7 +232,7 @@ export default async function DashboardOverviewPage() {
 
         <section className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-serif text-xl text-[#173d5c]">
+            <h2 className="font-serif text-xl font-medium text-[#173d5c]">
               Recent AI Activity
             </h2>
             <Link
@@ -277,7 +277,7 @@ export default async function DashboardOverviewPage() {
       {travelMoments.length > 0 && (
         <section>
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-serif text-xl text-[#173d5c]">
+            <h2 className="font-serif text-xl font-medium text-[#173d5c]">
               Your AI Travel Moments
             </h2>
             <Link

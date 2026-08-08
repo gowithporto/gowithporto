@@ -27,7 +27,7 @@ export default function BuyCreditsCTA() {
       <Image src={bottomBannerAd} alt="" fill className="object-cover" />
 
       <div className="relative max-w-md p-8 sm:p-10">
-        <h2 className="font-serif text-2xl text-[#173d5c] sm:text-3xl">
+        <h2 className="font-serif text-2xl font-medium text-[#173d5c] sm:text-3xl">
           Never Run Out of Inspiration
         </h2>
         <p className="mt-3 text-sm text-[var(--text)]">

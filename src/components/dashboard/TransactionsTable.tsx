@@ -165,7 +165,7 @@ export default function TransactionsTable({
         </button>
       </div>
 
-      <h2 className="px-6 pt-6 font-serif text-xl text-[#173d5c]">
+      <h2 className="px-6 pt-6 font-serif text-xl font-medium text-[#173d5c]">
         Purchase History
       </h2>
 

@@ -40,16 +40,16 @@ function ResultContent() {
 
   if (loading)
     return (
-      <div className="animate-pulse p-20 text-center font-serif text-xl text-[var(--primary)]">
+      <div className="animate-pulse p-20 text-center font-serif text-xl font-medium text-[var(--primary)]">
         Reading the stars for your trip...
       </div>
     );
   if (error)
     return (
-      <div className="p-20 text-center font-serif text-red-500">{error}</div>
+      <div className="p-20 text-center font-serif font-medium text-red-500">{error}</div>
     );
   if (!data)
-    return <div className="p-20 text-center font-serif">Plan not found.</div>;
+    return <div className="p-20 text-center font-serif font-medium">Plan not found.</div>;
 
   const { response, prompt } = data;
   const days = Number(prompt.days) || response.itinerary?.length || 1;
@@ -86,7 +86,7 @@ export default function AIResultPage() {
   return (
     <Suspense
       fallback={
-        <div className="p-20 text-center font-serif text-[var(--primary)]">
+        <div className="p-20 text-center font-serif font-medium text-[var(--primary)]">
           Loading Result...
         </div>
       }

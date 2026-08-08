@@ -503,7 +503,7 @@ export default function AdminDashboardPage() {
 
           <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+              <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
                 Recent Orders
               </h2>
               <Link
@@ -566,7 +566,7 @@ export default function AdminDashboardPage() {
         {/* Platform summary + system status */}
         <div className="space-y-6">
           <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-            <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+            <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
               Platform Summary
             </h2>
             <div className="mt-4">
@@ -580,7 +580,7 @@ export default function AdminDashboardPage() {
 
           <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+              <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
                 System Status
               </h2>
               <span
@@ -625,7 +625,7 @@ export default function AdminDashboardPage() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Top performing stores */}
         <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm lg:col-span-2 dark:border-white/10 dark:bg-[#111c27]">
-          <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+          <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
             Top Performing Stores
           </h2>
           {topStores.length === 0 ? (
@@ -690,7 +690,7 @@ export default function AdminDashboardPage() {
 
         {/* Quick actions */}
         <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-          <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+          <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
             Quick Actions
           </h2>
           <div className="mt-3 space-y-1">

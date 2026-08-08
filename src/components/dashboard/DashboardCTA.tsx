@@ -49,7 +49,7 @@ export default function DashboardCTA() {
 
       <div className="relative flex flex-col items-center gap-8 p-8 text-center sm:p-10 lg:flex-row lg:justify-center lg:gap-20 lg:px-28 lg:text-left xl:px-36">
         <div className="max-w-sm">
-          <h2 className="font-serif text-2xl text-[#173d5c] sm:text-3xl">
+          <h2 className="font-serif text-2xl font-medium text-[#173d5c] sm:text-3xl">
             Plan More. Discover More. Save More.
           </h2>
           <p className="mt-3 text-sm text-[var(--text)]">

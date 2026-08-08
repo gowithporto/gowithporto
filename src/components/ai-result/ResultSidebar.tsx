@@ -49,7 +49,7 @@ export default function ResultSidebar({
         />
         <div className="relative max-w-[70%]">
           <p className="text-xs font-medium text-gray-400">Inspired by</p>
-          <p className="font-serif text-2xl text-[#2c6e9b]">Porto.</p>
+          <p className="font-serif text-2xl font-medium text-[#2c6e9b]">Porto.</p>
           <p className="mt-2 text-xs font-semibold text-[var(--text)]">
             Official Tourism Partner
           </p>
@@ -70,7 +70,7 @@ export default function ResultSidebar({
           className="pointer-events-none absolute inset-x-0 top-10 mx-auto w-56 opacity-35"
         />
         <div className="relative">
-          <h3 className="font-serif text-lg text-[var(--primary)]">
+          <h3 className="font-serif text-lg font-medium text-[var(--primary)]">
             Trip Summary
           </h3>
 
@@ -111,7 +111,7 @@ export default function ResultSidebar({
 
       {/* Included Recommendations */}
       <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
-        <h3 className="font-serif text-lg text-[var(--primary)]">
+        <h3 className="font-serif text-lg font-medium text-[var(--primary)]">
           Included Recommendations
         </h3>
         <ul className="mt-4 space-y-2.5">
@@ -132,7 +132,7 @@ export default function ResultSidebar({
 
       {/* Need help */}
       <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
-        <h3 className="font-serif text-lg text-[var(--primary)]">Need Help?</h3>
+        <h3 className="font-serif text-lg font-medium text-[var(--primary)]">Need Help?</h3>
         <p className="mt-2 text-sm text-gray-500">
           We&apos;re here for you before, during and after your trip.
         </p>

@@ -327,7 +327,7 @@ export default function AttractionDetailPage() {
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         {attraction.history && (
           <div className="space-y-3 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-            <h2 className="font-serif text-xl text-[var(--primary)]">
+            <h2 className="font-serif text-xl font-medium text-[var(--primary)]">
               About {attraction.title}
             </h2>
             <p className="text-sm leading-relaxed whitespace-pre-line text-[var(--text)]/80">
@@ -344,7 +344,7 @@ export default function AttractionDetailPage() {
               fill
               className="object-cover object-right"
             />
-            <h2 className="relative font-serif text-xl text-[var(--primary)]">
+            <h2 className="relative font-serif text-xl font-medium text-[var(--primary)]">
               Highlights
             </h2>
             <ul className="relative space-y-2.5">

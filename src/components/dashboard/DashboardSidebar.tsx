@@ -81,7 +81,7 @@ export default function DashboardSidebar() {
             />
           </div>
 
-          <p className="mt-3 font-serif text-lg text-[#173d5c]">
+          <p className="mt-3 font-serif text-lg font-medium text-[#173d5c]">
             {session?.user?.name || "Traveler"}
           </p>
           <p className="flex items-center gap-1 text-xs font-medium text-[#eab657]">
@@ -152,7 +152,7 @@ export default function DashboardSidebar() {
         <p className="text-xs font-medium text-[#2c6e9b]">
           Officially Inspired by
         </p>
-        <p className="font-serif text-2xl text-[#173d5c]">Porto.</p>
+        <p className="font-serif text-2xl font-medium text-[#173d5c]">Porto.</p>
         <div className="mt-4 flex items-center gap-2 text-xs text-[var(--text)]">
           <CheckBadgeIcon className="h-4 w-4 flex-shrink-0 text-[#2c6e9b]" />
           <span>
