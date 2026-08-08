@@ -37,7 +37,26 @@
       "WebSearch",
       "Bash(node -e \"console.log\\(require\\('c:/Users/HP/Desktop/gowithporto/node_modules/cloudinary'\\).v2 ? 'cloudinary ok' : 'missing'\\)\")",
       "Bash(node \"C:\\\\Users\\\\HP\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-HP-Desktop-gowithporto\\\\4536f8d8-8906-4193-933a-440626063762\\\\scratchpad\\\\seed-all-attractions.cjs\")",
-      "Bash(timeout 60 npx next build)"
+      "Bash(timeout 60 npx next build)",
+      "Bash(timeout 40 bash -c 'until curl -sf http://localhost:3000 >/dev/null; do sleep 1; done')",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/local-experiences)",
+      "Bash(curl -s http://localhost:3000/api/local-experiences)",
+      "Bash(curl -s http://localhost:3000/)",
+      "Bash(cp /tmp/seed_test_experience.mjs \"c:\\\\Users\\\\HP\\\\Desktop\\\\gowithporto\\\\scratch_seed_test_experience.mjs\")",
+      "Bash(cp /tmp/seed_test_experience.mjs ./scratch_seed_test_experience.mjs)",
+      "Bash(node ./scratch_seed_test_experience.mjs)",
+      "Bash(curl -s http://localhost:3000/api/local-experiences/smoke-test-experience)",
+      "Bash(curl -s http://localhost:3000/local-experiences)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/local-experiences/smoke-test-experience)",
+      "Bash(curl -s http://localhost:3000/local-experiences/smoke-test-experience)",
+      "Bash(node -e \"const {chromium} = require\\('playwright'\\); \\(async\\(\\)=>{try{const b = await chromium.launch\\(\\); console.log\\('launched ok'\\); await b.close\\(\\);}catch\\(e\\){console.log\\('ERR: '+e.message\\)}}\\)\\(\\)\")",
+      "Bash(npx --yes playwright install chromium --with-deps)",
+      "Bash(npx --yes playwright install chromium)",
+      "Bash(node ./scratch_cleanup_test_experience.mjs)",
+      "Bash(rm -f ./scratch_seed_test_experience.mjs ./scratch_cleanup_test_experience.mjs /tmp/seed_test_experience.mjs)",
+      "PowerShell(Get-Process -Id 13892 -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Id 13892 -Force -Confirm:$false)",
+      "Bash(node ./scratch_seed_local_experiences.mjs)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\AppData\\Local\\Temp\\claude\\c--Users-HP-Desktop-gowithporto\\4536f8d8-8906-4193-933a-440626063762\\scratchpad"

@@ -37,7 +37,7 @@ const categories = [
     icon: coffeeCup,
     title: "Local Experiences",
     subtitle: "Food, wine & culture like a local",
-    href: "#local-flavors",
+    href: "/local-experiences",
   },
 ];
 

@@ -8,6 +8,7 @@ import {
   HomeIcon,
   LifebuoyIcon,
   MapPinIcon,
+  SparklesIcon,
   ShoppingBagIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
@@ -24,6 +25,11 @@ const navigation = [
   { name: "Revenue", href: "/admin/revenue", icon: BanknotesIcon },
   { name: "Stores", href: "/admin/stores", icon: BuildingStorefrontIcon },
   { name: "Attractions", href: "/admin/attractions", icon: MapPinIcon },
+  {
+    name: "Local Experiences",
+    href: "/admin/local-experiences",
+    icon: SparklesIcon,
+  },
   { name: "Orders", href: "/admin/orders", icon: ShoppingBagIcon },
   { name: "Users", href: "/admin/users", icon: UserGroupIcon },
   { name: "AI Settings", href: "/admin/ai-settings", icon: CpuChipIcon },
