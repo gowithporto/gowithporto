@@ -56,7 +56,17 @@
       "Bash(rm -f ./scratch_seed_test_experience.mjs ./scratch_cleanup_test_experience.mjs /tmp/seed_test_experience.mjs)",
       "PowerShell(Get-Process -Id 13892 -ErrorAction SilentlyContinue)",
       "PowerShell(Stop-Process -Id 13892 -Force -Confirm:$false)",
-      "Bash(node ./scratch_seed_local_experiences.mjs)"
+      "Bash(node ./scratch_seed_local_experiences.mjs)",
+      "Bash(node \"C:/Users/HP/AppData/Local/Temp/claude/c--Users-HP-Desktop-gowithporto/e466d8a2-039e-4ee7-a5e3-fd7cb6654ec1/scratchpad/strip-dark.js\")",
+      "Bash(npm uninstall *)",
+      "Bash(curl -s -o /dev/null -w \"home: %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"admin: %{http_code}\\\\n\" http://localhost:3000/admin/login)",
+      "Bash(curl -s http://localhost:3000/admin/login)",
+      "Bash(node \"C:/Users/HP/AppData/Local/Temp/claude/c--Users-HP-Desktop-gowithporto/e466d8a2-039e-4ee7-a5e3-fd7cb6654ec1/scratchpad/screenshot.js\")",
+      "Bash(npx --yes playwright screenshot --wait-for-timeout=2000 http://localhost:3000/ \"C:/Users/HP/AppData/Local/Temp/claude/c--Users-HP-Desktop-gowithporto/e466d8a2-039e-4ee7-a5e3-fd7cb6654ec1/scratchpad/home.png\")",
+      "Bash(npx --yes playwright screenshot --wait-for-timeout=2000 http://localhost:3000/admin/login \"C:/Users/HP/AppData/Local/Temp/claude/c--Users-HP-Desktop-gowithporto/e466d8a2-039e-4ee7-a5e3-fd7cb6654ec1/scratchpad/admin-login.png\")",
+      "Bash(powershell -Command \"Get-Process -Id 13748 | Select-Object Id,ProcessName,Path\")",
+      "Bash(powershell -Command \"Stop-Process -Id 13748 -Force\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\AppData\\Local\\Temp\\claude\\c--Users-HP-Desktop-gowithporto\\4536f8d8-8906-4193-933a-440626063762\\scratchpad"

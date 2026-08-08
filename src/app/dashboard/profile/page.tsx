@@ -88,7 +88,7 @@ export default function ProfileSettingsPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Your name"
-            className="w-full rounded-xl border border-black/10 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-[#2c6e9b] focus:ring-2 focus:ring-[#2c6e9b]/20 dark:border-white/15 dark:bg-white/5"
+            className="w-full rounded-xl border border-black/10 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-[#2c6e9b] focus:ring-2 focus:ring-[#2c6e9b]/20"
           />
         </div>
 
@@ -101,7 +101,7 @@ export default function ProfileSettingsPage() {
             type="email"
             value={session?.user?.email || ""}
             disabled
-            className="w-full cursor-not-allowed rounded-xl border border-black/10 bg-black/[0.03] px-3.5 py-2.5 text-sm text-gray-500 outline-none dark:border-white/10 dark:bg-white/5"
+            className="w-full cursor-not-allowed rounded-xl border border-black/10 bg-black/[0.03] px-3.5 py-2.5 text-sm text-gray-500 outline-none"
           />
           <p className="mt-1.5 text-xs text-gray-400">
             Your email is tied to your sign-in and can&apos;t be changed here.

@@ -7,7 +7,6 @@ import Header from "@/components/layout/Header";
 import AuthProvider from "@/providers/AuthProvider";
 import { LanguageProvider } from "@/providers/LanguageProvider";
 import ReduxProvider from "@/providers/ReduxProvider";
-import ThemeProvider from "@/providers/ThemeProvider";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -41,27 +40,25 @@ export default function RootLayout({
     >
       <body>
         <AuthProvider>
-          <ThemeProvider>
-            <ReduxProvider>
-              <LanguageProvider>
-                <Toaster
-                  position="top-right"
-                  toastOptions={{
-                    style: {
-                      borderRadius: "0.75rem",
-                      background: "var(--bg)",
-                      color: "var(--text)",
-                      boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
-                    },
-                    success: { iconTheme: { primary: "#2c6e9b", secondary: "#fff" } },
-                  }}
-                />
-                <Header />
-                {children}
-                <ConditionalFooter />
-              </LanguageProvider>
-            </ReduxProvider>
-          </ThemeProvider>
+          <ReduxProvider>
+            <LanguageProvider>
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  style: {
+                    borderRadius: "0.75rem",
+                    background: "var(--bg)",
+                    color: "var(--text)",
+                    boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
+                  },
+                  success: { iconTheme: { primary: "#2c6e9b", secondary: "#fff" } },
+                }}
+              />
+              <Header />
+              {children}
+              <ConditionalFooter />
+            </LanguageProvider>
+          </ReduxProvider>
         </AuthProvider>
       </body>
     </html>

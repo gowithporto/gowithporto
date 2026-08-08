@@ -43,9 +43,9 @@ type SortKey =
 const PAGE_SIZE = 10;
 
 const ROLE_STYLES: Record<string, string> = {
-  ADMIN: "bg-violet-50 text-violet-600 dark:bg-violet-500/10 dark:text-violet-400",
-  STORE_OWNER: "bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400",
-  USER: "bg-[#2c6e9b]/10 text-[#2c6e9b] dark:bg-[#5aa6d6]/10 dark:text-[#5aa6d6]",
+  ADMIN: "bg-violet-50 text-violet-600",
+  STORE_OWNER: "bg-amber-50 text-amber-600",
+  USER: "bg-[#2c6e9b]/10 text-[#2c6e9b]",
 };
 
 const ROLE_LABELS: Record<string, string> = {
@@ -201,25 +201,25 @@ export default function UsersPage() {
       label: "Total Users",
       value: summary.total.toLocaleString(),
       icon: UsersIcon,
-      color: "bg-[#2c6e9b]/10 text-[#2c6e9b] dark:bg-[#5aa6d6]/10 dark:text-[#5aa6d6]",
+      color: "bg-[#2c6e9b]/10 text-[#2c6e9b]",
     },
     {
       label: "Travelers",
       value: summary.travelers.toLocaleString(),
       icon: UserGroupIcon,
-      color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400",
+      color: "bg-emerald-50 text-emerald-600",
     },
     {
       label: "Store Owners",
       value: summary.storeOwners.toLocaleString(),
       icon: SparklesIcon,
-      color: "bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400",
+      color: "bg-amber-50 text-amber-600",
     },
     {
       label: "Admins",
       value: summary.admins.toLocaleString(),
       icon: ShieldCheckIcon,
-      color: "bg-violet-50 text-violet-600 dark:bg-violet-500/10 dark:text-violet-400",
+      color: "bg-violet-50 text-violet-600",
     },
   ];
 
@@ -237,16 +237,16 @@ export default function UsersPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c] dark:text-white sm:text-3xl">
+          <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c] sm:text-3xl">
             User Management
           </h1>
-          <p className="mt-1 text-sm text-black/50 dark:text-white/50">
+          <p className="mt-1 text-sm text-black/50">
             Every traveler, store owner and admin registered on GoWithPorto
           </p>
         </div>
         <button
           onClick={fetchUsers}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-black/40 transition hover:bg-black/5 hover:text-[#2c6e9b] dark:text-white/40 dark:hover:bg-white/5 cursor-pointer"
+          className="flex h-9 w-9 items-center justify-center rounded-full text-black/40 transition hover:bg-black/5 hover:text-[#2c6e9b] cursor-pointer"
         >
           <ArrowPathIcon className="h-5 w-5" />
         </button>
@@ -257,7 +257,7 @@ export default function UsersPage() {
         {summaryCards.map((c) => (
           <div
             key={c.label}
-            className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]"
+            className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm"
           >
             <div className="flex items-center gap-3">
               <span
@@ -268,11 +268,11 @@ export default function UsersPage() {
               >
                 <c.icon className="h-5 w-5" />
               </span>
-              <span className="text-sm text-black/50 dark:text-white/50">
+              <span className="text-sm text-black/50">
                 {c.label}
               </span>
             </div>
-            <p className="mt-3 text-2xl font-bold text-[#1d3d5c] dark:text-white">
+            <p className="mt-3 text-2xl font-bold text-[#1d3d5c]">
               {c.value}
             </p>
           </div>
@@ -280,24 +280,24 @@ export default function UsersPage() {
       </div>
 
       {/* Table card */}
-      <div className="rounded-2xl border border-black/5 bg-white shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/5 p-5 dark:border-white/10">
+      <div className="rounded-2xl border border-black/5 bg-white shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/5 p-5">
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2 rounded-xl border border-black/10 px-3 py-2 dark:border-white/15">
-              <MagnifyingGlassIcon className="h-4 w-4 text-black/30 dark:text-white/30" />
+            <div className="flex items-center gap-2 rounded-xl border border-black/10 px-3 py-2">
+              <MagnifyingGlassIcon className="h-4 w-4 text-black/30" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search name or email…"
-                className="w-48 bg-transparent text-sm text-[#1d3d5c] outline-none placeholder:text-black/30 dark:text-white dark:placeholder:text-white/30 sm:w-64"
+                className="w-48 bg-transparent text-sm text-[#1d3d5c] outline-none placeholder:text-black/30 sm:w-64"
               />
             </div>
 
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
-              className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm text-[#1d3d5c] outline-none cursor-pointer dark:border-white/15 dark:bg-transparent dark:text-white"
+              className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm text-[#1d3d5c] outline-none cursor-pointer"
             >
               <option value="ALL">All Roles</option>
               <option value="USER">Travelers</option>
@@ -310,7 +310,7 @@ export default function UsersPage() {
             type="button"
             onClick={() => downloadCSV(filtered)}
             disabled={filtered.length === 0}
-            className="flex items-center gap-2 rounded-xl border border-[#2c6e9b]/30 px-4 py-2 text-sm font-semibold text-[#2c6e9b] transition hover:bg-[#2c6e9b]/5 disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer dark:text-[#5aa6d6]"
+            className="flex items-center gap-2 rounded-xl border border-[#2c6e9b]/30 px-4 py-2 text-sm font-semibold text-[#2c6e9b] transition hover:bg-[#2c6e9b]/5 disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer"
           >
             <ArrowDownTrayIcon className="h-4 w-4" />
             Export CSV
@@ -318,11 +318,11 @@ export default function UsersPage() {
         </div>
 
         {loading ? (
-          <p className="p-10 text-center text-sm text-black/50 dark:text-white/50">
+          <p className="p-10 text-center text-sm text-black/50">
             Loading users...
           </p>
         ) : filtered.length === 0 ? (
-          <p className="p-10 text-center text-sm text-black/50 dark:text-white/50">
+          <p className="p-10 text-center text-sm text-black/50">
             No users found.
           </p>
         ) : (
@@ -330,13 +330,13 @@ export default function UsersPage() {
             <div className="overflow-x-auto">
               <table className="min-w-full">
                 <thead>
-                  <tr className="border-b border-black/5 dark:border-white/10">
+                  <tr className="border-b border-black/5">
                     {columns.map((col) => (
                       <th
                         key={col.key}
                         onClick={() => toggleSort(col.key)}
                         className={cn(
-                          "cursor-pointer px-5 py-3 text-xs font-medium tracking-wider text-black/40 uppercase select-none dark:text-white/40",
+                          "cursor-pointer px-5 py-3 text-xs font-medium tracking-wider text-black/40 uppercase select-none",
                           col.align === "right" ? "text-right" : "text-left",
                         )}
                       >
@@ -351,8 +351,8 @@ export default function UsersPage() {
                             className={cn(
                               "h-3 w-3",
                               sortKey === col.key
-                                ? "text-[#2c6e9b] dark:text-[#5aa6d6]"
-                                : "text-black/20 dark:text-white/20",
+                                ? "text-[#2c6e9b]"
+                                : "text-black/20",
                             )}
                           />
                         </span>
@@ -360,11 +360,11 @@ export default function UsersPage() {
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-black/5 dark:divide-white/10">
+                <tbody className="divide-y divide-black/5">
                   {pageItems.map((u) => (
                     <tr
                       key={u._id}
-                      className="hover:bg-black/[0.015] dark:hover:bg-white/[0.02]"
+                      className="hover:bg-black/[0.015]"
                     >
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
@@ -381,10 +381,10 @@ export default function UsersPage() {
                             )}
                           </div>
                           <div className="min-w-0">
-                            <p className="truncate text-sm font-semibold text-[#1d3d5c] dark:text-white">
+                            <p className="truncate text-sm font-semibold text-[#1d3d5c]">
                               {u.name || "Unnamed"}
                             </p>
-                            <p className="truncate text-xs text-black/40 dark:text-white/40">
+                            <p className="truncate text-xs text-black/40">
                               {u.email}
                             </p>
                           </div>
@@ -400,29 +400,29 @@ export default function UsersPage() {
                           {ROLE_LABELS[u.role] || u.role}
                         </span>
                       </td>
-                      <td className="whitespace-nowrap px-5 py-4 text-sm font-medium text-[#1d3d5c] dark:text-white">
+                      <td className="whitespace-nowrap px-5 py-4 text-sm font-medium text-[#1d3d5c]">
                         {u.credits}
                         {u.freeUsed && (
-                          <span className="ml-2 rounded-full bg-black/5 px-2 py-0.5 text-[10px] font-medium text-black/40 dark:bg-white/10 dark:text-white/40">
+                          <span className="ml-2 rounded-full bg-black/5 px-2 py-0.5 text-[10px] font-medium text-black/40">
                             trial used
                           </span>
                         )}
                       </td>
-                      <td className="whitespace-nowrap px-5 py-4 text-sm text-black/60 dark:text-white/60">
+                      <td className="whitespace-nowrap px-5 py-4 text-sm text-black/60">
                         {u.ordersCount}
                         {u.topUpsCount > 0 && (
-                          <span className="ml-1 text-xs text-black/30 dark:text-white/30">
+                          <span className="ml-1 text-xs text-black/30">
                             ({u.topUpsCount} top-ups)
                           </span>
                         )}
                       </td>
-                      <td className="whitespace-nowrap px-5 py-4 text-right text-sm font-semibold text-[#1d3d5c] dark:text-white">
+                      <td className="whitespace-nowrap px-5 py-4 text-right text-sm font-semibold text-[#1d3d5c]">
                         €{u.totalSpent.toFixed(2)}
                       </td>
-                      <td className="whitespace-nowrap px-5 py-4 text-sm text-black/60 dark:text-white/60">
+                      <td className="whitespace-nowrap px-5 py-4 text-sm text-black/60">
                         {u.aiPlansCount}
                       </td>
-                      <td className="whitespace-nowrap px-5 py-4 text-sm text-black/60 dark:text-white/60">
+                      <td className="whitespace-nowrap px-5 py-4 text-sm text-black/60">
                         {new Date(u.createdAt).toLocaleDateString()}
                       </td>
                     </tr>
@@ -432,8 +432,8 @@ export default function UsersPage() {
             </div>
 
             {totalPages > 1 && (
-              <div className="flex items-center justify-between gap-2 border-t border-black/5 p-4 dark:border-white/10">
-                <p className="text-xs text-black/40 dark:text-white/40">
+              <div className="flex items-center justify-between gap-2 border-t border-black/5 p-4">
+                <p className="text-xs text-black/40">
                   Showing {(page - 1) * PAGE_SIZE + 1}–
                   {Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length}
                 </p>
@@ -442,7 +442,7 @@ export default function UsersPage() {
                     type="button"
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-black/50 transition hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-40 dark:border-white/15 dark:text-white/50 dark:hover:bg-white/5 cursor-pointer"
+                    className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-black/50 transition hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer"
                   >
                     &laquo;
                   </button>
@@ -455,7 +455,7 @@ export default function UsersPage() {
                         "h-8 w-8 rounded-lg text-sm font-medium transition cursor-pointer",
                         n === page
                           ? "bg-[#2c6e9b] text-white"
-                          : "text-black/50 hover:bg-black/5 dark:text-white/50 dark:hover:bg-white/5",
+                          : "text-black/50 hover:bg-black/5",
                       )}
                     >
                       {n}
@@ -465,7 +465,7 @@ export default function UsersPage() {
                     type="button"
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
-                    className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-black/50 transition hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-40 dark:border-white/15 dark:text-white/50 dark:hover:bg-white/5 cursor-pointer"
+                    className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-black/50 transition hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer"
                   >
                     &raquo;
                   </button>

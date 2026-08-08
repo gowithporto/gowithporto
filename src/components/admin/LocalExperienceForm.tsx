@@ -71,7 +71,7 @@ function TextArea({
 }) {
   return (
     <div className="space-y-1">
-      <label className="block text-sm font-medium text-black/60 dark:text-white/60">
+      <label className="block text-sm font-medium text-black/60">
         {label}
       </label>
       <textarea
@@ -79,7 +79,7 @@ function TextArea({
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder:text-white/30"
+        className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
       />
     </div>
   );
@@ -109,7 +109,7 @@ function ListEditor({
   return (
     <div>
       <div className="mb-1 flex items-center justify-between">
-        <label className="block text-sm font-medium text-black/60 dark:text-white/60">
+        <label className="block text-sm font-medium text-black/60">
           {label}
         </label>
         <button
@@ -171,8 +171,8 @@ export default function LocalExperienceForm({
 
   return (
     <form onSubmit={submit} className="max-w-3xl space-y-8">
-      <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-        <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+      <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
+        <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
           Basic Info
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -219,8 +219,8 @@ export default function LocalExperienceForm({
         />
       </div>
 
-      <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-        <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+      <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
+        <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
           Booking Details
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -297,8 +297,8 @@ export default function LocalExperienceForm({
         />
       </div>
 
-      <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-        <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+      <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
+        <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
           Story
         </h2>
         <TextArea
@@ -322,11 +322,11 @@ export default function LocalExperienceForm({
         />
       </div>
 
-      <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-        <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+      <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
+        <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
           Photos
         </h2>
-        <p className="text-xs text-black/40 dark:text-white/40">
+        <p className="text-xs text-black/40">
           The first photo is used as the cover image on the listing card and
           detail page hero.
         </p>
@@ -337,8 +337,8 @@ export default function LocalExperienceForm({
         />
       </div>
 
-      <div className="flex flex-wrap items-center gap-6 rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-        <label className="flex cursor-pointer items-center gap-2 text-sm text-[var(--text)] dark:text-white/80">
+      <div className="flex flex-wrap items-center gap-6 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
+        <label className="flex cursor-pointer items-center gap-2 text-sm text-[var(--text)]">
           <input
             type="checkbox"
             checked={form.popular}
@@ -347,7 +347,7 @@ export default function LocalExperienceForm({
           />
           Mark as Popular
         </label>
-        <label className="flex cursor-pointer items-center gap-2 text-sm text-[var(--text)] dark:text-white/80">
+        <label className="flex cursor-pointer items-center gap-2 text-sm text-[var(--text)]">
           <input
             type="checkbox"
             checked={form.featured}
@@ -356,7 +356,7 @@ export default function LocalExperienceForm({
           />
           Featured on homepage
         </label>
-        <label className="flex cursor-pointer items-center gap-2 text-sm text-[var(--text)] dark:text-white/80">
+        <label className="flex cursor-pointer items-center gap-2 text-sm text-[var(--text)]">
           <input
             type="checkbox"
             checked={form.active}

@@ -57,20 +57,20 @@ const STATUS_STYLES: Record<string, { label: string; className: string }> = {
   shipped: {
     label: "Completed",
     className:
-      "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400",
+      "bg-emerald-50 text-emerald-600",
   },
   paid: {
     label: "Processing",
-    className: "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400",
+    className: "bg-blue-50 text-blue-600",
   },
   pending: {
     label: "Pending",
     className:
-      "bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400",
+      "bg-amber-50 text-amber-600",
   },
   cancelled: {
     label: "Cancelled",
-    className: "bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400",
+    className: "bg-red-50 text-red-600",
   },
 };
 
@@ -79,7 +79,7 @@ function statusBadge(status: string) {
   return (
     STATUS_STYLES[key] || {
       label: status || "Unknown",
-      className: "bg-black/5 text-black/50 dark:bg-white/10 dark:text-white/50",
+      className: "bg-black/5 text-black/50",
     }
   );
 }
@@ -350,12 +350,12 @@ export default function AdminDashboardPage() {
       label: "Total Revenue",
       value: formatEuro(stats.totalRevenue),
       icon: CurrencyEuroIcon,
-      color: "bg-emerald-50 text-emerald-500 dark:bg-emerald-500/10 dark:text-emerald-400",
+      color: "bg-emerald-50 text-emerald-500",
       spark: stats.revenueSpark,
       sparkColor: "#10b981",
       subtitle:
         stats.revenueDelta === null ? (
-          <span className="text-black/40 dark:text-white/40">
+          <span className="text-black/40">
             Not enough data yet
           </span>
         ) : (
@@ -363,7 +363,7 @@ export default function AdminDashboardPage() {
             className={cn(
               "font-medium",
               stats.revenueDelta >= 0
-                ? "text-emerald-600 dark:text-emerald-400"
+                ? "text-emerald-600"
                 : "text-red-500",
             )}
           >
@@ -376,11 +376,11 @@ export default function AdminDashboardPage() {
       label: "Active Stores",
       value: stats.activeStores.toLocaleString(),
       icon: BuildingStorefrontIcon,
-      color: "bg-blue-50 text-blue-500 dark:bg-blue-500/10 dark:text-blue-400",
+      color: "bg-blue-50 text-blue-500",
       spark: stats.storesSpark,
       sparkColor: "#3b82f6",
       subtitle: (
-        <span className="font-medium text-emerald-600 dark:text-emerald-400">
+        <span className="font-medium text-emerald-600">
           ↑ {stats.newStores30} new stores
         </span>
       ),
@@ -389,11 +389,11 @@ export default function AdminDashboardPage() {
       label: "Total Orders",
       value: stats.totalOrders.toLocaleString(),
       icon: ShoppingBagIcon,
-      color: "bg-violet-50 text-violet-500 dark:bg-violet-500/10 dark:text-violet-400",
+      color: "bg-violet-50 text-violet-500",
       spark: stats.ordersSpark,
       sparkColor: "#8b5cf6",
       subtitle: (
-        <span className="font-medium text-emerald-600 dark:text-emerald-400">
+        <span className="font-medium text-emerald-600">
           ↑ {stats.ordersToday} today
         </span>
       ),
@@ -402,11 +402,11 @@ export default function AdminDashboardPage() {
       label: "Total Users",
       value: stats.totalUsers.toLocaleString(),
       icon: UserGroupIcon,
-      color: "bg-amber-50 text-amber-500 dark:bg-amber-500/10 dark:text-amber-400",
+      color: "bg-amber-50 text-amber-500",
       spark: stats.usersSpark,
       sparkColor: "#f59e0b",
       subtitle: (
-        <span className="font-medium text-emerald-600 dark:text-emerald-400">
+        <span className="font-medium text-emerald-600">
           ↑ {stats.newUsers30} new users
         </span>
       ),
@@ -423,12 +423,12 @@ export default function AdminDashboardPage() {
           className="h-40 w-full object-cover object-right sm:h-44"
           priority
         />
-        <div className="absolute inset-0 bg-linear-to-r from-white via-white/70 to-transparent dark:from-[#0b1219] dark:via-[#0b1219]/60" />
+        <div className="absolute inset-0 bg-linear-to-r from-white via-white/70 to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-10">
-          <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c] dark:text-white sm:text-3xl">
+          <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c] sm:text-3xl">
             Welcome back, {session?.user?.name || "Admin"}! 👋
           </h1>
-          <p className="mt-1 text-sm text-[#3d4f5c] dark:text-white/70">
+          <p className="mt-1 text-sm text-[#3d4f5c]">
             Here&apos;s what&apos;s happening on your platform today.
           </p>
         </div>
@@ -439,7 +439,7 @@ export default function AdminDashboardPage() {
         {statCards.map((c) => (
           <div
             key={c.label}
-            className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]"
+            className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm"
           >
             <div className="flex items-center gap-3">
               <span
@@ -450,11 +450,11 @@ export default function AdminDashboardPage() {
               >
                 <c.icon className="h-5 w-5" />
               </span>
-              <span className="text-sm text-black/50 dark:text-white/50">
+              <span className="text-sm text-black/50">
                 {c.label}
               </span>
             </div>
-            <p className="mt-3 text-2xl font-bold text-[#1d3d5c] dark:text-white">
+            <p className="mt-3 text-2xl font-bold text-[#1d3d5c]">
               {c.value}
             </p>
             <p className="mt-1 text-xs">{c.subtitle}</p>
@@ -468,20 +468,20 @@ export default function AdminDashboardPage() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Revenue overview + recent orders */}
         <div className="space-y-6 lg:col-span-2">
-          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
+          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+                <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
                   Revenue Overview
                 </h2>
-                <p className="mt-0.5 text-xl font-bold text-[#1d3d5c] dark:text-white">
+                <p className="mt-0.5 text-xl font-bold text-[#1d3d5c]">
                   {formatEuro(stats.totalRevenue)}
                 </p>
               </div>
               <select
                 value={rangeDays}
                 onChange={(e) => setRangeDays(Number(e.target.value))}
-                className="rounded-lg border border-black/10 bg-white px-3 py-1.5 text-sm text-[#3d4f5c] dark:border-white/15 dark:bg-white/5 dark:text-white"
+                className="rounded-lg border border-black/10 bg-white px-3 py-1.5 text-sm text-[#3d4f5c]"
               >
                 {RANGE_OPTIONS.map((o) => (
                   <option key={o.days} value={o.days}>
@@ -492,7 +492,7 @@ export default function AdminDashboardPage() {
             </div>
             <div className="mt-2">
               {loading ? (
-                <div className="flex h-65 items-center justify-center text-sm text-black/40 dark:text-white/40">
+                <div className="flex h-65 items-center justify-center text-sm text-black/40">
                   Loading chart...
                 </div>
               ) : (
@@ -501,9 +501,9 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
+          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+              <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
                 Recent Orders
               </h2>
               <Link
@@ -515,11 +515,11 @@ export default function AdminDashboardPage() {
             </div>
 
             {recentOrders.length === 0 ? (
-              <p className="mt-6 text-center text-sm text-black/40 dark:text-white/40">
+              <p className="mt-6 text-center text-sm text-black/40">
                 {loading ? "Loading orders..." : "No orders yet."}
               </p>
             ) : (
-              <div className="mt-3 divide-y divide-black/5 dark:divide-white/5">
+              <div className="mt-3 divide-y divide-black/5">
                 {recentOrders.map((o) => {
                   const badge = statusBadge(o.status);
                   const store =
@@ -532,10 +532,10 @@ export default function AdminDashboardPage() {
                       className="flex items-center justify-between gap-3 py-3"
                     >
                       <div className="min-w-0">
-                        <p className="font-medium text-[#1d3d5c] dark:text-white">
+                        <p className="font-medium text-[#1d3d5c]">
                           #{o._id.slice(-6).toUpperCase()}
                         </p>
-                        <p className="truncate text-xs text-black/40 dark:text-white/40">
+                        <p className="truncate text-xs text-black/40">
                           {store || o.userEmail}
                         </p>
                       </div>
@@ -548,10 +548,10 @@ export default function AdminDashboardPage() {
                         {badge.label}
                       </span>
                       <div className="shrink-0 text-right">
-                        <p className="font-medium text-[#1d3d5c] dark:text-white">
+                        <p className="font-medium text-[#1d3d5c]">
                           {formatEuro(o.total)}
                         </p>
-                        <p className="text-xs text-black/40 dark:text-white/40">
+                        <p className="text-xs text-black/40">
                           {timeAgo(o.createdAt)}
                         </p>
                       </div>
@@ -565,8 +565,8 @@ export default function AdminDashboardPage() {
 
         {/* Platform summary + system status */}
         <div className="space-y-6">
-          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-            <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
+            <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
               Platform Summary
             </h2>
             <div className="mt-4">
@@ -578,17 +578,17 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
+          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+              <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
                 System Status
               </h2>
               <span
                 className={cn(
                   "rounded-full px-2.5 py-1 text-xs font-medium",
                   allOperational
-                    ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400"
-                    : "bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400",
+                    ? "bg-emerald-50 text-emerald-600"
+                    : "bg-amber-50 text-amber-600",
                 )}
               >
                 {allOperational ? "All Systems Operational" : "Degraded"}
@@ -597,7 +597,7 @@ export default function AdminDashboardPage() {
             <div className="mt-3 space-y-2.5">
               {systemChecks.map((c) => (
                 <div key={c.name} className="flex items-center justify-between">
-                  <span className="flex items-center gap-2 text-sm text-black/60 dark:text-white/60">
+                  <span className="flex items-center gap-2 text-sm text-black/60">
                     {c.ok ? (
                       <CheckCircleIcon className="h-4 w-4 text-emerald-500" />
                     ) : (
@@ -609,7 +609,7 @@ export default function AdminDashboardPage() {
                     className={cn(
                       "text-xs font-medium",
                       c.ok
-                        ? "text-emerald-600 dark:text-emerald-400"
+                        ? "text-emerald-600"
                         : "text-red-500",
                     )}
                   >
@@ -624,19 +624,19 @@ export default function AdminDashboardPage() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Top performing stores */}
-        <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm lg:col-span-2 dark:border-white/10 dark:bg-[#111c27]">
-          <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+        <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm lg:col-span-2">
+          <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
             Top Performing Stores
           </h2>
           {topStores.length === 0 ? (
-            <p className="mt-6 text-center text-sm text-black/40 dark:text-white/40">
+            <p className="mt-6 text-center text-sm text-black/40">
               {loading ? "Loading stores..." : "No store revenue yet."}
             </p>
           ) : (
             <div className="mt-3 overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-black/5 text-left text-xs tracking-wide text-black/40 uppercase dark:border-white/10 dark:text-white/40">
+                  <tr className="border-b border-black/5 text-left text-xs tracking-wide text-black/40 uppercase">
                     <th className="py-2 pr-4 font-medium">Store</th>
                     <th className="py-2 pr-4 font-medium">Total Orders</th>
                     <th className="py-2 pr-4 font-medium">Revenue</th>
@@ -647,27 +647,27 @@ export default function AdminDashboardPage() {
                   {topStores.map((s, idx) => (
                     <tr
                       key={s.name + idx}
-                      className="border-b border-black/5 last:border-0 dark:border-white/5"
+                      className="border-b border-black/5 last:border-0"
                     >
                       <td className="py-3 pr-4">
                         <div className="flex items-center gap-3">
                           <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#eab657]/15 text-xs font-bold text-[#b8863a]">
                             {idx + 1}
                           </span>
-                          <span className="font-medium text-[#1d3d5c] dark:text-white">
+                          <span className="font-medium text-[#1d3d5c]">
                             {s.name}
                           </span>
                         </div>
                       </td>
-                      <td className="py-3 pr-4 text-black/60 dark:text-white/60">
+                      <td className="py-3 pr-4 text-black/60">
                         {s.count}
                       </td>
                       <td className="py-3 pr-4">
                         <div className="space-y-1">
-                          <span className="font-medium text-[#1d3d5c] dark:text-white">
+                          <span className="font-medium text-[#1d3d5c]">
                             {formatEuro(s.total)}
                           </span>
-                          <div className="h-1.5 w-32 overflow-hidden rounded-full bg-black/5 dark:bg-white/10">
+                          <div className="h-1.5 w-32 overflow-hidden rounded-full bg-black/5">
                             <div
                               className="h-full rounded-full bg-[#2c6e9b]"
                               style={{
@@ -677,7 +677,7 @@ export default function AdminDashboardPage() {
                           </div>
                         </div>
                       </td>
-                      <td className="py-3 pr-4 text-black/60 dark:text-white/60">
+                      <td className="py-3 pr-4 text-black/60">
                         {formatEuro(s.total / s.count)}
                       </td>
                     </tr>
@@ -689,8 +689,8 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Quick actions */}
-        <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-          <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+        <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
+          <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
             Quick Actions
           </h2>
           <div className="mt-3 space-y-1">
@@ -733,16 +733,16 @@ function QuickAction({
   return (
     <Link
       href={href}
-      className="flex items-center gap-3 rounded-xl px-2 py-3 transition hover:bg-black/3 dark:hover:bg-white/5"
+      className="flex items-center gap-3 rounded-xl px-2 py-3 transition hover:bg-black/3"
     >
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#2c6e9b]/10 text-[#2c6e9b]">
         <Icon className="h-5 w-5" />
       </span>
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium text-[#1d3d5c] dark:text-white">
+        <p className="text-sm font-medium text-[#1d3d5c]">
           {title}
         </p>
-        <p className="truncate text-xs text-black/40 dark:text-white/40">
+        <p className="truncate text-xs text-black/40">
           {subtitle}
         </p>
       </div>

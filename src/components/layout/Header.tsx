@@ -1,6 +1,5 @@
 "use client";
 
-import ThemeToggle from "@/components/ui/ThemeToggle";
 import { t } from "@/i18n";
 import { useLanguage } from "@/providers/LanguageProvider";
 import { RootState } from "@/store";
@@ -40,11 +39,8 @@ export default function Header() {
 
         {/* Center Nav */}
         <nav className="grid w-full grid-cols-3 items-center">
-          {/* LEFT — Theme + Language */}
+          {/* LEFT — Language */}
           <div className="flex items-center gap-3 pl-6 mt-20 sm:mt-0">
-            {/* Theme */}
-            <ThemeToggle />
-
             {/* Language Selector */}
             <select
               value={lang}

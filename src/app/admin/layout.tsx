@@ -19,13 +19,13 @@ export default function AdminLayout({
 
   return (
     <AdminGuard>
-      <div className="flex h-screen overflow-hidden bg-[#f4f6f9] dark:bg-[#0b1219]">
+      <div className="flex h-screen overflow-hidden bg-[#f4f6f9]">
         <AdminSidebar />
         <div className="flex flex-1 flex-col overflow-hidden">
           <AdminTopbar />
           <main className="flex-1 overflow-y-auto p-6 lg:p-8">
             {children}
-            <p className="mt-10 pb-2 text-center text-xs text-black/30 dark:text-white/30">
+            <p className="mt-10 pb-2 text-center text-xs text-black/30">
               © {new Date().getFullYear()} GoWithPorto Admin Portal. All
               rights reserved.
             </p>

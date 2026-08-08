@@ -76,10 +76,10 @@ export default function EditLocalExperiencePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c] dark:text-white">
+        <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c]">
           Edit Local Experience
         </h1>
-        <p className="mt-1 text-sm text-black/50 dark:text-white/50">
+        <p className="mt-1 text-sm text-black/50">
           Update this experience&apos;s details.
         </p>
       </div>

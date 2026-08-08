@@ -112,7 +112,7 @@ export default function SalesChart({ data }: { data: Point[] }) {
               y1={yFor(t)}
               y2={yFor(t)}
               stroke="currentColor"
-              className="text-black/[0.06] dark:text-white/[0.08]"
+              className="text-black/[0.06]"
               strokeWidth={1}
             />
             <text
@@ -120,7 +120,7 @@ export default function SalesChart({ data }: { data: Point[] }) {
               y={yFor(t)}
               textAnchor="end"
               dominantBaseline="middle"
-              className="fill-black/40 text-[11px] dark:fill-white/40"
+              className="fill-black/40 text-[11px]"
             >
               {formatEuro(t)}
             </text>
@@ -135,7 +135,7 @@ export default function SalesChart({ data }: { data: Point[] }) {
               x={xFor(i)}
               y={HEIGHT - 8}
               textAnchor="middle"
-              className="fill-black/40 text-[11px] dark:fill-white/40"
+              className="fill-black/40 text-[11px]"
             >
               {d.date.toLocaleDateString(undefined, {
                 month: "short",
@@ -178,7 +178,7 @@ export default function SalesChart({ data }: { data: Point[] }) {
               fill={CHART_COLOR}
               stroke="white"
               strokeWidth={2}
-              className="dark:stroke-[#111c27]"
+              className=""
             />
           </>
         )}
@@ -186,20 +186,20 @@ export default function SalesChart({ data }: { data: Point[] }) {
 
       {hover && (
         <div
-          className="pointer-events-none absolute top-2 z-10 min-w-max rounded-lg border border-black/5 bg-white px-3 py-2 text-xs shadow-lg dark:border-white/10 dark:bg-[#1a2733]"
+          className="pointer-events-none absolute top-2 z-10 min-w-max rounded-lg border border-black/5 bg-white px-3 py-2 text-xs shadow-lg"
           style={{
             left: tooltipFlip ? undefined : tooltipLeft + 12,
             right: tooltipFlip ? width - tooltipLeft + 12 : undefined,
           }}
         >
-          <p className="text-black/50 dark:text-white/50">
+          <p className="text-black/50">
             {hover.date.toLocaleDateString(undefined, {
               month: "long",
               day: "numeric",
               year: "numeric",
             })}
           </p>
-          <p className="font-semibold text-[#1d3d5c] dark:text-white">
+          <p className="font-semibold text-[#1d3d5c]">
             {formatEuro(hover.value)}
           </p>
         </div>

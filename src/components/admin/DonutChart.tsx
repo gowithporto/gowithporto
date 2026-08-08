@@ -28,11 +28,11 @@ export default function DonutChart({
         className="relative h-32 w-32 shrink-0 rounded-full"
         style={{ background: gradient }}
       >
-        <div className="absolute inset-3 flex flex-col items-center justify-center rounded-full bg-white text-center dark:bg-[#111c27]">
-          <span className="text-lg font-bold text-[#1d3d5c] dark:text-white">
+        <div className="absolute inset-3 flex flex-col items-center justify-center rounded-full bg-white text-center">
+          <span className="text-lg font-bold text-[#1d3d5c]">
             {centerValue}
           </span>
-          <span className="text-[10px] text-black/40 dark:text-white/40">
+          <span className="text-[10px] text-black/40">
             {centerLabel}
           </span>
         </div>
@@ -41,7 +41,7 @@ export default function DonutChart({
       <ul className="flex-1 space-y-2 text-sm">
         {slices.map((s) => (
           <li key={s.label} className="flex items-center justify-between gap-2">
-            <span className="flex items-center gap-2 text-black/60 dark:text-white/60">
+            <span className="flex items-center gap-2 text-black/60">
               <span
                 className="h-2.5 w-2.5 shrink-0 rounded-full"
                 style={{ backgroundColor: s.color }}
@@ -49,10 +49,10 @@ export default function DonutChart({
               {s.label}
             </span>
             <span className="whitespace-nowrap">
-              <span className="font-semibold text-[#1d3d5c] dark:text-white">
+              <span className="font-semibold text-[#1d3d5c]">
                 {total > 0 ? Math.round((s.value / total) * 100) : 0}%
               </span>
-              <span className="ml-1.5 text-xs text-black/40 dark:text-white/40">
+              <span className="ml-1.5 text-xs text-black/40">
                 {s.value}
               </span>
             </span>

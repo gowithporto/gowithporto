@@ -33,12 +33,12 @@ export default function StoreOwnerSidebar() {
   const { data: session } = useSession();
 
   return (
-    <aside className="hidden w-64 shrink-0 flex-col border-r border-black/5 bg-white px-4 py-8 dark:border-white/10 dark:bg-[#0f1a24] lg:flex">
+    <aside className="hidden w-64 shrink-0 flex-col border-r border-black/5 bg-white px-4 py-8 lg:flex">
       <div className="flex flex-col items-center px-2 text-center">
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#2c6e9b]/10">
           <BuildingStorefrontIcon className="h-8 w-8 text-[#2c6e9b]" />
         </div>
-        <p className="mt-3 font-serif text-lg font-semibold text-[#1d3d5c] dark:text-white">
+        <p className="mt-3 font-serif text-lg font-semibold text-[#1d3d5c]">
           {session?.user?.storeName || "Store Owner"}
         </p>
         <div className="mt-2 flex items-center gap-2 text-[#eab657]">
@@ -62,7 +62,7 @@ export default function StoreOwnerSidebar() {
                 "flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition",
                 active
                   ? "bg-[#2c6e9b] text-white shadow-sm"
-                  : "text-[#3d4f5c] hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/5",
+                  : "text-[#3d4f5c] hover:bg-black/5",
               )}
             >
               <Icon className="h-5 w-5" />
@@ -76,7 +76,7 @@ export default function StoreOwnerSidebar() {
             key={l.label}
             type="button"
             onClick={() => toast("Coming soon!")}
-            className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm font-medium text-[#3d4f5c]/50 transition hover:bg-black/5 dark:text-white/40 dark:hover:bg-white/5"
+            className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm font-medium text-[#3d4f5c]/50 transition hover:bg-black/5"
           >
             <l.icon className="h-5 w-5" />
             {l.label}

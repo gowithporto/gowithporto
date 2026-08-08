@@ -50,11 +50,11 @@ const RANGE_OPTIONS = [
 const STATUS_STYLES: Record<string, { label: string; className: string }> = {
   shipped: {
     label: "Completed",
-    className: "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400",
+    className: "bg-emerald-50 text-emerald-600",
   },
   paid: {
     label: "Processing",
-    className: "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400",
+    className: "bg-blue-50 text-blue-600",
   },
 };
 
@@ -62,7 +62,7 @@ function statusBadge(status: string) {
   return (
     STATUS_STYLES[status] || {
       label: status.charAt(0).toUpperCase() + status.slice(1),
-      className: "bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400",
+      className: "bg-amber-50 text-amber-600",
     }
   );
 }
@@ -205,7 +205,7 @@ export default function StoreOwnerDashboard() {
       value: stats.totalOrders.toLocaleString(),
       delta: stats.ordersDelta,
       icon: ShoppingBagIcon,
-      color: "bg-blue-50 text-blue-500 dark:bg-blue-500/10 dark:text-blue-400",
+      color: "bg-blue-50 text-blue-500",
     },
     {
       label: "Total Revenue",
@@ -213,7 +213,7 @@ export default function StoreOwnerDashboard() {
       delta: stats.revenueDelta,
       icon: CurrencyEuroIcon,
       color:
-        "bg-emerald-50 text-emerald-500 dark:bg-emerald-500/10 dark:text-emerald-400",
+        "bg-emerald-50 text-emerald-500",
     },
     {
       label: "Avg. Order Value",
@@ -221,7 +221,7 @@ export default function StoreOwnerDashboard() {
       delta: stats.avgDelta,
       icon: WalletIcon,
       color:
-        "bg-violet-50 text-violet-500 dark:bg-violet-500/10 dark:text-violet-400",
+        "bg-violet-50 text-violet-500",
     },
   ];
 
@@ -235,12 +235,12 @@ export default function StoreOwnerDashboard() {
           className="h-40 w-full object-cover sm:h-48"
           priority
         />
-        <div className="absolute inset-0 bg-linear-to-r from-white via-white/70 to-transparent dark:from-[#0b1219] dark:via-[#0b1219]/60" />
+        <div className="absolute inset-0 bg-linear-to-r from-white via-white/70 to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-10">
-          <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c] dark:text-white sm:text-3xl">
+          <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c] sm:text-3xl">
             Store Owner Dashboard
           </h1>
-          <p className="mt-1 text-sm text-[#3d4f5c] dark:text-white/70">
+          <p className="mt-1 text-sm text-[#3d4f5c]">
             Manage your store, orders, and payouts.
           </p>
         </div>
@@ -251,7 +251,7 @@ export default function StoreOwnerDashboard() {
         {statCards.map((c) => (
           <div
             key={c.label}
-            className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]"
+            className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm"
           >
             <div className="flex items-center gap-3">
               <span
@@ -262,30 +262,30 @@ export default function StoreOwnerDashboard() {
               >
                 <c.icon className="h-5 w-5" />
               </span>
-              <span className="text-sm text-black/50 dark:text-white/50">
+              <span className="text-sm text-black/50">
                 {c.label}
               </span>
             </div>
-            <p className="mt-3 text-2xl font-bold text-[#1d3d5c] dark:text-white">
+            <p className="mt-3 text-2xl font-bold text-[#1d3d5c]">
               {c.value}
             </p>
             <DeltaLabel delta={c.delta} rangeDays={rangeDays} />
           </div>
         ))}
 
-        <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
+        <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-50 text-amber-500 dark:bg-amber-500/10 dark:text-amber-400">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-50 text-amber-500">
               <ArchiveBoxIcon className="h-5 w-5" />
             </span>
-            <span className="text-sm text-black/50 dark:text-white/50">
+            <span className="text-sm text-black/50">
               Pending Payouts
             </span>
           </div>
-          <p className="mt-3 text-2xl font-bold text-[#1d3d5c] dark:text-white">
+          <p className="mt-3 text-2xl font-bold text-[#1d3d5c]">
             {formatEuro(stats.pendingPayouts)}
           </p>
-          <p className="mt-1 text-xs text-black/40 dark:text-white/40">
+          <p className="mt-1 text-xs text-black/40">
             {stats.pendingCount === 0
               ? "No orders awaiting payout"
               : `${stats.pendingCount} order${stats.pendingCount === 1 ? "" : "s"} awaiting payout`}
@@ -296,15 +296,15 @@ export default function StoreOwnerDashboard() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Sales overview + recent orders */}
         <div className="space-y-6 lg:col-span-2">
-          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
+          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+              <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
                 Sales Overview
               </h2>
               <select
                 value={rangeDays}
                 onChange={(e) => setRangeDays(Number(e.target.value))}
-                className="rounded-lg border border-black/10 bg-white px-3 py-1.5 text-sm text-[#3d4f5c] dark:border-white/15 dark:bg-white/5 dark:text-white"
+                className="rounded-lg border border-black/10 bg-white px-3 py-1.5 text-sm text-[#3d4f5c]"
               >
                 {RANGE_OPTIONS.map((o) => (
                   <option key={o.days} value={o.days}>
@@ -315,7 +315,7 @@ export default function StoreOwnerDashboard() {
             </div>
             <div className="mt-2">
               {loading ? (
-                <div className="flex h-65 items-center justify-center text-sm text-black/40 dark:text-white/40">
+                <div className="flex h-65 items-center justify-center text-sm text-black/40">
                   Loading chart...
                 </div>
               ) : (
@@ -324,9 +324,9 @@ export default function StoreOwnerDashboard() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
+          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+              <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
                 Recent Orders
               </h2>
               <Link
@@ -338,14 +338,14 @@ export default function StoreOwnerDashboard() {
             </div>
 
             {recentOrders.length === 0 ? (
-              <p className="mt-6 text-center text-sm text-black/40 dark:text-white/40">
+              <p className="mt-6 text-center text-sm text-black/40">
                 {loading ? "Loading orders..." : "No orders yet for your store."}
               </p>
             ) : (
               <div className="mt-3 overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-black/5 text-left text-xs tracking-wide text-black/40 uppercase dark:border-white/10 dark:text-white/40">
+                    <tr className="border-b border-black/5 text-left text-xs tracking-wide text-black/40 uppercase">
                       <th className="py-2 pr-4 font-medium">Order ID</th>
                       <th className="py-2 pr-4 font-medium">Customer</th>
                       <th className="py-2 pr-4 font-medium">Date</th>
@@ -361,15 +361,15 @@ export default function StoreOwnerDashboard() {
                       return (
                         <tr
                           key={o._id}
-                          className="border-b border-black/5 last:border-0 dark:border-white/5"
+                          className="border-b border-black/5 last:border-0"
                         >
-                          <td className="py-3 pr-4 font-medium text-[#1d3d5c] dark:text-white">
+                          <td className="py-3 pr-4 font-medium text-[#1d3d5c]">
                             #{o._id.slice(-6).toUpperCase()}
                           </td>
-                          <td className="py-3 pr-4 text-black/60 dark:text-white/60">
+                          <td className="py-3 pr-4 text-black/60">
                             {o.address?.name || o.userEmail}
                           </td>
-                          <td className="py-3 pr-4 text-black/50 dark:text-white/50">
+                          <td className="py-3 pr-4 text-black/50">
                             {new Date(o.createdAt).toLocaleDateString(undefined, {
                               month: "short",
                               day: "numeric",
@@ -386,7 +386,7 @@ export default function StoreOwnerDashboard() {
                               {badge.label}
                             </span>
                           </td>
-                          <td className="py-3 pr-4 text-right font-medium text-[#1d3d5c] dark:text-white">
+                          <td className="py-3 pr-4 text-right font-medium text-[#1d3d5c]">
                             {formatEuro(orderRevenue(o))}
                           </td>
                         </tr>
@@ -401,8 +401,8 @@ export default function StoreOwnerDashboard() {
 
         {/* Quick actions + payout balance */}
         <div className="space-y-6">
-          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-            <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
+          <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
+            <h2 className="font-serif text-lg font-medium text-[#1d3d5c]">
               Quick Actions
             </h2>
             <div className="mt-3 space-y-1">
@@ -481,14 +481,14 @@ function DeltaLabel({
 }) {
   if (delta === null) {
     return (
-      <p className="mt-1 text-xs text-black/40 dark:text-white/40">
+      <p className="mt-1 text-xs text-black/40">
         New this period
       </p>
     );
   }
   if (delta === 0) {
     return (
-      <p className="mt-1 flex items-center gap-1 text-xs text-black/40 dark:text-white/40">
+      <p className="mt-1 flex items-center gap-1 text-xs text-black/40">
         <MinusIcon className="h-3 w-3" /> No change
       </p>
     );
@@ -499,7 +499,7 @@ function DeltaLabel({
     <p
       className={cn(
         "mt-1 flex items-center gap-1 text-xs font-medium",
-        up ? "text-emerald-600 dark:text-emerald-400" : "text-red-500",
+        up ? "text-emerald-600" : "text-red-500",
       )}
     >
       <Icon className="h-3 w-3" /> {Math.abs(delta).toFixed(1)}% vs last{" "}
@@ -522,19 +522,19 @@ function QuickAction({
   subtitle: string;
 }) {
   const content = (
-    <div className="flex items-center gap-3 rounded-xl px-2 py-3 transition hover:bg-black/3 dark:hover:bg-white/5">
+    <div className="flex items-center gap-3 rounded-xl px-2 py-3 transition hover:bg-black/3">
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#2c6e9b]/10 text-[#2c6e9b]">
         <Icon className="h-5 w-5" />
       </span>
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium text-[#1d3d5c] dark:text-white">
+        <p className="text-sm font-medium text-[#1d3d5c]">
           {title}
         </p>
-        <p className="truncate text-xs text-black/40 dark:text-white/40">
+        <p className="truncate text-xs text-black/40">
           {subtitle}
         </p>
       </div>
-      <ArrowRightIcon className="h-4 w-4 text-black/20 dark:text-white/20" />
+      <ArrowRightIcon className="h-4 w-4 text-black/20" />
     </div>
   );
 

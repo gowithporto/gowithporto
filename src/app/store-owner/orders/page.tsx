@@ -49,11 +49,11 @@ const STATUS_STYLES: Record<string, { label: string; className: string }> = {
   shipped: {
     label: "Completed",
     className:
-      "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400",
+      "bg-emerald-50 text-emerald-600",
   },
   paid: {
     label: "Processing",
-    className: "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400",
+    className: "bg-blue-50 text-blue-600",
   },
 };
 
@@ -62,7 +62,7 @@ function statusBadge(status: string) {
     STATUS_STYLES[status] || {
       label: status.charAt(0).toUpperCase() + status.slice(1),
       className:
-        "bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400",
+        "bg-amber-50 text-amber-600",
     }
   );
 }
@@ -146,10 +146,10 @@ export default function StoreOwnerOrdersPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c] dark:text-white">
+        <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c]">
           Orders
         </h1>
-        <p className="mt-1 text-sm text-black/50 dark:text-white/50">
+        <p className="mt-1 text-sm text-black/50">
           Track and fulfil orders placed with your store.
         </p>
       </div>
@@ -160,43 +160,43 @@ export default function StoreOwnerOrdersPage() {
           icon={ClipboardDocumentListIcon}
           label="Total Orders"
           value={stats.total}
-          color="bg-blue-50 text-blue-500 dark:bg-blue-500/10 dark:text-blue-400"
+          color="bg-blue-50 text-blue-500"
         />
         <StatCard
           icon={ClockIcon}
           label="Processing"
           value={stats.processing}
-          color="bg-amber-50 text-amber-500 dark:bg-amber-500/10 dark:text-amber-400"
+          color="bg-amber-50 text-amber-500"
         />
         <StatCard
           icon={CheckCircleIcon}
           label="Completed"
           value={stats.completed}
-          color="bg-emerald-50 text-emerald-500 dark:bg-emerald-500/10 dark:text-emerald-400"
+          color="bg-emerald-50 text-emerald-500"
         />
         <StatCard
           icon={CurrencyEuroIcon}
           label="Total Revenue"
           value={formatEuro(stats.revenue)}
-          color="bg-violet-50 text-violet-500 dark:bg-violet-500/10 dark:text-violet-400"
+          color="bg-violet-50 text-violet-500"
         />
       </div>
 
       {/* Search + filter */}
-      <div className="flex flex-col gap-3 rounded-2xl border border-black/5 bg-white p-4 shadow-sm sm:flex-row sm:items-center dark:border-white/10 dark:bg-[#111c27]">
+      <div className="flex flex-col gap-3 rounded-2xl border border-black/5 bg-white p-4 shadow-sm sm:flex-row sm:items-center">
         <div className="relative flex-1">
-          <MagnifyingGlassIcon className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-black/30 dark:text-white/30" />
+          <MagnifyingGlassIcon className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-black/30" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by customer or order ID..."
-            className="w-full rounded-xl border border-black/10 bg-white py-2.5 pr-3 pl-9 text-sm outline-none focus:border-[#2c6e9b] focus:ring-2 focus:ring-[#2c6e9b]/20 dark:border-white/15 dark:bg-white/5 dark:text-white"
+            className="w-full rounded-xl border border-black/10 bg-white py-2.5 pr-3 pl-9 text-sm outline-none focus:border-[#2c6e9b] focus:ring-2 focus:ring-[#2c6e9b]/20"
           />
         </div>
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value)}
-          className="rounded-xl border border-black/10 bg-white px-3 py-2.5 text-sm text-[#3d4f5c] dark:border-white/15 dark:bg-white/5 dark:text-white"
+          className="rounded-xl border border-black/10 bg-white px-3 py-2.5 text-sm text-[#3d4f5c]"
         >
           {STATUS_FILTERS.map((f) => (
             <option key={f.value} value={f.value}>
@@ -208,20 +208,20 @@ export default function StoreOwnerOrdersPage() {
 
       {/* Orders list */}
       {loading ? (
-        <div className="rounded-2xl border border-black/5 bg-white p-10 text-center text-sm text-black/40 shadow-sm dark:border-white/10 dark:bg-[#111c27] dark:text-white/40">
+        <div className="rounded-2xl border border-black/5 bg-white p-10 text-center text-sm text-black/40 shadow-sm">
           Loading orders...
         </div>
       ) : sorted.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-black/5 bg-white px-6 py-16 text-center shadow-sm dark:border-white/10 dark:bg-[#111c27]">
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-black/5 bg-white px-6 py-16 text-center shadow-sm">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#2c6e9b]/10 text-[#2c6e9b]">
             <ClipboardDocumentListIcon className="h-7 w-7" />
           </div>
-          <p className="mt-4 font-medium text-[#1d3d5c] dark:text-white">
+          <p className="mt-4 font-medium text-[#1d3d5c]">
             {orders.length === 0
               ? "No orders yet for your store"
               : "No orders match your search"}
           </p>
-          <p className="mt-1 text-sm text-black/40 dark:text-white/40">
+          <p className="mt-1 text-sm text-black/40">
             {orders.length === 0
               ? "New orders will appear here as customers check out."
               : "Try a different search term or status filter."}
@@ -237,13 +237,13 @@ export default function StoreOwnerOrdersPage() {
             return (
               <div
                 key={order._id}
-                className="overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm dark:border-white/10 dark:bg-[#111c27]"
+                className="overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm"
               >
                 {/* Card header */}
-                <div className="flex flex-col gap-3 border-b border-black/5 p-5 sm:flex-row sm:items-center sm:justify-between dark:border-white/10">
+                <div className="flex flex-col gap-3 border-b border-black/5 p-5 sm:flex-row sm:items-center sm:justify-between">
                   <div className="space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-serif text-base font-semibold text-[#1d3d5c] dark:text-white">
+                      <span className="font-serif text-base font-semibold text-[#1d3d5c]">
                         #{order._id.slice(-6).toUpperCase()}
                       </span>
                       <span
@@ -255,7 +255,7 @@ export default function StoreOwnerOrdersPage() {
                         {badge.label}
                       </span>
                     </div>
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-black/50 dark:text-white/50">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-black/50">
                       <span className="flex items-center gap-1.5">
                         <UserIcon className="h-4 w-4" />
                         {order.userEmail}
@@ -287,7 +287,7 @@ export default function StoreOwnerOrdersPage() {
                 <div className="overflow-x-auto px-5 pt-4">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-black/5 text-left text-xs tracking-wide text-black/40 uppercase dark:border-white/10 dark:text-white/40">
+                      <tr className="border-b border-black/5 text-left text-xs tracking-wide text-black/40 uppercase">
                         <th className="pb-2 font-medium">Product</th>
                         <th className="pb-2 font-medium">Qty</th>
                         <th className="pb-2 font-medium">Price</th>
@@ -298,18 +298,18 @@ export default function StoreOwnerOrdersPage() {
                       {order.items.map((item, idx) => (
                         <tr
                           key={idx}
-                          className="border-b border-black/5 last:border-0 dark:border-white/5"
+                          className="border-b border-black/5 last:border-0"
                         >
-                          <td className="py-2.5 text-[#1d3d5c] dark:text-white">
+                          <td className="py-2.5 text-[#1d3d5c]">
                             {item.title}
                           </td>
-                          <td className="py-2.5 text-black/60 dark:text-white/60">
+                          <td className="py-2.5 text-black/60">
                             {item.quantity}
                           </td>
-                          <td className="py-2.5 text-black/60 dark:text-white/60">
+                          <td className="py-2.5 text-black/60">
                             {formatEuro(item.price)}
                           </td>
-                          <td className="py-2.5 text-right font-medium text-[#1d3d5c] dark:text-white">
+                          <td className="py-2.5 text-right font-medium text-[#1d3d5c]">
                             {formatEuro(item.price * item.quantity)}
                           </td>
                         </tr>
@@ -317,22 +317,22 @@ export default function StoreOwnerOrdersPage() {
                     </tbody>
                   </table>
                   <div className="flex justify-end py-3 text-sm">
-                    <span className="text-black/50 dark:text-white/50">
+                    <span className="text-black/50">
                       Order total:&nbsp;
                     </span>
-                    <span className="font-semibold text-[#1d3d5c] dark:text-white">
+                    <span className="font-semibold text-[#1d3d5c]">
                       {formatEuro(total)}
                     </span>
                   </div>
                 </div>
 
                 {/* Delivery address */}
-                <div className="border-t border-black/5 bg-black/[0.015] px-5 py-4 dark:border-white/10 dark:bg-white/[0.02]">
+                <div className="border-t border-black/5 bg-black/[0.015] px-5 py-4">
                   {order.address ? (
-                    <div className="flex items-start gap-2 text-sm text-black/60 dark:text-white/60">
+                    <div className="flex items-start gap-2 text-sm text-black/60">
                       <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-[#2c6e9b]" />
                       <span>
-                        <span className="font-medium text-[#1d3d5c] dark:text-white">
+                        <span className="font-medium text-[#1d3d5c]">
                           {order.address.name}
                         </span>
                         , {order.address.street}, {order.address.city},{" "}
@@ -340,7 +340,7 @@ export default function StoreOwnerOrdersPage() {
                       </span>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-2 text-sm font-medium text-amber-600 dark:text-amber-400">
+                    <div className="flex items-center gap-2 text-sm font-medium text-amber-600">
                       <ExclamationTriangleIcon className="h-4 w-4 shrink-0" />
                       No delivery address provided
                     </div>
@@ -367,7 +367,7 @@ function StatCard({
   color: string;
 }) {
   return (
-    <div className="rounded-2xl border border-black/5 bg-white p-4 shadow-sm sm:p-5 dark:border-white/10 dark:bg-[#111c27]">
+    <div className="rounded-2xl border border-black/5 bg-white p-4 shadow-sm sm:p-5">
       <div className="flex items-center gap-3">
         <span
           className={cn(
@@ -377,11 +377,11 @@ function StatCard({
         >
           <Icon className="h-4.5 w-4.5" />
         </span>
-        <span className="text-xs text-black/50 sm:text-sm dark:text-white/50">
+        <span className="text-xs text-black/50 sm:text-sm">
           {label}
         </span>
       </div>
-      <p className="mt-2 text-xl font-bold text-[#1d3d5c] sm:text-2xl dark:text-white">
+      <p className="mt-2 text-xl font-bold text-[#1d3d5c] sm:text-2xl">
         {value}
       </p>
     </div>

@@ -1,7 +1,6 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
 
-/* LIGHT THEME (Porto parchment paper) */
+/* Porto parchment paper theme */
 :root {
   --bg: #ffffff;
   --text: #2c6e9b;
@@ -9,22 +8,9 @@
   --accent: #eab657;
 }
 
-/* DARK THEME (Porto night river) */
-.dark {
-  --bg: #0f1720;
-  --text: #e6edf3;
-  --primary: #5aa6d6;
-  --accent: #eab657;
-}
-
 html,
 body {
-  transition: background-color .35s ease, color .35s ease;
   font-family: var(--font-manrope), system-ui, sans-serif;
-}
-
-.dark img {
-  filter: brightness(.85) contrast(1.05);
 }
 
 @keyframes shrink-width {

@@ -19,7 +19,7 @@ export default async function Layout({
   }
 
   return (
-    <div className="flex min-h-screen mt-32 bg-[#f4f6f9] dark:bg-[#0b1219]">
+    <div className="flex min-h-screen mt-32 bg-[#f4f6f9]">
       {showSidebar && <StoreOwnerSidebar />}
       <main className="flex-1 p-6 lg:p-8">{children}</main>
     </div>

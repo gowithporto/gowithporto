@@ -96,17 +96,17 @@ export default function EditProductPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c] dark:text-white">
+        <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c]">
           Edit Product
         </h1>
-        <p className="mt-1 text-sm text-black/50 dark:text-white/50">
+        <p className="mt-1 text-sm text-black/50">
           Update this item&apos;s details.
         </p>
       </div>
 
       <form
         onSubmit={save}
-        className="max-w-2xl space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-[#111c27]"
+        className="max-w-2xl space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm"
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Input
@@ -141,7 +141,7 @@ export default function EditProductPage() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-black/60 dark:text-white/60">
+          <label className="mb-1 block text-sm font-medium text-black/60">
             Images
           </label>
           <ImageUploader
@@ -180,7 +180,7 @@ export default function EditProductPage() {
           )}
         </div>
 
-        <label className="flex items-center gap-2 text-sm text-black/70 dark:text-white/70">
+        <label className="flex items-center gap-2 text-sm text-black/70">
           <input
             type="checkbox"
             checked={product.active}

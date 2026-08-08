@@ -7,8 +7,7 @@ Observed conventions — follow these for consistency rather than introducing ne
 - Headings / primary text: `#1d3d5c`, `#173d5c` (dark navy)
 - Accent / links: `#2c6e9b`
 - Premium/gold accents: `#eab657`, `#b8863a`
-- Theme-aware body text: `text-[var(--text)]` where dark-mode matters
-- Dark mode backgrounds seen: `dark:bg-[#0b1219]`, `dark:bg-[#111c27]`
+- Theme-aware body text: `text-[var(--text)]`
 
 ## Typography
 
@@ -17,7 +16,7 @@ Observed conventions — follow these for consistency rather than introducing ne
 
 ## Component patterns
 
-- **Card**: `rounded-2xl border border-black/5 bg-white p-6 shadow-sm` (add `dark:border-white/10 dark:bg-[#111c27]` for dark mode where present)
+- **Card**: `rounded-2xl border border-black/5 bg-white p-6 shadow-sm`
 - **Small pill/badge**: `rounded-full px-2.5 py-1 text-xs font-medium` with semantic background/text color pairs (e.g. `bg-emerald-50 text-emerald-600`)
 - **Primary button**: `rounded-xl bg-[#1d3d5c] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1d3d5c]/90`
 - Icons: `@heroicons/react/24/outline` primarily, `react-icons/fa6` / `react-icons/fa` for a few specific ones

@@ -44,12 +44,12 @@ export default function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden h-full w-64 shrink-0 flex-col border-r border-black/5 bg-white dark:border-white/10 dark:bg-[#0f1a24] lg:flex">
+    <aside className="hidden h-full w-64 shrink-0 flex-col border-r border-black/5 bg-white lg:flex">
       <div className="px-6 pt-6 pb-4">
         <Link href="/admin" className="block">
           <Image src={Logo} alt="GoWithPorto" width={170} height={44} priority />
         </Link>
-        <p className="mt-2 font-serif text-lg font-semibold text-[#1d3d5c] dark:text-white">
+        <p className="mt-2 font-serif text-lg font-semibold text-[#1d3d5c]">
           Admin Portal
         </p>
         <div className="mt-2 flex items-center gap-2 text-[#eab657]">
@@ -72,7 +72,7 @@ export default function AdminSidebar() {
                 "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
                 active
                   ? "bg-[#2c6e9b] text-white shadow-sm"
-                  : "text-[#3d4f5c] hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/5",
+                  : "text-[#3d4f5c] hover:bg-black/5",
               )}
             >
               <item.icon className="h-5 w-5 shrink-0" />
@@ -81,14 +81,14 @@ export default function AdminSidebar() {
           );
         })}
 
-        <div className="my-2 border-t border-black/5 dark:border-white/10" />
+        <div className="my-2 border-t border-black/5" />
 
         {comingSoon.map((item) => (
           <button
             key={item.name}
             type="button"
             onClick={() => toast("Coming soon!")}
-            className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-[#3d4f5c]/50 transition hover:bg-black/5 dark:text-white/40 dark:hover:bg-white/5"
+            className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-[#3d4f5c]/50 transition hover:bg-black/5"
           >
             <item.icon className="h-5 w-5 shrink-0" />
             {item.name}
