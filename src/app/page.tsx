@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import Link from "next/link";
-import backgroundImage from "../assets/1. home page/Hero banner.png";
+import backgroundImage from "../assets/1. home page/banner2.png";
 import bottomLeftLine1 from "../assets/bottom left line 1.png";
 import bottomRightLine1 from "../assets/bottom right line 1.png";
 

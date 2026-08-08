@@ -17,7 +17,7 @@ export default function AttractionsBanner() {
 
       <div className="relative flex h-full items-center">
         <div className="max-w-md pl-6 sm:pl-12">
-          <h1 className="font-serif text-[var(--primary)]">
+          <h1 className="font-serif font-medium text-[var(--primary)]">
             <span className="block text-2xl sm:text-3xl">
               Top Attractions in
             </span>

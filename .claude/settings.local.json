@@ -32,7 +32,8 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:3000/_next/static/media/6.494b861f.png\")",
       "Bash(taskkill //PID 14468 //F //T)",
       "Bash(curl -s http://localhost:3000/attractions/zz-test-preview-ribeira-riverside -o /tmp/detail2.html -w \"%{http_code}\\\\n\")",
-      "Bash(taskkill //PID 7016 //F //T)"
+      "Bash(taskkill //PID 7016 //F //T)",
+      "Bash(timeout 40 npx next build)"
     ]
   }
 }

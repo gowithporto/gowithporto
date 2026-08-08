@@ -73,7 +73,7 @@ export default function Header() {
           </div>
 
           {/* Right Links */}
-          <div className="flex items-center justify-end gap-6 pr-6 text-sm text-[var(--text)] mt-20 sm:mt-0">
+          <div className="flex items-center justify-end gap-6 pr-6 text-sm font-medium text-[var(--text)] mt-20 sm:mt-0">
             <Link className="hover:text-[#eab657]/80" href="/shop">
               {t(lang, "nav.shop")}
             </Link>
@@ -106,14 +106,14 @@ export default function Header() {
             {session ? (
               <button
                 onClick={() => signOut()}
-                className="rounded-full bg-[#2c6e9b] px-5 py-2 text-white hover:bg-[#2c6e9b]/90 cursor-pointer"
+                className="rounded-full bg-[#2c6e9b] px-5 py-2 font-semibold text-white hover:bg-[#2c6e9b]/90 cursor-pointer"
               >
                 {t(lang, "nav.logout")}
               </button>
             ) : (
               <button
                 onClick={() => signIn("google")}
-                className="rounded-full bg-[#2c6e9b] px-5 py-2 text-white hover:bg-[#2c6e9b]/90 cursor-pointer"
+                className="rounded-full bg-[#2c6e9b] px-5 py-2 font-semibold text-white hover:bg-[#2c6e9b]/90 cursor-pointer"
               >
                 {t(lang, "nav.login")}
               </button>

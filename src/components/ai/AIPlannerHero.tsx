@@ -6,11 +6,11 @@ import centerLine from "@/assets/center line 3.png";
 export default function AIPlannerHero() {
   return (
     <div className="flex flex-col">
-      <div className="text-xs font-semibold tracking-[0.15em] text-[var(--primary)] uppercase">
+      <div className="font-accent text-xs tracking-[0.15em] text-[var(--primary)] uppercase">
         AI Travel Planner
       </div>
 
-      <h1 className="mt-4 font-serif text-4xl leading-tight text-[#173d5c] sm:text-5xl">
+      <h1 className="mt-4 font-serif text-4xl font-medium leading-tight text-[#173d5c] sm:text-5xl">
         Your perfect Porto trip,{" "}
         <span className="text-[#4d8fc7]">made just for you</span>
       </h1>

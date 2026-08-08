@@ -10,8 +10,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)"],
-        serif: ["var(--font-playfair)"],
+        sans: ["var(--font-manrope)"],
+        serif: ["var(--font-cormorant)"],
+        accent: ["var(--font-righteous)"],
       },
       colors: {
         primary: "#1B3936",

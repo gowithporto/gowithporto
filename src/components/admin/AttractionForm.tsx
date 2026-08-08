@@ -304,7 +304,7 @@ export default function AttractionForm({
   return (
     <form onSubmit={submit} className="max-w-3xl space-y-8">
       <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-        <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+        <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
           Basic Info
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -374,7 +374,7 @@ export default function AttractionForm({
       </div>
 
       <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-        <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+        <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
           Story
         </h2>
         <TextArea
@@ -422,7 +422,7 @@ export default function AttractionForm({
       </div>
 
       <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-        <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+        <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
           Visitor Info
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -461,7 +461,7 @@ export default function AttractionForm({
       </div>
 
       <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-        <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+        <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
           Photos
         </h2>
         <p className="text-xs text-black/40 dark:text-white/40">
@@ -476,7 +476,7 @@ export default function AttractionForm({
       </div>
 
       <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-        <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+        <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
           Nearby
         </h2>
         <NearbyPlaceEditor

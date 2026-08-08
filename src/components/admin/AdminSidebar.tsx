@@ -47,7 +47,7 @@ export default function AdminSidebar() {
         <Link href="/admin" className="block">
           <Image src={Logo} alt="GoWithPorto" width={170} height={44} priority />
         </Link>
-        <p className="mt-2 font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+        <p className="mt-2 font-serif text-lg font-semibold text-[#1d3d5c] dark:text-white">
           Admin Portal
         </p>
         <div className="mt-2 flex items-center gap-2 text-[#eab657]">

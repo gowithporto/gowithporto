@@ -21,10 +21,10 @@ export default function AttractionAiCta({ title }: { title: string }) {
             <SparklesIcon className="h-5 w-5" />
           </div>
           <div>
-            <p className="text-xs font-semibold tracking-wide text-[#2c6e9b] uppercase">
+            <p className="font-accent text-xs tracking-wide text-[#2c6e9b] uppercase">
               AI Trip Planner
             </p>
-            <h2 className="mt-1 font-serif text-2xl text-[var(--primary)]">
+            <h2 className="mt-1 font-serif text-2xl font-medium text-[var(--primary)]">
               Plan your Porto trip around {title}
             </h2>
             <p className="mt-2 max-w-md text-sm text-gray-500">

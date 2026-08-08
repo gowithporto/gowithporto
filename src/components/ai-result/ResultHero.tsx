@@ -23,7 +23,7 @@ export default function ResultHero({
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_1.15fr] lg:items-center">
       <div>
-        <h1 className="font-serif text-4xl text-[#173d5c] sm:text-5xl">
+        <h1 className="font-serif text-4xl font-medium text-[#173d5c] sm:text-5xl">
           Your Porto Trip
         </h1>
         <Image src={centerLine} alt="" className="mt-2 h-auto w-60" />

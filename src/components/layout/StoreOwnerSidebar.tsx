@@ -38,7 +38,7 @@ export default function StoreOwnerSidebar() {
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#2c6e9b]/10">
           <BuildingStorefrontIcon className="h-8 w-8 text-[#2c6e9b]" />
         </div>
-        <p className="mt-3 font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+        <p className="mt-3 font-serif text-lg font-semibold text-[#1d3d5c] dark:text-white">
           {session?.user?.storeName || "Store Owner"}
         </p>
         <div className="mt-2 flex items-center gap-2 text-[#eab657]">

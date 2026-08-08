@@ -232,7 +232,7 @@ export default function AttractionDetailPage() {
                 {formatLabel(attraction.category)}
               </span>
             )}
-            <h1 className="font-serif text-3xl font-bold text-[var(--primary)] sm:text-4xl">
+            <h1 className="font-serif text-3xl font-semibold text-[var(--primary)] sm:text-4xl">
               {attraction.title}
             </h1>
             {attraction.area && (

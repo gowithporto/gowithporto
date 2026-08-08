@@ -77,7 +77,7 @@ export default function AdminLoginPage() {
             <ShieldCheckIcon className="h-8 w-8 text-[#1d3d5c] dark:text-[#5aa6d6]" />
           </div>
 
-          <h1 className="mt-4 text-center font-serif text-2xl font-bold text-[#1d3d5c] dark:text-white">
+          <h1 className="mt-4 text-center font-serif text-2xl font-semibold text-[#1d3d5c] dark:text-white">
             Admin Portal
           </h1>
           <p className="mt-1 text-center text-sm text-black/40 dark:text-white/40">

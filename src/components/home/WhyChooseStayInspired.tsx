@@ -37,7 +37,7 @@ export default function WhyChooseStayInspired() {
             className="pointer-events-none absolute -right-6 bottom-0 z-0 h-32 w-auto object-contain opacity-80 sm:h-40"
           />
           <div className="relative z-10 sm:max-w-[65%]">
-            <h3 className="font-serif text-2xl text-[var(--primary)]">
+            <h3 className="font-serif text-2xl font-medium text-[var(--primary)]">
               Why Choose GoWithPorto?
             </h3>
             <ul className="mt-5 space-y-3">
@@ -58,7 +58,7 @@ export default function WhyChooseStayInspired() {
             className="pointer-events-none absolute -right-4 -top-4 z-0 h-28 w-auto object-contain opacity-80 sm:h-36"
           />
           <div className="relative z-10">
-            <h3 className="font-serif text-2xl text-[var(--primary)]">
+            <h3 className="font-serif text-2xl font-medium text-[var(--primary)]">
               Stay Inspired
             </h3>
             <p className="mt-3 max-w-xs text-sm text-[#4b5b66]">

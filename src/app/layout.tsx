@@ -1,4 +1,4 @@
-import { Inter, Playfair_Display } from "next/font/google";
+import { Cormorant_Garamond, Manrope, Righteous } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
@@ -9,14 +9,23 @@ import { LanguageProvider } from "@/providers/LanguageProvider";
 import ReduxProvider from "@/providers/ReduxProvider";
 import ThemeProvider from "@/providers/ThemeProvider";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-manrope",
 });
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+});
+
+const righteous = Righteous({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-righteous",
 });
 
 export default function RootLayout({
@@ -28,7 +37,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${playfair.variable}`}
+      className={`${manrope.variable} ${cormorant.variable} ${righteous.variable}`}
     >
       <body>
         <AuthProvider>

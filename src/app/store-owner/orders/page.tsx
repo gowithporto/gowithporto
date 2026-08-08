@@ -146,7 +146,7 @@ export default function StoreOwnerOrdersPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl font-bold text-[#1d3d5c] dark:text-white">
+        <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c] dark:text-white">
           Orders
         </h1>
         <p className="mt-1 text-sm text-black/50 dark:text-white/50">
@@ -243,7 +243,7 @@ export default function StoreOwnerOrdersPage() {
                 <div className="flex flex-col gap-3 border-b border-black/5 p-5 sm:flex-row sm:items-center sm:justify-between dark:border-white/10">
                   <div className="space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-serif text-base font-bold text-[#1d3d5c] dark:text-white">
+                      <span className="font-serif text-base font-semibold text-[#1d3d5c] dark:text-white">
                         #{order._id.slice(-6).toUpperCase()}
                       </span>
                       <span

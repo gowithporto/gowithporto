@@ -16,7 +16,7 @@ export default function BikeRentalBanner() {
         />
         <div className="absolute inset-0 flex items-center bg-gradient-to-r from-white/90 via-white/60 to-transparent">
           <div className="max-w-sm px-6 sm:px-12">
-            <h3 className="font-serif text-2xl text-[var(--primary)] sm:text-3xl">
+            <h3 className="font-serif text-2xl font-medium text-[var(--primary)] sm:text-3xl">
               Rent a Bike &amp; Explore Porto Freely
             </h3>
             <p className="mt-3 text-sm text-[#4b5b66] sm:text-base">

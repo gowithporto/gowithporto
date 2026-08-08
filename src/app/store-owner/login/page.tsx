@@ -72,7 +72,7 @@ export default function StoreOwnerLoginPage() {
             <BuildingStorefrontIcon className="h-8 w-8 text-[#2c6e9b]" />
           </div>
 
-          <h1 className="mt-4 text-center font-serif text-2xl font-bold text-[#1d3d5c] dark:text-white">
+          <h1 className="mt-4 text-center font-serif text-2xl font-semibold text-[#1d3d5c] dark:text-white">
             Store Owner Login
           </h1>
 

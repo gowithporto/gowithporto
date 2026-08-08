@@ -237,7 +237,7 @@ export default function StoreOwnerDashboard() {
         />
         <div className="absolute inset-0 bg-linear-to-r from-white via-white/70 to-transparent dark:from-[#0b1219] dark:via-[#0b1219]/60" />
         <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-10">
-          <h1 className="font-serif text-2xl font-bold text-[#1d3d5c] dark:text-white sm:text-3xl">
+          <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c] dark:text-white sm:text-3xl">
             Store Owner Dashboard
           </h1>
           <p className="mt-1 text-sm text-[#3d4f5c] dark:text-white/70">
@@ -298,7 +298,7 @@ export default function StoreOwnerDashboard() {
         <div className="space-y-6 lg:col-span-2">
           <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+              <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
                 Sales Overview
               </h2>
               <select
@@ -326,7 +326,7 @@ export default function StoreOwnerDashboard() {
 
           <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+              <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
                 Recent Orders
               </h2>
               <Link
@@ -402,7 +402,7 @@ export default function StoreOwnerDashboard() {
         {/* Quick actions + payout balance */}
         <div className="space-y-6">
           <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
-            <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+            <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
               Quick Actions
             </h2>
             <div className="mt-3 space-y-1">
@@ -444,7 +444,7 @@ export default function StoreOwnerDashboard() {
           <div className="relative overflow-hidden rounded-2xl shadow-sm">
             <Image src={payoutBg} alt="" fill className="object-cover" />
             <div className="relative p-6 text-white">
-              <h2 className="font-serif text-lg font-bold">Payout Balance</h2>
+              <h2 className="font-serif text-lg font-medium">Payout Balance</h2>
               <p className="mt-1 text-sm text-white/70">Available to withdraw</p>
               <p className="mt-2 text-3xl font-bold">
                 {formatEuro(stats.pendingPayouts)}

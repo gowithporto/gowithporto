@@ -425,7 +425,7 @@ export default function AdminDashboardPage() {
         />
         <div className="absolute inset-0 bg-linear-to-r from-white via-white/70 to-transparent dark:from-[#0b1219] dark:via-[#0b1219]/60" />
         <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-10">
-          <h1 className="font-serif text-2xl font-bold text-[#1d3d5c] dark:text-white sm:text-3xl">
+          <h1 className="font-serif text-2xl font-semibold text-[#1d3d5c] dark:text-white sm:text-3xl">
             Welcome back, {session?.user?.name || "Admin"}! 👋
           </h1>
           <p className="mt-1 text-sm text-[#3d4f5c] dark:text-white/70">
@@ -471,7 +471,7 @@ export default function AdminDashboardPage() {
           <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111c27]">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h2 className="font-serif text-lg font-bold text-[#1d3d5c] dark:text-white">
+                <h2 className="font-serif text-lg font-medium text-[#1d3d5c] dark:text-white">
                   Revenue Overview
                 </h2>
                 <p className="mt-0.5 text-xl font-bold text-[#1d3d5c] dark:text-white">
