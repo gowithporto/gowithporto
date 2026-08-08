@@ -1,22 +1,20 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { defaultLocale, locales, type Lang } from "@/i18n";
+import { usePathname } from "next/navigation";
+import { createContext, useContext } from "react";
 
-type Lang = "en" | "pt" | "fr" | "es" | "de";
-
-const LanguageContext = createContext<{
-  lang: Lang;
-  setLang: (l: Lang) => void;
-}>({
-  lang: "en",
-  setLang: () => {},
-});
+const LanguageContext = createContext<{ lang: Lang }>({ lang: defaultLocale });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>("en");
+  const pathname = usePathname();
+  const segment = pathname.split("/")[1];
+  const lang = (locales as readonly string[]).includes(segment)
+    ? (segment as Lang)
+    : defaultLocale;
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang }}>
+    <LanguageContext.Provider value={{ lang }}>
       {children}
     </LanguageContext.Provider>
   );

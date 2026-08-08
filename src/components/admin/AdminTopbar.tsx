@@ -3,17 +3,13 @@
 import {
   ArrowLeftOnRectangleIcon,
   BellIcon,
-  GlobeAltIcon,
 } from "@heroicons/react/24/outline";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
-import { useLanguage } from "@/providers/LanguageProvider";
-
 export default function AdminTopbar() {
   const { data: session } = useSession();
-  const { lang, setLang } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -33,21 +29,6 @@ export default function AdminTopbar() {
 
   return (
     <header className="relative z-20 flex h-16 shrink-0 items-center justify-end gap-3 border-b border-black/5 bg-white px-6">
-      <div className="relative">
-        <GlobeAltIcon className="pointer-events-none absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-black/40" />
-        <select
-          value={lang}
-          onChange={(e) => setLang(e.target.value as any)}
-          className="cursor-pointer rounded-full border border-black/10 bg-white py-1.5 pr-3 pl-8 text-sm text-[#2c6e9b]"
-        >
-          <option value="en">EN</option>
-          <option value="pt">PT</option>
-          <option value="fr">FR</option>
-          <option value="es">ES</option>
-          <option value="de">DE</option>
-        </select>
-      </div>
-
       <button
         type="button"
         onClick={() => toast("No new notifications")}

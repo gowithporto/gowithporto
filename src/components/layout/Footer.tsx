@@ -6,8 +6,6 @@ import FooterFrameTop from "@/assets/footer frame top.png";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
-
 export default function Footer() {
   const { data: session } = useSession();
 
@@ -107,31 +105,9 @@ export default function Footer() {
         </div>
 
         {/* COPYRIGHT */}
-        <p className="mt-14 text-sm text-gray-500">
+        <p className="mt-14 mb-10 text-sm text-gray-500">
           © {new Date().getFullYear()} GoWithPorto. All rights reserved.
         </p>
-
-        {/* SOCIAL ICONS */}
-        <div className="mt-6 mb-10 flex justify-center gap-7 text-xl text-[#5a7d95]">
-          <a
-            href="https://twitter.com/almahmudsarker"
-            className="hover:text-[#2c6e9b] transition"
-          >
-            <FaTwitter />
-          </a>
-          <a
-            href="https://www.instagram.com/almahmudsarker7/"
-            className="hover:text-[#2c6e9b] transition"
-          >
-            <FaInstagram />
-          </a>
-          <a
-            href="https://www.facebook.com/almahmudsarkerbd"
-            className="hover:text-[#2c6e9b] transition"
-          >
-            <FaFacebook />
-          </a>
-        </div>
       </div>
 
       {/* BOTTOM AZULEJO FRAME */}

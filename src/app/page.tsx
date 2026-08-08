@@ -37,8 +37,11 @@ export default function Home() {
           className="object-cover"
         />
 
-        {/* Legibility scrim so text stays readable over the full-bleed artwork */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg)] via-[var(--bg)]/70 to-transparent" />
+        {/* Legibility scrim so text stays readable over the full-bleed artwork.
+            Mobile: text overlaps the whole image width, so a uniform light overlay
+            keeps the photo visible everywhere. Desktop: text sits in the left column
+            only, so a left-to-right gradient keeps the right side of the photo clear. */}
+        <div className="absolute inset-0 bg-[var(--bg)]/45 lg:bg-gradient-to-r lg:from-[var(--bg)] lg:via-[var(--bg)]/70 lg:to-transparent" />
 
         {/* Content */}
         <div
@@ -57,13 +60,15 @@ export default function Home() {
             {t(lang, "home.subtitle")}
           </p>
 
-          <div className="mt-8 flex gap-4">
-            <Link href="/ai">
-              <Button className="cursor-pointer">{t(lang, "home.cta")}</Button>
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+            <Link href="/ai" className="w-full sm:w-auto">
+              <Button className="w-full cursor-pointer whitespace-nowrap sm:w-auto">
+                {t(lang, "home.cta")}
+              </Button>
             </Link>
-            <Link href="/shop">
+            <Link href="/shop" className="w-full sm:w-auto">
               <Button
-                className="cursor-pointer text-[var(--text)]"
+                className="w-full cursor-pointer whitespace-nowrap text-[var(--text)] sm:w-auto"
                 variant="secondary"
               >
                 {t(lang, "home.explore")}
@@ -72,20 +77,20 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bottom Azulejo */}
+        {/* Bottom Azulejo — smaller on mobile so it doesn't crowd the content, full size from lg up */}
         <Image
           src={bottomLeftLine1}
           alt=""
           width={300}
           height={80}
-          className="absolute bottom-0 left-0 hidden lg:block"
+          className="absolute bottom-0 left-0 h-auto w-28 sm:w-40 lg:w-75"
         />
         <Image
           src={bottomRightLine1}
           alt=""
           width={300}
           height={80}
-          className="absolute bottom-0 right-0 hidden lg:block"
+          className="absolute bottom-0 right-0 h-auto w-28 sm:w-40 lg:w-75"
         />
       </section>
 
