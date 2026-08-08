@@ -8,6 +8,7 @@ import {
   CpuChipIcon,
   HomeIcon,
   LifebuoyIcon,
+  MapPinIcon,
   ShoppingBagIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
@@ -25,6 +26,7 @@ const navigation = [
   { name: "Dashboard", href: "/admin", icon: HomeIcon, exact: true },
   { name: "Revenue", href: "/admin/revenue", icon: BanknotesIcon },
   { name: "Stores", href: "/admin/stores", icon: BuildingStorefrontIcon },
+  { name: "Attractions", href: "/admin/attractions", icon: MapPinIcon },
   { name: "Orders", href: "/admin/orders", icon: ShoppingBagIcon },
   { name: "AI Settings", href: "/admin/ai-settings", icon: CpuChipIcon },
 ];

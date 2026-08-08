@@ -25,7 +25,7 @@ const categories = [
     icon: map,
     title: "Top Attractions",
     subtitle: "Explore the best places in Porto",
-    href: "#discover-porto",
+    href: "/attractions",
   },
   {
     icon: bicycle,

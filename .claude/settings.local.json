@@ -18,7 +18,21 @@
       "Bash(node scripts/validate_palette.js \"#2c6e9b\" --mode light)",
       "Bash(node dashboard.js)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/store-owner/orders --max-time 5)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/admin/login --max-time 5)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/admin/login --max-time 5)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" --max-time 3 http://localhost:3000)",
+      "Bash(taskkill //PID 20324 //F //T)",
+      "Bash(curl -s http://localhost:3000/attractions -o /tmp/attractions.html -w \"%{http_code}\\\\n\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:3000/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FHero%20banner.436ae3f2.png&w=1080&q=75\")",
+      "Bash(taskkill //PID 19300 //F //T)",
+      "Bash(node \"C:\\\\Users\\\\HP\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-HP-Desktop-gowithporto\\\\4536f8d8-8906-4193-933a-440626063762\\\\scratchpad\\\\seed-test-attraction.cjs\")",
+      "Bash(taskkill //PID 16236 //F //T)",
+      "Bash(curl -s -o /tmp/detail2.html -w \"%{http_code}\\\\n\" http://localhost:3000/attractions/zz-test-preview-ribeira-riverside)",
+      "Bash(curl -s -o /dev/null -w \"highlights bg \\(1.png\\): %{http_code}\\\\n\" \"http://localhost:3000/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.a1b2c3d4.png&w=384&q=75\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:3000/_next/static/media/1.1c143c48.png\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:3000/_next/static/media/6.494b861f.png\")",
+      "Bash(taskkill //PID 14468 //F //T)",
+      "Bash(curl -s http://localhost:3000/attractions/zz-test-preview-ribeira-riverside -o /tmp/detail2.html -w \"%{http_code}\\\\n\")",
+      "Bash(taskkill //PID 7016 //F //T)"
     ]
   }
 }
