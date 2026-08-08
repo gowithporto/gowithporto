@@ -84,7 +84,7 @@ export default function Footer() {
             <Link href="/ai">AI Trip Planner</Link>
             <Link href="/shop">Souvenirs Shop</Link>
             <Link href="#">Local Guides</Link>
-            <Link href="#">Bike Rentals</Link>
+            <Link href="/bike-rentals">Bike Rentals</Link>
           </div>
 
           {/* Support */}

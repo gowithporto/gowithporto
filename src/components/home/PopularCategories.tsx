@@ -31,7 +31,7 @@ const categories = [
     icon: bicycle,
     title: "Bike Rentals",
     subtitle: "Ride around Porto at your pace",
-    href: "#bike-rental",
+    href: "/bike-rentals",
   },
   {
     icon: coffeeCup,

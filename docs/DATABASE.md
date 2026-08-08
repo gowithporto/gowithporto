@@ -69,6 +69,19 @@ AI credit purchases specifically (not marketplace orders).
 | creditsAdded | Number | required |
 | cardBrand, cardLast4 | String | for display in transaction history |
 
+### BikeRentalProvider (`src/models/BikeRentalProvider.ts`)
+Directory of third-party bike rental shops promoted on `/bike-rentals` — no booking/pricing, just a listing that links out to the shop's Google Maps location.
+| Field | Type | Notes |
+|---|---|---|
+| name | String | required |
+| coverImage | String | required, Cloudinary URL |
+| address | String | shown as area/address text on the card |
+| googleMapsUrl | String | required, the card links out here |
+| startingPrice | String | free text, e.g. `"From €10/day"` |
+| rating, reviewCount | Number | admin-entered manually, not pulled from Google |
+| order | Number | manual sort order, default 0 |
+| active | Boolean | default true |
+
 ### GlobalConfig (`src/models/GlobalConfig.ts`)
 Generic key/value store for platform-wide settings.
 | Field | Type | Notes |

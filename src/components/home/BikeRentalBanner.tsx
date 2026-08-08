@@ -23,8 +23,8 @@ export default function BikeRentalBanner() {
               Enjoy the city&apos;s beauty on two wheels. Easy, fun and
               eco-friendly.
             </p>
-            <Link href="#" className="mt-5 inline-block">
-              <Button className="cursor-pointer">Rent a Bike Now</Button>
+            <Link href="/bike-rentals" className="mt-5 inline-block">
+              <Button className="cursor-pointer">Find Bike Rentals</Button>
             </Link>
           </div>
         </div>

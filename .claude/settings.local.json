@@ -90,7 +90,15 @@
       "Bash(curl -s http://localhost:3000/local-experiences/port-wine-tasting)",
       "Bash(curl -s -o /dev/null -w \"status:%{http_code}\\\\n\" http://localhost:3000/sitemap.xml)",
       "Bash(curl -s http://localhost:3000/sitemap.xml)",
-      "Bash(curl -s http://localhost:3000/robots.txt)"
+      "Bash(curl -s http://localhost:3000/robots.txt)",
+      "Bash(echo \"started with PID $!\")",
+      "Bash(curl -s -o /dev/null -w \"homepage still up: %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"admin new provider page: %{http_code}\\\\n\" http://localhost:3000/admin/bike-rentals/new)",
+      "Bash(awk '{print $5}')",
+      "Bash(xargs -r -n1 -I{} taskkill //PID {} //F)",
+      "Bash(node -e \"console.log\\(require\\('mongoose/package.json'\\).version\\)\")",
+      "Bash(node \"C:\\\\Users\\\\HP\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-HP-Desktop-gowithporto\\\\cdbd3d1e-7298-4d7c-ab07-a7cfed95c589\\\\scratchpad\\\\seed-bike-rentals.cjs\")",
+      "Bash(node scripts/_tmp-seed-bike-rentals.cjs)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\AppData\\Local\\Temp\\claude\\c--Users-HP-Desktop-gowithporto\\4536f8d8-8906-4193-933a-440626063762\\scratchpad"

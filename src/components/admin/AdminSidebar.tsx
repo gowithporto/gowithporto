@@ -10,6 +10,7 @@ import {
   MapPinIcon,
   SparklesIcon,
   ShoppingBagIcon,
+  TruckIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -30,6 +31,7 @@ const navigation = [
     href: "/admin/local-experiences",
     icon: SparklesIcon,
   },
+  { name: "Bike Rentals", href: "/admin/bike-rentals", icon: TruckIcon },
   { name: "Orders", href: "/admin/orders", icon: ShoppingBagIcon },
   { name: "Users", href: "/admin/users", icon: UserGroupIcon },
   { name: "AI Settings", href: "/admin/ai-settings", icon: CpuChipIcon },
