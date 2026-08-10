@@ -111,7 +111,10 @@
       "Bash(echo \"curl exit: $?\")",
       "Bash(taskkill //PID 22136 //F //T)",
       "Bash(taskkill //PID 16512 //F //T)",
-      "Bash(taskkill //PID 19472 //F //T)"
+      "Bash(taskkill //PID 19472 //F //T)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/some-unknown-route-xyz)",
+      "Bash(curl -s http://localhost:3000/some-unknown-route-xyz)",
+      "Bash(taskkill //PID 21172 //F //T)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\AppData\\Local\\Temp\\claude\\c--Users-HP-Desktop-gowithporto\\4536f8d8-8906-4193-933a-440626063762\\scratchpad"

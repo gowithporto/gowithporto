@@ -10,5 +10,11 @@
   "home.withai": "con IA",
   "home.subtitle": "Experimenta el encanto de Porto con planificación de viajes asistida por IA.",
   "home.cta": "Generar plan de viaje con IA",
-  "home.explore": "Explorar productos"
+  "home.explore": "Explorar productos",
+  "notfound.code": "404",
+  "notfound.title": "Parece que te has perdido en el mapa",
+  "notfound.subtitle": "La página que buscas no existe — puede que se haya movido, o que la dirección no sea del todo correcta. Volvamos a los adoquines de Porto.",
+  "notfound.path": "Intentaste visitar:",
+  "notfound.cta.home": "Volver al inicio",
+  "notfound.cta.explore": "Explorar productos"
 }

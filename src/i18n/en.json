@@ -10,5 +10,11 @@
   "home.withai": "with AI",
   "home.subtitle": "Experience the charm of Porto with AI-powered travel planning.",
   "home.cta": "Generate AI Trip Plan",
-  "home.explore": "Explore Products"
+  "home.explore": "Explore Products",
+  "notfound.code": "404",
+  "notfound.title": "Looks Like You've Wandered Off the Map",
+  "notfound.subtitle": "The page you're looking for doesn't exist — it may have moved, or the address isn't quite right. Let's get you back on the cobblestones of Porto.",
+  "notfound.path": "You tried to visit:",
+  "notfound.cta.home": "Back to Home",
+  "notfound.cta.explore": "Explore Products"
 }

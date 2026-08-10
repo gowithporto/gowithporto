@@ -10,5 +10,11 @@
   "home.withai": "avec l'IA",
   "home.subtitle": "Découvrez le charme de Porto avec une planification de voyage assistée par l'IA.",
   "home.cta": "Générer un plan de voyage IA",
-  "home.explore": "Explorer les produits"
+  "home.explore": "Explorer les produits",
+  "notfound.code": "404",
+  "notfound.title": "On dirait que vous vous êtes égaré",
+  "notfound.subtitle": "La page que vous recherchez n'existe pas — elle a peut-être été déplacée, ou l'adresse n'est pas tout à fait exacte. Retournons sur les pavés de Porto.",
+  "notfound.path": "Vous avez essayé de visiter :",
+  "notfound.cta.home": "Retour à l'accueil",
+  "notfound.cta.explore": "Explorer les produits"
 }
