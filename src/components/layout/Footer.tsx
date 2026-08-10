@@ -72,10 +72,8 @@ export default function Footer() {
           {/* Company */}
           <div className="space-y-3 grid grid-row-[1fr_auto]">
             <h3 className="font-serif text-xl font-medium text-[#415a6b]">Company</h3>
-            <Link href="#">About Us</Link>
-            <Link href="#">Contact</Link>
-            <Link href="#">Blog</Link>
-            <Link href="#">Affiliate Program</Link>
+            <Link href="/about">About Us</Link>
+            <Link href="/contact">Contact</Link>
           </div>
 
           {/* Services */}
@@ -90,9 +88,8 @@ export default function Footer() {
           {/* Support */}
           <div className="space-y-3 grid grid-row-[1fr_auto]">
             <h3 className="font-serif text-xl font-medium text-[#415a6b]">Support</h3>
-            <Link href="#">FAQs</Link>
-            <Link href="#">Help Center</Link>
-            <Link href="#">Privacy Policy</Link>
+            <Link href="/faq">Help Center</Link>
+            <Link href="/privacy">Privacy Policy</Link>
 
             {/* GUEST LINKS (UNCHANGED LOGIC) */}
             {isGuest && (

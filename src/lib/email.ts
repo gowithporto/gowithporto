@@ -1,6 +1,11 @@
 import { Resend } from "resend";
 import User from "@/models/User";
 import {
+  contactMessageHtml,
+  contactMessageSubject,
+  type ContactMessageData,
+} from "./emailTemplates/contactMessage";
+import {
   creditReceiptHtml,
   creditReceiptSubject,
   type CreditReceiptData,
@@ -24,7 +29,7 @@ const FROM = process.env.EMAIL_FROM || "GoWithPorto <onboarding@resend.dev>";
  * Emails must never break the flow that triggers them (checkout, credits, login).
  * Every send goes through here so failures are logged, not thrown.
  */
-async function send(to: string, subject: string, html: string) {
+async function send(to: string, subject: string, html: string, replyTo?: string) {
   if (!resend) {
     console.warn(`[email] RESEND_API_KEY not set — skipped "${subject}" to ${to}`);
     return;
@@ -35,7 +40,13 @@ async function send(to: string, subject: string, html: string) {
   }
 
   try {
-    const result = await resend.emails.send({ from: FROM, to, subject, html });
+    const result = await resend.emails.send({
+      from: FROM,
+      to,
+      subject,
+      html,
+      ...(replyTo ? { replyTo } : {}),
+    });
     if (result.error) {
       console.error(`[email] Resend rejected "${subject}" to ${to}:`, result.error);
     } else {
@@ -60,6 +71,12 @@ export function sendCreditReceiptEmail(to: string, data: CreditReceiptData) {
 
 export function sendWelcomeEmail(to: string, data: WelcomeData) {
   return send(to, welcomeSubject(), welcomeHtml(data));
+}
+
+/** Notifies the support inbox of a contact-form submission; reply-to is the submitter's email. */
+export function sendContactMessageEmail(data: ContactMessageData) {
+  const supportEmail = process.env.SUPPORT_EMAIL || "support@gowithporto.pt";
+  return send(supportEmail, contactMessageSubject(data), contactMessageHtml(data), data.email);
 }
 
 interface OrderLike {

@@ -98,7 +98,20 @@
       "Bash(xargs -r -n1 -I{} taskkill //PID {} //F)",
       "Bash(node -e \"console.log\\(require\\('mongoose/package.json'\\).version\\)\")",
       "Bash(node \"C:\\\\Users\\\\HP\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-HP-Desktop-gowithporto\\\\cdbd3d1e-7298-4d7c-ab07-a7cfed95c589\\\\scratchpad\\\\seed-bike-rentals.cjs\")",
-      "Bash(node scripts/_tmp-seed-bike-rentals.cjs)"
+      "Bash(node scripts/_tmp-seed-bike-rentals.cjs)",
+      "Bash(grep -rl \"Accordion\\\\|Disclosure\" src/components 2>/dev/null; echo ---cart---; sed -n '1,40p' \"$\\(pwd\\)/src/app/cart/page.tsx\" 2>/dev/null | head -40)",
+      "Bash(xargs -I{} echo {})",
+      "Bash(curl -s -o /dev/null -w \"contact: %{http_code}\\\\n\" http://localhost:3000/contact)",
+      "Bash(curl -s -o /dev/null -w \"privacy: %{http_code}\\\\n\" http://localhost:3000/privacy)",
+      "Bash(curl -s -X POST http://localhost:3000/api/contact -H \"Content-Type: application/json\" -d '{}' -w \"\\\\nstatus:%{http_code}\\\\n\")",
+      "Bash(curl -s -X POST http://localhost:3000/api/contact -H \"Content-Type: application/json\" -d '{\"name\":\"Jane\",\"email\":\"not-an-email\",\"message\":\"hi\"}' -w \"\\\\nstatus:%{http_code}\\\\n\")",
+      "Bash(powershell -NoProfile -Command 'Get-CimInstance Win32_Process -Filter \"CommandLine LIKE '\\\\''%next dev%'\\\\''\" | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }')",
+      "Bash(curl -s -o /dev/null -w \"post-kill status:%{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"status:%{http_code}\\\\n\" --max-time 3 http://localhost:3000/)",
+      "Bash(echo \"curl exit: $?\")",
+      "Bash(taskkill //PID 22136 //F //T)",
+      "Bash(taskkill //PID 16512 //F //T)",
+      "Bash(taskkill //PID 19472 //F //T)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\AppData\\Local\\Temp\\claude\\c--Users-HP-Desktop-gowithporto\\4536f8d8-8906-4193-933a-440626063762\\scratchpad"
