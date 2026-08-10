@@ -9,7 +9,6 @@ import Link from "next/link";
 export default function Footer() {
   const { data: session } = useSession();
 
-  const isGuest = !session;
   const isAdmin = session?.user?.role === "ADMIN";
 
   /* ---------------- ADMIN FOOTER (UNCHANGED) ---------------- */
@@ -90,14 +89,6 @@ export default function Footer() {
             <h3 className="font-serif text-xl font-medium text-[#415a6b]">Support</h3>
             <Link href="/faq">Help Center</Link>
             <Link href="/privacy">Privacy Policy</Link>
-
-            {/* GUEST LINKS (UNCHANGED LOGIC) */}
-            {isGuest && (
-              <div className="pt-3 space-y-2 grid grid-row-[1fr_auto]">
-                <Link href="/store-owner/login">Store Owner Login</Link>
-                <Link href="/admin/login">Admin Login</Link>
-              </div>
-            )}
           </div>
         </div>
 
