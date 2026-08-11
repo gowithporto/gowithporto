@@ -1,5 +1,12 @@
 import mongoose, { Schema, models } from "mongoose";
 
+const VariantSchema = new Schema({
+  name: String,
+  image: String,
+  price: Number,
+  quantity: { type: Number, default: 0 },
+});
+
 const ProductSchema = new Schema(
   {
     title: String,
@@ -9,6 +16,7 @@ const ProductSchema = new Schema(
     images: [String],
     category: String,
     quantity: { type: Number, default: 0 },
+    variants: [VariantSchema],
 
     storeId: {
       type: Schema.Types.ObjectId,

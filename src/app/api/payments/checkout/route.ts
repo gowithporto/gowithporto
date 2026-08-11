@@ -15,35 +15,47 @@ export async function POST(req: Request) {
   const products = await Product.find({
     _id: { $in: items.map((i: any) => i.productId) },
   });
+  const productById = new Map(products.map((p) => [p._id.toString(), p]));
 
   const storeId = products[0].storeId;
   const store = await Store.findById(storeId);
 
-  const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
-    products.map((product) => {
-      const cartItem = items.find(
-        (i: any) => i.productId === product._id.toString()
-      );
+  // Resolve each cart line (not each unique product) — a cart can hold
+  // several variants of the same product, and each is its own line item.
+  const resolveLine = (item: any) => {
+    const product = productById.get(item.productId);
+    const variant = item.variantId
+      ? product?.variants?.find(
+          (v: any) => v._id.toString() === item.variantId
+        )
+      : null;
+    const price = variant?.price ?? product.price;
+    const name = variant ? `${product.title} — ${variant.name}` : product.title;
+    return { price, name };
+  };
+
+  const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = items.map(
+    (item: any) => {
+      const { price, name } = resolveLine(item);
 
       return {
-        quantity: cartItem.quantity,
+        quantity: item.quantity,
         price_data: {
           currency: "eur",
-          unit_amount: Math.round(product.price * 100),
+          unit_amount: Math.round(price * 100),
           product_data: {
-            name: product.title,
+            name,
           },
         },
       };
-    });
+    }
+  );
 
   // Platform commission is taken from product sales only — the store owner
   // keeps 100% of the delivery fee, since that's their shipping cost.
-  const productsSubtotalCents = products.reduce((sum, product) => {
-    const cartItem = items.find(
-      (i: any) => i.productId === product._id.toString()
-    );
-    return sum + Math.round(product.price * 100) * cartItem.quantity;
+  const productsSubtotalCents = items.reduce((sum: number, item: any) => {
+    const { price } = resolveLine(item);
+    return sum + Math.round(price * 100) * item.quantity;
   }, 0);
 
   const canSplit = store.stripeAccountId && store.stripeOnboardingComplete;
@@ -82,7 +94,8 @@ export async function POST(req: Request) {
       deliveryType,
       deliveryFee,
       address: address ? JSON.stringify(address) : "",
-      productIds: products.map((p) => p._id.toString()).join(","),
+      productIds: items.map((i: any) => i.productId).join(","),
+      variantIds: items.map((i: any) => i.variantId || "").join(","),
       storeId: storeId.toString(),
     },
 

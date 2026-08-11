@@ -81,12 +81,25 @@ export default function CartPage() {
 
                 {items.map((item) => (
                   <CartItemRow
-                    key={item.productId}
+                    key={`${item.productId}:${item.variantId ?? ""}`}
                     item={item}
                     onQuantityChange={(quantity) =>
-                      dispatch(updateQuantity({ productId: item.productId, quantity }))
+                      dispatch(
+                        updateQuantity({
+                          productId: item.productId,
+                          variantId: item.variantId,
+                          quantity,
+                        })
+                      )
                     }
-                    onRemove={() => dispatch(removeFromCart(item.productId))}
+                    onRemove={() =>
+                      dispatch(
+                        removeFromCart({
+                          productId: item.productId,
+                          variantId: item.variantId,
+                        })
+                      )
+                    }
                   />
                 ))}
               </div>

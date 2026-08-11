@@ -1,18 +1,17 @@
 "use client";
 
-import {
-  HeartIcon as HeartOutline,
-  ShoppingCartIcon,
-} from "@heroicons/react/24/outline";
+import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
-import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
 
-import Button from "@/components/ui/Button";
-import { addToCart } from "@/store/slices/cartSlice";
+type Variant = {
+  _id: string;
+  name: string;
+  image?: string;
+  price?: number;
+  quantity?: number;
+};
 
 type Product = {
   _id: string;
@@ -22,77 +21,65 @@ type Product = {
   images?: string[];
   category?: string;
   quantity?: number;
+  variants?: Variant[];
   storeId?: { name?: string };
 };
 
 export default function ProductCard({ product }: { product: Product }) {
-  const dispatch = useDispatch();
-  const { data: session } = useSession();
   const [saved, setSaved] = useState(false);
 
+  const hasVariants = (product.variants?.length ?? 0) > 0;
+  const variantPrices = hasVariants
+    ? product.variants!.map((v) => v.price ?? product.price)
+    : [];
+  const minVariantPrice = hasVariants ? Math.min(...variantPrices) : product.price;
+  const pricesDiffer = hasVariants && variantPrices.some((p) => p !== minVariantPrice);
+  const thumbnail = hasVariants
+    ? product.variants!.find((v) => v.image)?.image
+    : product.images?.[0];
+
   return (
-    <div className="group overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:shadow-md">
-      <Link href={`/shop/${product.slug}`} className="block">
-        <div className="relative h-44 w-full overflow-hidden bg-gray-100">
-          <img
-            src={product.images?.[0]}
-            alt={product.title}
-            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-          />
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              setSaved((s) => !s);
-            }}
-            className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm transition hover:scale-110 cursor-pointer"
-            aria-label="Save to wishlist"
-          >
-            {saved ? (
-              <HeartSolid className="h-4 w-4 text-[#c0392b]" />
-            ) : (
-              <HeartOutline className="h-4 w-4 text-[#2c6e9b]" />
-            )}
-          </button>
-        </div>
-
-        <div className="space-y-1 p-4">
-          <h3 className="font-semibold text-[var(--text)]">{product.title}</h3>
-          <p className="text-sm text-gray-500 capitalize">
-            {product.category || product.storeId?.name}
-          </p>
-          <p className="font-bold text-[var(--text)]">€{product.price}</p>
-          <p className="text-xs text-gray-500">
-            Available: {product.quantity || 0}
-          </p>
-        </div>
-      </Link>
-
-      <div className="px-4 pb-4">
-        {session?.user?.role !== "STORE_OWNER" && (
-          <Button
-            className="w-full gap-2 cursor-grabbing"
-            disabled={!product.quantity}
-            onClick={() => {
-              dispatch(
-                addToCart({
-                  productId: product._id,
-                  title: product.title,
-                  price: product.price,
-                  image: product.images?.[0],
-                  quantity: 1,
-                  category: product.category,
-                  storeName: product.storeId?.name,
-                }),
-              );
-              toast.success(`${product.title} added to cart`);
-            }}
-          >
-            <ShoppingCartIcon className="h-4 w-4" />
-            Add to Cart
-          </Button>
-        )}
+    <Link
+      href={`/shop/${product.slug}`}
+      className="group block overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:shadow-md"
+    >
+      <div className="relative h-44 w-full overflow-hidden bg-gray-100">
+        <img
+          src={thumbnail}
+          alt={product.title}
+          className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+        />
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            setSaved((s) => !s);
+          }}
+          className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm transition hover:scale-110 cursor-pointer"
+          aria-label="Save to wishlist"
+        >
+          {saved ? (
+            <HeartSolid className="h-4 w-4 text-[#c0392b]" />
+          ) : (
+            <HeartOutline className="h-4 w-4 text-[#2c6e9b]" />
+          )}
+        </button>
       </div>
-    </div>
+
+      <div className="space-y-1 p-4">
+        <h3 className="font-semibold text-[var(--text)]">{product.title}</h3>
+        <p className="text-sm text-gray-500 capitalize">
+          {product.category || product.storeId?.name}
+        </p>
+        <p className="font-bold text-[var(--text)]">
+          {pricesDiffer ? `From €${minVariantPrice}` : `€${minVariantPrice}`}
+        </p>
+        <p className="text-xs text-gray-500">
+          {hasVariants
+            ? `${product.variants!.length} designs available`
+            : `Available: ${product.quantity || 0}`}
+        </p>
+      </div>
+    </Link>
   );
 }

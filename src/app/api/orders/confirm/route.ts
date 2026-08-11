@@ -1,4 +1,5 @@
 import { buildOrderFromStripeSession } from "@/lib/buildOrderFromStripeSession";
+import { decrementStockForOrder } from "@/lib/decrementStock";
 import { sendOrderConfirmationForOrder } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
@@ -38,6 +39,7 @@ export async function POST(req: Request) {
 
   try {
     const order = await Order.create(orderData);
+    await decrementStockForOrder(order.items);
     await sendOrderConfirmationForOrder(order);
     return NextResponse.json({ success: true, orderId: order._id });
   } catch (err: any) {

@@ -8,6 +8,8 @@ function formatLabel(value: string) {
 
 type CartItem = {
   productId: string;
+  variantId?: string;
+  variantName?: string;
   title: string;
   price: number;
   image?: string;
@@ -33,6 +35,9 @@ export default function CartItemRow({ item, onQuantityChange, onRemove }: Props)
         />
         <div className="space-y-1">
           <p className="font-semibold text-[var(--text)]">{item.title}</p>
+          {item.variantName && (
+            <p className="text-sm text-gray-500">{item.variantName}</p>
+          )}
           {item.storeName && (
             <p className="text-sm text-gray-500">{item.storeName}</p>
           )}

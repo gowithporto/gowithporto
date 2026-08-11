@@ -5,6 +5,8 @@ import centerLine from "@/assets/center line 3.png";
 
 type CartItem = {
   productId: string;
+  variantId?: string;
+  variantName?: string;
   title: string;
   price: number;
   image?: string;
@@ -35,7 +37,10 @@ export default function OrderReviewCard({
 
       <div className="mt-6 space-y-4">
         {items.map((item) => (
-          <div key={item.productId} className="flex items-center gap-3">
+          <div
+            key={`${item.productId}:${item.variantId ?? ""}`}
+            className="flex items-center gap-3"
+          >
             <img
               src={item.image}
               alt={item.title}

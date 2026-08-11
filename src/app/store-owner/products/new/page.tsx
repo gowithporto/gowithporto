@@ -3,31 +3,12 @@
 import Button from "@/components/ui/Button";
 import ImageUploader from "@/components/ui/ImageUploader";
 import Input from "@/components/ui/Input";
-import Select from "@/components/ui/Select";
+import { slugifyCategory } from "@/lib/slugifyCategory";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 
-const CATEGORY_OPTIONS = [
-  { value: "ceramics", label: "Ceramics & Azulejos" },
-  { value: "port-wine", label: "Port & Wine" },
-  { value: "gourmet-food", label: "Gourmet Food & Delicacies" },
-  { value: "cork-products", label: "Cork Products" },
-  { value: "textiles", label: "Textiles & Clothing" },
-  { value: "jewelry", label: "Jewelry & Accessories" },
-  { value: "home-decor", label: "Home Decor" },
-  { value: "stationery", label: "Stationery & Notebooks" },
-  { value: "postcards-prints", label: "Postcards & Prints" },
-  { value: "magnets-keychains", label: "Magnets & Keychains" },
-  { value: "books-maps", label: "Books & Maps" },
-  { value: "bags-leather", label: "Bags & Leather Goods" },
-  { value: "candles-soaps", label: "Candles & Soaps" },
-  { value: "toys-games", label: "Toys & Games" },
-  { value: "art-crafts", label: "Art & Handicrafts" },
-  { value: "souvenir", label: "General Souvenirs" },
-];
-
-const CUSTOM_VALUE = "__custom__";
+type CategoryOption = { name: string; slug: string; image?: string };
 
 export default function NewProductPage() {
   const router = useRouter();
@@ -39,23 +20,72 @@ export default function NewProductPage() {
     images: [] as string[],
     quantity: "",
   });
-  const [customCategory, setCustomCategory] = useState("");
+  const [categories, setCategories] = useState<CategoryOption[]>([]);
+  const [categoryImage, setCategoryImage] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(Array.isArray(data) ? data : []))
+      .catch(() => setCategories([]));
+  }, []);
+
+  const matchedCategory = useMemo(() => {
+    const slug = slugifyCategory(form.category);
+    if (!slug) return null;
+    return categories.find((c) => c.slug === slug) || null;
+  }, [form.category, categories]);
+
+  const isNewCategory = form.category.trim().length > 0 && !matchedCategory;
+
+  // Load the matched category's current image into the editable box
+  // whenever the typed name resolves to a (possibly different) existing
+  // category — but don't clobber an in-progress upload.
+  useEffect(() => {
+    setCategoryImage(matchedCategory?.image ? [matchedCategory.image] : []);
+  }, [matchedCategory?.slug]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const categoryName = form.category.trim();
+
+    if (categoryName && !categoryImage[0]) {
+      toast.error("Add an image for this category");
+      return;
+    }
+
     setSaving(true);
 
-    const category =
-      form.category === CUSTOM_VALUE ? customCategory.trim() : form.category;
-
     try {
+      if (isNewCategory) {
+        await fetch("/api/store-owner/categories", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: categoryName, image: categoryImage[0] }),
+        });
+      } else if (
+        matchedCategory &&
+        categoryImage[0] &&
+        categoryImage[0] !== matchedCategory.image
+      ) {
+        await fetch("/api/store-owner/categories", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            slug: matchedCategory.slug,
+            image: categoryImage[0],
+          }),
+        });
+      }
+
       const res = await fetch("/api/store-owner/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          category,
+          category: categoryName,
           price: Number(form.price),
           quantity: Number(form.quantity),
         }),
@@ -139,34 +169,36 @@ export default function NewProductPage() {
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <Select
-            label="Category"
-            required
-            placeholder="Select a category"
-            value={form.category}
-            onChange={(e) => {
-              setForm({ ...form, category: e.target.value });
-              if (e.target.value !== CUSTOM_VALUE) setCustomCategory("");
-            }}
-          >
-            {CATEGORY_OPTIONS.map((c) => (
-              <option key={c.value} value={c.value}>
-                {c.label}
-              </option>
-            ))}
-            <option value={CUSTOM_VALUE}>Other (add your own)</option>
-          </Select>
+        <div>
+          <div className="flex items-start gap-3">
+            <div className="flex-1">
+              <Input
+                label="Category"
+                required
+                placeholder="e.g. Postcards & Prints"
+                value={form.category}
+                onChange={(e) => setForm({ ...form, category: e.target.value })}
+              />
+            </div>
 
-          {form.category === CUSTOM_VALUE && (
-            <Input
-              label="Custom Category"
-              required
-              placeholder="e.g. Handmade Soaps"
-              value={customCategory}
-              onChange={(e) => setCustomCategory(e.target.value)}
-            />
-          )}
+            <div className="shrink-0">
+              <label className="mb-1 block text-sm font-medium text-black/60">
+                Image
+              </label>
+              <ImageUploader
+                value={categoryImage}
+                onChange={(images) => setCategoryImage(images.slice(-1))}
+              />
+            </div>
+          </div>
+
+          <p className="mt-1 text-xs text-black/40">
+            {matchedCategory
+              ? "Existing category — change the image here to update it everywhere it appears."
+              : isNewCategory
+                ? "New category — add an image to represent it in the shop."
+                : "Use the same spelling as an existing category to group this product with it in the shop."}
+          </p>
         </div>
 
         <div className="flex justify-end pt-2">

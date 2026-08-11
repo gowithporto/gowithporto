@@ -24,6 +24,7 @@ export async function PUT(
     category: body.category,
     images: body.images,
     quantity: body.quantity,
+    variants: body.variants,
     active: body.active,
   };
 

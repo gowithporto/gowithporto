@@ -10,23 +10,33 @@ export async function buildOrderFromStripeSession(
     : null;
 
   const productIds = session.metadata?.productIds?.split(",") || [];
+  const variantIds = session.metadata?.variantIds?.split(",") || [];
 
   const products = await Product.find({ _id: { $in: productIds } });
-  const imageByProductId = new Map(
-    products.map((p) => [p._id.toString(), p.images?.[0]])
-  );
+  const productById = new Map(products.map((p) => [p._id.toString(), p]));
 
   const lineItems = session.line_items?.data || [];
 
   const items = lineItems
     .filter((li) => li.description !== "Delivery Fee")
-    .map((li, index) => ({
-      productId: productIds[index] || "",
-      title: li.description,
-      price: li.price?.unit_amount ? li.price.unit_amount / 100 : 0,
-      quantity: li.quantity || 1,
-      image: imageByProductId.get(productIds[index]),
-    }));
+    .map((li, index) => {
+      const productId = productIds[index] || "";
+      const variantId = variantIds[index] || "";
+      const product = productById.get(productId);
+      const variant = variantId
+        ? product?.variants?.find((v: any) => v._id.toString() === variantId)
+        : null;
+
+      return {
+        productId,
+        variantId: variantId || undefined,
+        variantName: variant?.name,
+        title: li.description,
+        price: li.price?.unit_amount ? li.price.unit_amount / 100 : 0,
+        quantity: li.quantity || 1,
+        image: variant?.image || product?.images?.[0],
+      };
+    });
 
   const total = session.amount_total != null ? session.amount_total / 100 : 0;
 
