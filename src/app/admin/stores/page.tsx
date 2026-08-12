@@ -6,8 +6,11 @@ import {
   BuildingStorefrontIcon,
   CurrencyDollarIcon,
   MapPinIcon,
-  QrCodeIcon
+  PencilSquareIcon,
+  QrCodeIcon,
+  ReceiptPercentIcon
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -19,6 +22,7 @@ interface StoreType {
   location: string;
   active: boolean;
   deliveryFee: number;
+  commissionRate: number;
 }
 
 export default function StoresPage() {
@@ -246,10 +250,21 @@ export default function StoresPage() {
                   Delivery: ${store.deliveryFee}
                 </div>
                 <div className="flex items-center text-sm text-gray-600">
+                  <ReceiptPercentIcon className="mr-2 h-4 w-4 text-gray-400" />
+                  Commission: {store.commissionRate}%
+                </div>
+                <div className="flex items-center text-sm text-gray-600">
                   <QrCodeIcon className="mr-2 h-4 w-4 text-gray-400" />
                   Code: {store.storeCode}
                 </div>
               </div>
+
+              <Link
+                href={`/admin/stores/${store._id}/edit`}
+                className="mt-4 flex items-center justify-center gap-1.5 rounded-xl border border-black/10 py-2 text-sm font-medium text-[#2c6e9b] hover:bg-[#2c6e9b]/5"
+              >
+                <PencilSquareIcon className="h-4 w-4" /> Edit
+              </Link>
             </div>
           ))
         )}

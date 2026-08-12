@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 import Postcard from "@/assets/1. home page/why choose & stay inspired/stay inspired.png";
@@ -23,14 +24,29 @@ const links = [
   { href: "/store-owner/orders", label: "Orders", icon: ShoppingBagIcon },
 ];
 
-const comingSoon = [
-  { label: "Payouts", icon: CreditCardIcon },
-  { label: "Settings", icon: Cog6ToothIcon },
-];
+const comingSoon = [{ label: "Settings", icon: Cog6ToothIcon }];
 
 export default function StoreOwnerSidebar() {
   const pathname = usePathname();
   const { data: session } = useSession();
+  const [openingPayouts, setOpeningPayouts] = useState(false);
+
+  const handlePayouts = async () => {
+    setOpeningPayouts(true);
+    try {
+      const res = await fetch("/api/store-owner/payouts", { method: "POST" });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        toast.error(data.error || "Set up payouts first.");
+      }
+    } catch {
+      toast.error("Couldn't open your Stripe payouts. Try again.");
+    } finally {
+      setOpeningPayouts(false);
+    }
+  };
 
   return (
     <aside className="hidden w-64 shrink-0 flex-col border-r border-black/5 bg-white px-4 py-8 lg:flex">
@@ -70,6 +86,16 @@ export default function StoreOwnerSidebar() {
             </Link>
           );
         })}
+
+        <button
+          type="button"
+          onClick={handlePayouts}
+          disabled={openingPayouts}
+          className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm font-medium text-[#3d4f5c] transition hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          <CreditCardIcon className="h-5 w-5" />
+          {openingPayouts ? "Opening Stripe..." : "Payouts"}
+        </button>
 
         {comingSoon.map((l) => (
           <button

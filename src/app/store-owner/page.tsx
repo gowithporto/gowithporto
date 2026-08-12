@@ -92,6 +92,7 @@ export default function StoreOwnerDashboard() {
     null,
   );
   const [connecting, setConnecting] = useState(false);
+  const [viewingPayouts, setViewingPayouts] = useState(false);
 
   useEffect(() => {
     fetch("/api/store-owner/orders", {
@@ -108,11 +109,6 @@ export default function StoreOwnerDashboard() {
   }, []);
 
   const handlePayoutSetup = async () => {
-    if (connectStatus?.onboardingComplete) {
-      toast.success("Payouts are active — funds settle automatically to your bank.");
-      return;
-    }
-
     setConnecting(true);
     try {
       const res = await fetch("/api/store-owner/connect", { method: "POST" });
@@ -128,6 +124,27 @@ export default function StoreOwnerDashboard() {
       setConnecting(false);
     }
   };
+
+  const handleViewPayouts = async () => {
+    setViewingPayouts(true);
+    try {
+      const res = await fetch("/api/store-owner/payouts", { method: "POST" });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        toast.error("Couldn't open your Stripe payouts. Try again.");
+      }
+    } catch {
+      toast.error("Couldn't open your Stripe payouts. Try again.");
+    } finally {
+      setViewingPayouts(false);
+    }
+  };
+
+  const handlePayoutAction = connectStatus?.onboardingComplete
+    ? handleViewPayouts
+    : handlePayoutSetup;
 
   const stats = useMemo(() => {
     const now = new Date();
@@ -419,16 +436,16 @@ export default function StoreOwnerDashboard() {
                 subtitle="Manage and track orders"
               />
               <QuickAction
-                onClick={handlePayoutSetup}
+                onClick={handlePayoutAction}
                 icon={CreditCardIcon}
                 title={
                   connectStatus?.onboardingComplete
-                    ? "Payouts Active"
+                    ? "View My Payouts"
                     : "Set Up Payouts"
                 }
                 subtitle={
                   connectStatus?.onboardingComplete
-                    ? `You keep ${100 - (connectStatus?.commissionRate ?? 10)}% of each sale`
+                    ? "See payout status & history on Stripe"
                     : "Connect your bank to get paid"
                 }
               />
@@ -450,14 +467,14 @@ export default function StoreOwnerDashboard() {
                 {formatEuro(stats.pendingPayouts)}
               </p>
               <button
-                onClick={handlePayoutSetup}
-                disabled={connecting}
+                onClick={handlePayoutAction}
+                disabled={connecting || viewingPayouts}
                 className="mt-5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white/15 py-3 text-sm font-semibold backdrop-blur transition hover:bg-white/25 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {connecting
+                {connecting || viewingPayouts
                   ? "Redirecting to Stripe..."
                   : connectStatus?.onboardingComplete
-                    ? "Payouts Active"
+                    ? "View My Payouts"
                     : "Set Up Payouts"}
               </button>
               <div className="mt-4 flex items-center justify-center gap-1.5 text-xs text-white/60">
