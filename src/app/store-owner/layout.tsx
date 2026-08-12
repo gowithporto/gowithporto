@@ -1,27 +1,28 @@
-import StoreOwnerSidebar from "@/components/layout/StoreOwnerSidebar";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
+"use client";
 
-export default async function Layout({
+import { usePathname } from "next/navigation";
+
+import StoreOwnerGuard from "@/components/store-owner/StoreOwnerGuard";
+import StoreOwnerSidebar from "@/components/layout/StoreOwnerSidebar";
+
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const pathname = usePathname();
+  const isLoginPage = pathname === "/store-owner/login";
 
-  // Get the current pathname from the server context (only works for middleware, not layouts)
-  // For layouts, you can't reliably get the pathname, so use a workaround:
-  // Only show sidebar if session exists and user is STORE_OWNER
-  const showSidebar = session && session.user.role === "STORE_OWNER";
-
-  if (!session) {
+  if (isLoginPage) {
     return <>{children}</>;
   }
 
   return (
-    <div className="flex min-h-screen mt-32 bg-[#f4f6f9]">
-      {showSidebar && <StoreOwnerSidebar />}
-      <main className="flex-1 p-6 lg:p-8">{children}</main>
-    </div>
+    <StoreOwnerGuard>
+      <div className="flex min-h-screen mt-32 bg-[#f4f6f9]">
+        <StoreOwnerSidebar />
+        <main className="flex-1 p-6 lg:p-8">{children}</main>
+      </div>
+    </StoreOwnerGuard>
   );
 }
