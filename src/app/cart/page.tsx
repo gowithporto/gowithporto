@@ -14,9 +14,6 @@ import OrderSummary from "@/components/cart/OrderSummary";
 import { RootState } from "@/store";
 import { clearCart, removeFromCart, updateQuantity } from "@/store/slices/cartSlice";
 
-const FLAT_SHIPPING = 4.9;
-const FREE_SHIPPING_THRESHOLD = 50;
-
 export default function CartPage() {
   const [mounted, setMounted] = useState(false);
   const items = useSelector((state: RootState) => state.cart.items);
@@ -31,7 +28,6 @@ export default function CartPage() {
   }
 
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const shipping = items.length === 0 || subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING;
 
   return (
     <div className="space-y-10 px-4 pt-24 pb-16 sm:px-8 sm:pt-28 lg:px-12">
@@ -115,7 +111,7 @@ export default function CartPage() {
             </div>
 
             <div className="space-y-6">
-              <OrderSummary subtotal={subtotal} shipping={shipping} />
+              <OrderSummary subtotal={subtotal} />
               <CartTrustList />
             </div>
           </div>
