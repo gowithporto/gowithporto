@@ -26,6 +26,10 @@ Update whenever a task completes or a new one is identified. Mirrors the live se
 - [x] Fix header nav wrapping/logo-drift bugs introduced by locale routing, add mobile hamburger nav, fix mobile hero (washed-out background, missing corners, wrapping CTA buttons) (2026-08-08) — see CHANGELOG for detail
 - [x] Remove personal social media links from the footer (2026-08-08) — `Footer.tsx`/`UserFooter.tsx` linked the founder's personal Twitter/Instagram/Facebook; removed from both, no real GoWithPorto accounts exist yet
 - [ ] Translate remaining customer-facing page/component text into `src/i18n/{en,fr,es}.json` — shop, attractions, local-experiences, AI planner, checkout, cart, dashboard currently render English text regardless of locale prefix (routing works, content doesn't yet)
+- [x] Store-owner "View My Payouts" button (2026-08-11) — `POST /api/store-owner/payouts` creates a Stripe Express login link so store owners can see real payout status/history/arrival dates on Stripe's own dashboard, instead of us building and maintaining a duplicate payouts UI. Typechecked/linted clean, route confirmed rejecting unauthenticated requests; full click-through not yet tested by founder against a real onboarded store
+- [x] Remove placeholder "Premium Member"/"Member Tier"/"Saved Trips"/"Help Center" UI from the user dashboard, build real Favorites (2026-08-12) — see CHANGELOG for detail
+- [x] Remove the "Shipping" line from the Cart page (2026-08-12) — Stripe's own payment step already shows the real amount, so the cart-side estimate (and the `/api/cart/delivery-fee` route built to fix its accuracy earlier the same day) was removed instead of kept accurate
+- [x] Fix email logo sometimes appearing broken in Gmail (2026-08-12) — the 193KB print-resolution logo image was oversized for a 180px-wide email display, raising the odds Gmail's image proxy timed out on first open and cached the failure forever for that email. Added a 9.6KB resized `logo-email.png` for transactional emails only; `logo.png` unchanged (still used for Open Graph/social previews)
 
 ## Low Priority
 

@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 
 import InfoStrip from "@/components/shop/InfoStrip";
 import Button from "@/components/ui/Button";
+import { useFavorite } from "@/hooks/useFavorite";
 import { addToCart } from "@/store/slices/cartSlice";
 
 function formatLabel(value: string) {
@@ -52,9 +53,9 @@ export default function ProductDetailPage() {
   const [notFound, setNotFound] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const [qty, setQty] = useState(1);
-  const [saved, setSaved] = useState(false);
   const dispatch = useDispatch();
   const { data: session } = useSession();
+  const { favorited, toggle: toggleFavorite } = useFavorite("product", product?._id);
 
   useEffect(() => {
     setProduct(null);
@@ -230,11 +231,11 @@ export default function ProductDetailPage() {
               )}
               <button
                 type="button"
-                onClick={() => setSaved((s) => !s)}
+                onClick={toggleFavorite}
                 className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-sm transition hover:scale-110 cursor-pointer"
                 aria-label="Save to wishlist"
               >
-                {saved ? (
+                {favorited ? (
                   <HeartSolid className="h-5 w-5 text-[#c0392b]" />
                 ) : (
                   <HeartOutline className="h-5 w-5 text-[#2c6e9b]" />

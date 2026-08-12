@@ -1,6 +1,7 @@
 import "./AIResponse";
 import "./Attraction";
 import "./BikeRentalProvider";
+import "./Favorite";
 import "./LocalExperience";
 import "./Product";
 import "./Store";

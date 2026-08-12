@@ -22,6 +22,7 @@ import toast from "react-hot-toast";
 import LocalExperiencesAiCta from "@/components/localExperiences/LocalExperiencesAiCta";
 import LocalExperiencesInfoStrip from "@/components/localExperiences/LocalExperiencesInfoStrip";
 import Button from "@/components/ui/Button";
+import { useFavorite } from "@/hooks/useFavorite";
 import { formatExperienceLabel } from "@/utils/experienceBadge";
 
 type LocalExperience = {
@@ -52,7 +53,10 @@ export default function LocalExperienceDetailPage() {
   const [notFound, setNotFound] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const [imageVisible, setImageVisible] = useState(true);
-  const [saved, setSaved] = useState(false);
+  const { favorited, toggle: toggleFavorite } = useFavorite(
+    "localExperience",
+    experience?._id,
+  );
 
   useEffect(() => {
     setImageVisible(false);
@@ -321,14 +325,14 @@ export default function LocalExperienceDetailPage() {
           <div className="flex gap-3 pt-1">
             <Button
               className="flex-1 gap-2 cursor-pointer"
-              onClick={() => setSaved((s) => !s)}
+              onClick={toggleFavorite}
             >
-              {saved ? (
+              {favorited ? (
                 <HeartSolid className="h-4 w-4" />
               ) : (
                 <HeartOutline className="h-4 w-4" />
               )}
-              {saved ? "Saved to Favorites" : "Add to Favorites"}
+              {favorited ? "Saved to Favorites" : "Add to Favorites"}
             </Button>
             <Button
               variant="outline"

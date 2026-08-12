@@ -3,7 +3,8 @@
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { useState } from "react";
+
+import { useFavorite } from "@/hooks/useFavorite";
 
 type Variant = {
   _id: string;
@@ -26,7 +27,7 @@ type Product = {
 };
 
 export default function ProductCard({ product }: { product: Product }) {
-  const [saved, setSaved] = useState(false);
+  const { favorited, toggle } = useFavorite("product", product._id);
 
   const hasVariants = (product.variants?.length ?? 0) > 0;
   const variantPrices = hasVariants
@@ -53,12 +54,12 @@ export default function ProductCard({ product }: { product: Product }) {
           type="button"
           onClick={(e) => {
             e.preventDefault();
-            setSaved((s) => !s);
+            toggle();
           }}
           className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm transition hover:scale-110 cursor-pointer"
           aria-label="Save to wishlist"
         >
-          {saved ? (
+          {favorited ? (
             <HeartSolid className="h-4 w-4 text-[#c0392b]" />
           ) : (
             <HeartOutline className="h-4 w-4 text-[#2c6e9b]" />

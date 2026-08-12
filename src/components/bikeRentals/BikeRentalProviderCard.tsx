@@ -1,4 +1,14 @@
-import { ArrowTopRightOnSquareIcon, MapPinIcon, StarIcon } from "@heroicons/react/24/solid";
+"use client";
+
+import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
+import {
+  ArrowTopRightOnSquareIcon,
+  HeartIcon as HeartSolid,
+  MapPinIcon,
+  StarIcon,
+} from "@heroicons/react/24/solid";
+
+import { useFavorite } from "@/hooks/useFavorite";
 
 type BikeRentalProvider = {
   _id: string;
@@ -16,6 +26,8 @@ export default function BikeRentalProviderCard({
 }: {
   provider: BikeRentalProvider;
 }) {
+  const { favorited, toggle } = useFavorite("bikeRental", provider._id);
+
   return (
     <a
       href={provider.googleMapsUrl}
@@ -29,6 +41,21 @@ export default function BikeRentalProviderCard({
           alt={provider.name}
           className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
         />
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            toggle();
+          }}
+          className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm transition hover:scale-110 cursor-pointer"
+          aria-label="Save to wishlist"
+        >
+          {favorited ? (
+            <HeartSolid className="h-4 w-4 text-[#c0392b]" />
+          ) : (
+            <HeartOutline className="h-4 w-4 text-[#2c6e9b]" />
+          )}
+        </button>
         {typeof provider.rating === "number" && (
           <span className="absolute top-3 left-3 flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-[#eab657] shadow-sm">
             <StarIcon className="h-3.5 w-3.5" />

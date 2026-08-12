@@ -3,7 +3,6 @@ import {
   CreditCardIcon,
   ShoppingBagIcon,
   SparklesIcon,
-  TrophyIcon,
 } from "@heroicons/react/24/outline";
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
@@ -94,7 +93,6 @@ export default async function DashboardOverviewPage() {
   const travelMoments = aiHistory.slice(0, 4);
 
   const firstName = session.user?.name?.split(" ")[0] || "Traveler";
-  const tierValidUntil = `Dec 31, ${new Date().getFullYear()}`;
 
   return (
     <div className="space-y-8">
@@ -117,7 +115,7 @@ export default async function DashboardOverviewPage() {
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <div className="rounded-2xl bg-gradient-to-br from-indigo-500 to-[#2c6e9b] p-6 text-white shadow-sm">
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium opacity-90">Available Credits</p>
@@ -164,17 +162,6 @@ export default async function DashboardOverviewPage() {
           >
             View AI History &rarr;
           </Link>
-        </div>
-
-        <div className="rounded-2xl border border-black/5 bg-[#fdf6e8] p-6 shadow-sm">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-500">Member Tier</p>
-            <TrophyIcon className="h-5 w-5 text-[#eab657]" />
-          </div>
-          <p className="mt-2 text-3xl font-bold text-[#b8863a]">Premium</p>
-          <p className="mt-4 text-sm text-gray-500">
-            Valid until {tierValidUntil}
-          </p>
         </div>
       </div>
 

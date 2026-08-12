@@ -1,15 +1,12 @@
 "use client";
 
 import {
-  BookmarkIcon,
   Cog6ToothIcon,
   CreditCardIcon,
   HeartIcon,
   HomeIcon,
-  QuestionMarkCircleIcon,
   ShoppingBagIcon,
   SparklesIcon,
-  TrophyIcon,
 } from "@heroicons/react/24/outline";
 import { CheckBadgeIcon, ShieldCheckIcon } from "@heroicons/react/24/solid";
 import { signOut, useSession } from "next-auth/react";
@@ -17,7 +14,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 
 import profileBg from "@/assets/6. user dashboard page/profile background.png";
@@ -28,14 +24,8 @@ const navItems = [
   { name: "AI History", href: "/dashboard/ai-history", icon: SparklesIcon },
   { name: "Orders", href: "/dashboard/orders", icon: ShoppingBagIcon },
   { name: "Transactions", href: "/dashboard/transactions", icon: CreditCardIcon },
+  { name: "Favorites", href: "/dashboard/favorites", icon: HeartIcon },
   { name: "Profile Settings", href: "/dashboard/profile", icon: Cog6ToothIcon },
-];
-
-const comingSoonItems = [
-  { name: "Saved Trips", icon: BookmarkIcon },
-  { name: "Favorites", icon: HeartIcon },
-  { name: "Membership", icon: TrophyIcon, badge: "Premium" },
-  { name: "Help Center", icon: QuestionMarkCircleIcon },
 ];
 
 export default function DashboardSidebar() {
@@ -84,9 +74,6 @@ export default function DashboardSidebar() {
           <p className="mt-3 font-serif text-lg font-medium text-[#173d5c]">
             {session?.user?.name || "Traveler"}
           </p>
-          <p className="flex items-center gap-1 text-xs font-medium text-[#eab657]">
-            Premium Member <TrophyIcon className="h-3.5 w-3.5" />
-          </p>
           {memberSince && (
             <p className="mt-1 text-xs text-gray-400">
               Member since {memberSince}
@@ -112,27 +99,6 @@ export default function DashboardSidebar() {
               </Link>
             );
           })}
-
-          <div className="my-2 border-t border-black/5" />
-
-          {comingSoonItems.map((item) => (
-            <button
-              key={item.name}
-              type="button"
-              onClick={() => toast("Coming soon!")}
-              className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm text-gray-400 transition hover:bg-black/[0.03] cursor-pointer"
-            >
-              <span className="flex items-center gap-2.5">
-                <item.icon className="h-4.5 w-4.5" />
-                {item.name}
-              </span>
-              {item.badge && (
-                <span className="rounded-full bg-[#eab657]/15 px-2 py-0.5 text-[10px] font-semibold text-[#b8863a]">
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          ))}
 
           <div className="my-2 border-t border-black/5" />
 
