@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 import ConditionalFooter from "@/components/layout/ConditionalFooter";
+import ConnectivityBanner from "@/components/layout/ConnectivityBanner";
 import Header from "@/components/layout/Header";
 import { locales } from "@/i18n";
 import AuthProvider from "@/providers/AuthProvider";
@@ -104,6 +105,7 @@ export default async function RootLayout({
                   success: { iconTheme: { primary: "#2c6e9b", secondary: "#fff" } },
                 }}
               />
+              <ConnectivityBanner />
               <Header />
               {children}
               <ConditionalFooter />

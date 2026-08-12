@@ -16,5 +16,11 @@
   "notfound.subtitle": "La página que buscas no existe — puede que se haya movido, o que la dirección no sea del todo correcta. Volvamos a los adoquines de Porto.",
   "notfound.path": "Intentaste visitar:",
   "notfound.cta.home": "Volver al inicio",
-  "notfound.cta.explore": "Explorar productos"
+  "notfound.cta.explore": "Explorar productos",
+  "offline.message": "Estás sin conexión — reconectando…",
+  "offline.reconnected": "De vuelta en línea",
+  "error.title": "Algo salió mal",
+  "error.subtitle": "Puede ser una conexión lenta o un problema de nuestro lado. Inténtalo de nuevo, o vuelve al inicio.",
+  "error.cta.retry": "Intentar de nuevo",
+  "error.cta.home": "Volver al inicio"
 }

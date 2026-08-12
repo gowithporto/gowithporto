@@ -16,5 +16,11 @@
   "notfound.subtitle": "La page que vous recherchez n'existe pas — elle a peut-être été déplacée, ou l'adresse n'est pas tout à fait exacte. Retournons sur les pavés de Porto.",
   "notfound.path": "Vous avez essayé de visiter :",
   "notfound.cta.home": "Retour à l'accueil",
-  "notfound.cta.explore": "Explorer les produits"
+  "notfound.cta.explore": "Explorer les produits",
+  "offline.message": "Vous êtes hors ligne — reconnexion en cours…",
+  "offline.reconnected": "De retour en ligne",
+  "error.title": "Une erreur s'est produite",
+  "error.subtitle": "Il peut s'agir d'une connexion lente ou d'un problème de notre côté. Réessayez, ou retournez à l'accueil.",
+  "error.cta.retry": "Réessayer",
+  "error.cta.home": "Retour à l'accueil"
 }

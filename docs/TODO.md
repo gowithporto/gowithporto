@@ -31,6 +31,7 @@ Update whenever a task completes or a new one is identified. Mirrors the live se
 - [x] Remove the "Shipping" line from the Cart page (2026-08-12) — Stripe's own payment step already shows the real amount, so the cart-side estimate (and the `/api/cart/delivery-fee` route built to fix its accuracy earlier the same day) was removed instead of kept accurate
 - [x] Fix `/store-owner` not redirecting to login after logout (2026-08-12) — the layout only used the session to decide whether to show the sidebar, never to redirect; added `StoreOwnerGuard.tsx` mirroring the existing `AdminGuard` pattern
 - [x] Fix email logo sometimes appearing broken in Gmail (2026-08-12) — the 193KB print-resolution logo image was oversized for a 180px-wide email display, raising the odds Gmail's image proxy timed out on first open and cached the failure forever for that email. Added a 9.6KB resized `logo-email.png` for transactional emails only; `logo.png` unchanged (still used for Open Graph/social previews)
+- [x] Add a branded offline indicator + global error boundary (2026-08-12) — previously a dropped connection or uncaught error showed nothing or a generic default screen; added `ConnectivityBanner` (online/offline events + a `/robots.txt` poll fallback, shown as a branded toast) plus `error.tsx`/`global-error.tsx` fallback pages, see CHANGELOG for detail
 
 ## Low Priority
 

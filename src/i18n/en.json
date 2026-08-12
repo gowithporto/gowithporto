@@ -16,5 +16,11 @@
   "notfound.subtitle": "The page you're looking for doesn't exist — it may have moved, or the address isn't quite right. Let's get you back on the cobblestones of Porto.",
   "notfound.path": "You tried to visit:",
   "notfound.cta.home": "Back to Home",
-  "notfound.cta.explore": "Explore Products"
+  "notfound.cta.explore": "Explore Products",
+  "offline.message": "You're offline — reconnecting…",
+  "offline.reconnected": "Back online",
+  "error.title": "Something Went Wrong",
+  "error.subtitle": "This might be a slow connection or a hiccup on our end. Give it another try, or head back home.",
+  "error.cta.retry": "Try Again",
+  "error.cta.home": "Back to Home"
 }
