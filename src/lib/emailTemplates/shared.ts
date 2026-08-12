@@ -11,7 +11,7 @@ export const colors = {
   lightBlue: "#EEF2FB",
 };
 
-export const logoUrl = `${BASE_URL}/logo.png`;
+export const logoUrl = `${BASE_URL}/logo-email.png`;
 export const shopUrl = `${BASE_URL}/shop`;
 export const ordersUrl = `${BASE_URL}/dashboard/orders`;
 export const aiUrl = `${BASE_URL}/ai`;
