@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 import {
   FaCalendarAlt,
@@ -18,6 +18,7 @@ import {
   FaUsers,
   FaWineGlassAlt,
 } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 import Button from "@/components/ui/Button";
 
@@ -76,7 +77,35 @@ export default function AIPlannerForm() {
 
   async function handleSubmit() {
     if (!session) {
-      alert("Please login first to generate a travel plan.");
+      toast.custom(
+        (t) => (
+          <div
+            className="flex items-start gap-3 rounded-2xl border border-black/5 bg-white px-4 py-3.5 shadow-lg transition-all duration-300"
+            style={{
+              maxWidth: 360,
+              opacity: t.visible ? 1 : 0,
+              transform: t.visible ? "translateY(0)" : "translateY(-8px)",
+            }}
+          >
+            <span className="mt-0.5 flex h-8 w-8 flex-none items-center justify-center rounded-full bg-[#2c6e9b]/10 text-[#2c6e9b]">
+              <FaLock className="text-sm" />
+            </span>
+            <div>
+              <p className="text-sm font-medium text-[var(--primary)]">
+                Login required
+              </p>
+              <p className="mt-0.5 text-xs text-gray-500">
+                Sign in to generate your personalized Porto plan.
+              </p>
+            </div>
+          </div>
+        ),
+        { duration: 2200 },
+      );
+
+      setTimeout(() => {
+        signIn("google");
+      }, 2200);
       return;
     }
 

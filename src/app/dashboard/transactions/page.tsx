@@ -13,11 +13,27 @@ import { redirect } from "next/navigation";
 
 import currentBalanceBg from "@/assets/8. ai credit transactions page/current balance bg.png";
 import BuyCreditsCTA from "@/components/dashboard/BuyCreditsCTA";
+import OrderTransactionsTable from "@/components/dashboard/OrderTransactionsTable";
 import TransactionsTable from "@/components/dashboard/TransactionsTable";
 
 async function getTransactions() {
   const cookieStore = await cookies();
   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user/transactions`, {
+    cache: "no-store",
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+
+  if (!res.ok) {
+    return [];
+  }
+  return res.json();
+}
+
+async function getOrders() {
+  const cookieStore = await cookies();
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/orders`, {
     cache: "no-store",
     headers: {
       Cookie: cookieStore.toString(),
@@ -46,9 +62,10 @@ export default async function TransactionsPage() {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/");
 
-  const [transactions, creditData] = await Promise.all([
+  const [transactions, creditData, orders] = await Promise.all([
     getTransactions(),
     getCredits(),
+    getOrders(),
   ]);
 
   const totalCreditsPurchased = transactions.reduce(
@@ -142,6 +159,8 @@ export default async function TransactionsPage() {
       </div>
 
       <TransactionsTable transactions={transactions} />
+
+      <OrderTransactionsTable orders={orders} />
 
       <BuyCreditsCTA />
     </div>
