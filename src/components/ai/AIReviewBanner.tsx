@@ -1,3 +1,7 @@
+"use client";
+
+import { t } from "@/i18n";
+import { useLanguage } from "@/providers/LanguageProvider";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 const avatars = [
@@ -7,6 +11,8 @@ const avatars = [
 ];
 
 export default function AIReviewBanner() {
+  const { lang } = useLanguage();
+
   return (
     <div className="mx-auto max-w-6xl px-6 sm:px-10">
       <div className="flex flex-col items-center justify-between gap-6 rounded-2xl border border-black/5 bg-[#f4f7fa] p-6 sm:flex-row sm:p-8">
@@ -23,8 +29,7 @@ export default function AIReviewBanner() {
             ))}
           </div>
           <p className="max-w-xs text-sm text-[var(--text)]">
-            Join 1,000+ travelers who&apos;ve planned their perfect Porto trip
-            with AI
+            {t(lang, "ai.review.joinText")}
           </p>
         </div>
 
@@ -41,7 +46,7 @@ export default function AIReviewBanner() {
               4.9/5
             </span>
           </div>
-          <p className="text-xs text-gray-400">based on 500+ reviews</p>
+          <p className="text-xs text-gray-400">{t(lang, "ai.review.basedOn")}</p>
         </div>
       </div>
     </div>

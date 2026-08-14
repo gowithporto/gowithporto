@@ -11,7 +11,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";

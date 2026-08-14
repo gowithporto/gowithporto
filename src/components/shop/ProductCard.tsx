@@ -2,7 +2,7 @@
 
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 
 import { useFavorite } from "@/hooks/useFavorite";
 

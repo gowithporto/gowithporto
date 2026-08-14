@@ -1,6 +1,6 @@
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 
 import centerLine from "@/assets/center line 3.png";
 

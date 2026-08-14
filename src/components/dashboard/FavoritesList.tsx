@@ -1,7 +1,7 @@
 "use client";
 
 import { HeartIcon } from "@heroicons/react/24/solid";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import { useState } from "react";
 import toast from "react-hot-toast";
 

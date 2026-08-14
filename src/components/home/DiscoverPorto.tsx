@@ -1,3 +1,7 @@
+"use client";
+
+import { t } from "@/i18n";
+import { useLanguage } from "@/providers/LanguageProvider";
 import Image from "next/image";
 
 import img1 from "@/assets/1. home page/discover_porto/1.png";
@@ -14,27 +18,29 @@ import centerLine from "@/assets/center line 3.png";
 
 import Carousel from "./Carousel";
 
-const places = [
-  { image: img1, caption: "Ribeira Riverside" },
-  { image: img2, caption: "Clérigos Tower" },
-  { image: img3, caption: "Igreja do Carmo" },
-  { image: img4, caption: "Porto Beaches" },
-  { image: img5, caption: "Dom Luís Bridge" },
-  { image: img6, caption: "Historic Streets" },
-  { image: img7, caption: "Riverside Views" },
-  { image: img8, caption: "City Landmarks" },
-  { image: img9, caption: "Porto Wine Cellars" },
-  { image: img10, caption: "Scenic Porto" },
+const PLACES = [
+  { image: img1, captionKey: "home.discoverPorto.caption.ribeira" },
+  { image: img2, captionKey: "home.discoverPorto.caption.clerigos" },
+  { image: img3, captionKey: "home.discoverPorto.caption.carmo" },
+  { image: img4, captionKey: "home.discoverPorto.caption.beaches" },
+  { image: img5, captionKey: "home.discoverPorto.caption.bridge" },
+  { image: img6, captionKey: "home.discoverPorto.caption.streets" },
+  { image: img7, captionKey: "home.discoverPorto.caption.riverside" },
+  { image: img8, captionKey: "home.discoverPorto.caption.landmarks" },
+  { image: img9, captionKey: "home.discoverPorto.caption.cellars" },
+  { image: img10, captionKey: "home.discoverPorto.caption.scenic" },
 ];
 
 export default function DiscoverPorto() {
+  const { lang } = useLanguage();
+
   return (
     <section
       id="discover-porto"
       className="mx-auto max-w-6xl px-6 py-16 sm:px-10"
     >
       <h2 className="text-center font-serif text-3xl font-medium text-[var(--primary)]">
-        Discover Porto
+        {t(lang, "home.discoverPorto.heading")}
       </h2>
       <Image
         src={centerLine}
@@ -44,11 +50,11 @@ export default function DiscoverPorto() {
 
       <div className="mt-10">
         <Carousel itemClassName="w-40 sm:w-48">
-          {places.map((place, i) => (
+          {PLACES.map((place, i) => (
             <div key={i} className="overflow-hidden rounded-2xl shadow-sm">
               <Image
                 src={place.image}
-                alt={place.caption}
+                alt={t(lang, place.captionKey)}
                 className="h-56 w-full object-cover transition duration-300 hover:scale-105 sm:h-64"
               />
             </div>

@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";

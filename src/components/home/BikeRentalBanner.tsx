@@ -1,10 +1,16 @@
+"use client";
+
+import { t } from "@/i18n";
+import { useLanguage } from "@/providers/LanguageProvider";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 
 import bikeBanner from "@/assets/1. home page/rent bike banner section photo.png";
 import Button from "@/components/ui/Button";
 
 export default function BikeRentalBanner() {
+  const { lang } = useLanguage();
+
   return (
     <section id="bike-rental" className="mx-auto max-w-6xl px-6 sm:px-10">
       <div className="relative overflow-hidden rounded-3xl">
@@ -17,14 +23,13 @@ export default function BikeRentalBanner() {
         <div className="absolute inset-0 flex items-center bg-gradient-to-r from-white/90 via-white/60 to-transparent">
           <div className="max-w-sm px-6 sm:px-12">
             <h3 className="font-serif text-2xl font-medium text-[var(--primary)] sm:text-3xl">
-              Rent a Bike &amp; Explore Porto Freely
+              {t(lang, "home.bikeBanner.title")}
             </h3>
             <p className="mt-3 text-sm text-[#4b5b66] sm:text-base">
-              Enjoy the city&apos;s beauty on two wheels. Easy, fun and
-              eco-friendly.
+              {t(lang, "home.bikeBanner.subtitle")}
             </p>
             <Link href="/bike-rentals" className="mt-5 inline-block">
-              <Button className="cursor-pointer">Find Bike Rentals</Button>
+              <Button className="cursor-pointer">{t(lang, "home.bikeBanner.cta")}</Button>
             </Link>
           </div>
         </div>

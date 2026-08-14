@@ -2,7 +2,7 @@
 
 import { ChevronLeftIcon, ShoppingBagIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 

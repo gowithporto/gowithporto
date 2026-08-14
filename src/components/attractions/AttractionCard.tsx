@@ -1,5 +1,5 @@
 import { MapPinIcon } from "@heroicons/react/24/solid";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 
 import { getAttractionBadge } from "@/utils/attractionBadge";
 

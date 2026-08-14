@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeftIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 

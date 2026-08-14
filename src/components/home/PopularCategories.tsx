@@ -1,5 +1,9 @@
+"use client";
+
+import { t } from "@/i18n";
+import { useLanguage } from "@/providers/LanguageProvider";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 
 import bicycle from "@/assets/1. home page/popular_categories/bycycle.png";
 import coffeeCup from "@/assets/1. home page/popular_categories/caffeCup.png";
@@ -8,44 +12,46 @@ import map from "@/assets/1. home page/popular_categories/map.png";
 import shoppingBag from "@/assets/1. home page/popular_categories/shoopingBag.png";
 import centerLine from "@/assets/center line 3.png";
 
-const categories = [
+const CATEGORIES = [
   {
     icon: camera,
-    title: "AI Trip Planner",
-    subtitle: "Smart itineraries tailored for you",
+    titleKey: "home.popularCategories.ai.title",
+    subtitleKey: "home.popularCategories.ai.subtitle",
     href: "/ai",
   },
   {
     icon: shoppingBag,
-    title: "Souvenir Shop",
-    subtitle: "Authentic Porto souvenirs & gifts",
+    titleKey: "home.popularCategories.shop.title",
+    subtitleKey: "home.popularCategories.shop.subtitle",
     href: "/shop",
   },
   {
     icon: map,
-    title: "Top Attractions",
-    subtitle: "Explore the best places in Porto",
+    titleKey: "home.popularCategories.attractions.title",
+    subtitleKey: "home.popularCategories.attractions.subtitle",
     href: "/attractions",
   },
   {
     icon: bicycle,
-    title: "Bike Rentals",
-    subtitle: "Ride around Porto at your pace",
+    titleKey: "home.popularCategories.bikes.title",
+    subtitleKey: "home.popularCategories.bikes.subtitle",
     href: "/bike-rentals",
   },
   {
     icon: coffeeCup,
-    title: "Local Experiences",
-    subtitle: "Food, wine & culture like a local",
+    titleKey: "home.popularCategories.experiences.title",
+    subtitleKey: "home.popularCategories.experiences.subtitle",
     href: "/local-experiences",
   },
 ];
 
 export default function PopularCategories() {
+  const { lang } = useLanguage();
+
   return (
     <section className="mx-auto max-w-6xl px-6 py-16 sm:px-10">
       <h2 className="text-center font-serif text-3xl font-medium text-[var(--primary)]">
-        Popular Categories
+        {t(lang, "home.popularCategories.heading")}
       </h2>
       <Image
         src={centerLine}
@@ -54,9 +60,9 @@ export default function PopularCategories() {
       />
 
       <div className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-5 sm:gap-6">
-        {categories.map((cat) => (
+        {CATEGORIES.map((cat) => (
           <Link
-            key={cat.title}
+            key={cat.titleKey}
             href={cat.href}
             className="group flex flex-col items-center gap-3 text-center transition hover:-translate-y-1"
           >
@@ -68,9 +74,9 @@ export default function PopularCategories() {
               className="h-32 w-32 object-contain"
             />
             <div>
-              <p className="font-medium text-[var(--text)]">{cat.title}</p>
+              <p className="font-medium text-[var(--text)]">{t(lang, cat.titleKey)}</p>
               <p className="mt-1 text-xs text-[var(--text)]/60">
-                {cat.subtitle}
+                {t(lang, cat.subtitleKey)}
               </p>
             </div>
           </Link>

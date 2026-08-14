@@ -1,0 +1,275 @@
+[
+  {
+    "_id": "6a7755f77214fdd7f463f805",
+    "fr": {
+      "title": "Dégustation de vin de Porto",
+      "shortDescription": "Dégustez des vins de Porto emblématiques dans des caves historiques, avec un expert local.",
+      "story": "Traversez le fleuve jusqu'à Vila Nova de Gaia, où se trouvent les caves centenaires dans lesquelles le vin de Porto est vieilli et conservé depuis des générations. Guidé par un expert local, découvrez comment le Porto est élaboré, vieilli et assemblé, et dégustez une sélection de styles dans le cadre historique d'une cave.",
+      "highlights": ["Dégustation guidée de 3 à 4 styles de vin de Porto", "Découvrez comment le vin de Porto est élaboré et vieilli", "Visitez une cave historique à Vila Nova de Gaia", "Vue sur le Douro et la Ribeira"],
+      "included": ["Guide expert local du vin", "Dégustations de vin de Porto", "Visite de la cave"],
+      "groupSize": "Petits groupes, 12 personnes maximum",
+      "cancellationPolicy": "Annulation gratuite jusqu'à 24h avant l'expérience."
+    },
+    "es": {
+      "title": "Cata de vino de Oporto",
+      "shortDescription": "Prueba los icónicos vinos de Oporto en bodegas históricas con un experto local.",
+      "story": "Cruza el río hasta Vila Nova de Gaia, donde se encuentran las bodegas centenarias en las que el vino de Oporto se ha criado y almacenado durante generaciones. Guiado por un experto local, descubre cómo se elabora, cría y ensambla el vino de Oporto, y prueba una selección de estilos en un entorno de bodega histórica.",
+      "highlights": ["Cata guiada de 3-4 estilos de vino de Oporto", "Aprende cómo se elabora y cría el vino de Oporto", "Visita una bodega histórica en Vila Nova de Gaia", "Vistas del río Duero y Ribeira"],
+      "included": ["Guía experto local en vinos", "Catas de vino de Oporto", "Visita a la bodega"],
+      "groupSize": "Grupos pequeños, máximo 12 personas",
+      "cancellationPolicy": "Cancelación gratuita hasta 24 h antes de la experiencia."
+    },
+    "pt": {
+      "title": "Prova de Vinho do Porto",
+      "shortDescription": "Prove Vinhos do Porto icónicos em caves históricas com um especialista local.",
+      "story": "Atravesse o rio até Vila Nova de Gaia, onde ficam as caves centenárias onde o Vinho do Porto é envelhecido e guardado há gerações. Guiado por um especialista local, descubra como o Vinho do Porto é produzido, envelhecido e lotado, e prove uma seleção cuidada de estilos num cenário de cave histórica.",
+      "highlights": ["Prova guiada de 3-4 estilos de Vinho do Porto", "Saiba como o Vinho do Porto é produzido e envelhecido", "Visite uma cave histórica em Vila Nova de Gaia", "Vistas sobre o rio Douro e a Ribeira"],
+      "included": ["Guia especialista local em vinhos", "Provas de Vinho do Porto", "Visita à cave"],
+      "groupSize": "Grupos pequenos, máximo de 12 pessoas",
+      "cancellationPolicy": "Cancelamento gratuito até 24h antes da experiência."
+    }
+  },
+  {
+    "_id": "6a7755f77214fdd7f463f806",
+    "fr": {
+      "title": "Expérience gustative de la Francesinha",
+      "shortDescription": "Découvrez l'histoire du sandwich le plus célèbre de Porto.",
+      "story": "Découvrez Porto à travers son plat le plus emblématique : la Francesinha. Cette expérience vous emmène dans une adresse locale appréciée pour déguster une authentique Francesinha, tout en apprenant son histoire, ses ingrédients et pourquoi elle est devenue un symbole de la culture culinaire de la ville.",
+      "highlights": ["Dégustez une authentique Francesinha", "Découvrez son histoire et sa préparation", "Accord boisson locale inclus", "Conseils d'initiés sur la scène culinaire de Porto"],
+      "included": ["Dégustation de Francesinha", "Accord boisson", "Hôte local"],
+      "groupSize": "Petits groupes, 10 personnes maximum",
+      "cancellationPolicy": "Annulation gratuite jusqu'à 24h avant l'expérience."
+    },
+    "es": {
+      "title": "Experiencia gastronómica: Francesinha",
+      "shortDescription": "Descubre la historia del sándwich más famoso de Oporto.",
+      "story": "Conoce Oporto a través de su plato más icónico: la Francesinha. Esta experiencia te lleva a un local favorito de la ciudad para probar una auténtica Francesinha mientras descubres su historia, sus ingredientes y por qué se convirtió en un símbolo de la cultura gastronómica de la ciudad.",
+      "highlights": ["Prueba una auténtica Francesinha", "Descubre su historia y cómo se elabora", "Maridaje con bebida local incluido", "Consejos de experto sobre la escena gastronómica de Oporto"],
+      "included": ["Degustación de Francesinha", "Maridaje con bebida", "Anfitrión local"],
+      "groupSize": "Grupos pequeños, máximo 10 personas",
+      "cancellationPolicy": "Cancelación gratuita hasta 24 h antes de la experiencia."
+    },
+    "pt": {
+      "title": "Experiência Gastronómica: Francesinha",
+      "shortDescription": "Descubra a história por trás da sandes mais famosa do Porto.",
+      "story": "Conheça o Porto através do seu prato mais icónico: a Francesinha. Esta experiência leva-o a um espaço muito apreciado pelos locais para provar uma autêntica Francesinha, enquanto conhece a sua história, os seus ingredientes e o motivo pelo qual se tornou um símbolo da cultura gastronómica da cidade.",
+      "highlights": ["Prove uma autêntica Francesinha", "Conheça a sua história e a forma como é feita", "Harmonização com bebida local incluída", "Dicas locais sobre a cena gastronómica do Porto"],
+      "included": ["Prova de Francesinha", "Harmonização com bebida", "Anfitrião local"],
+      "groupSize": "Grupos pequenos, máximo de 10 pessoas",
+      "cancellationPolicy": "Cancelamento gratuito até 24h antes da experiência."
+    }
+  },
+  {
+    "_id": "6a7755f87214fdd7f463f807",
+    "fr": {
+      "title": "Croisière sur le Douro",
+      "shortDescription": "Profitez d'une croisière reposante et admirez Porto sous un angle unique.",
+      "story": "Embarquez sur le Douro à bord d'un bateau traditionnel de type rabelo et découvrez Porto depuis l'eau. Cette croisière reposante passe sous les six ponts emblématiques de la ville, offrant des vues imprenables sur le quartier de la Ribeira et les caves à vin de Vila Nova de Gaia.",
+      "highlights": ["Croisière sous les six ponts emblématiques de Porto", "Bateau traditionnel de type rabelo", "Vues panoramiques sur la Ribeira et Vila Nova de Gaia", "Excellentes occasions de photos"],
+      "included": ["Croisière en bateau", "Commentaires du guide à bord"],
+      "meetingPoint": "Boating Porto",
+      "groupSize": "Croisière partagée, jusqu'à 50 personnes",
+      "cancellationPolicy": "Annulation gratuite jusqu'à 24h avant l'expérience."
+    },
+    "es": {
+      "title": "Crucero por el río Duero",
+      "shortDescription": "Disfruta de un crucero relajante y admira Oporto desde una perspectiva única.",
+      "story": "Navega por el río Duero a bordo de una embarcación tradicional de tipo rabelo y descubre Oporto desde el agua. Este relajante crucero pasa bajo los seis puentes emblemáticos de la ciudad, ofreciendo vistas inigualables del barrio de Ribeira y las bodegas de Vila Nova de Gaia.",
+      "highlights": ["Crucero bajo los seis puentes emblemáticos de Oporto", "Embarcación tradicional de tipo rabelo", "Vistas panorámicas de Ribeira y Vila Nova de Gaia", "Grandes oportunidades para fotografías"],
+      "included": ["Crucero en barco", "Comentarios de un guía a bordo"],
+      "meetingPoint": "Boating Porto",
+      "groupSize": "Crucero compartido, hasta 50 personas",
+      "cancellationPolicy": "Cancelación gratuita hasta 24 h antes de la experiencia."
+    },
+    "pt": {
+      "title": "Cruzeiro no Rio Douro",
+      "shortDescription": "Desfrute de um cruzeiro relaxante e admire o Porto sob uma perspetiva única.",
+      "story": "Navegue pelo rio Douro a bordo de um barco tradicional rabelo e veja o Porto a partir da água. Este cruzeiro relaxante passa por baixo das seis pontes icónicas da cidade, oferecendo vistas imbatíveis sobre a Ribeira e as caves de Vila Nova de Gaia.",
+      "highlights": ["Cruzeiro sob as seis pontes icónicas do Porto", "Barco tradicional rabelo", "Vistas deslumbrantes sobre a Ribeira e Vila Nova de Gaia", "Ótimas oportunidades para fotografias"],
+      "included": ["Cruzeiro de barco", "Comentários de guia a bordo"],
+      "meetingPoint": "Boating Porto",
+      "groupSize": "Cruzeiro partilhado, até 50 pessoas",
+      "cancellationPolicy": "Cancelamento gratuito até 24h antes da experiência."
+    }
+  },
+  {
+    "_id": "6a7755f87214fdd7f463f808",
+    "fr": {
+      "title": "Atelier de peinture d'azulejos",
+      "shortDescription": "Créez votre propre azulejo peint à la main avec des artisans locaux.",
+      "story": "Essayez-vous à la forme d'art la plus emblématique du Portugal. Lors de cet atelier pratique, un artisan local vous guide à travers les techniques de peinture d'un azulejo traditionnel, que vous rapporterez chez vous comme souvenir unique.",
+      "highlights": ["Atelier pratique de peinture sur carreaux", "Apprenez les techniques traditionnelles de l'azulejo", "Guidé par des artisans locaux", "Repartez avec votre propre carreau peint à la main"],
+      "included": ["Tout le matériel de peinture", "Un carreau à rapporter chez vous", "Encadrement par un artisan"],
+      "groupSize": "Petits groupes, 8 personnes maximum",
+      "cancellationPolicy": "Annulation gratuite jusqu'à 24h avant l'expérience."
+    },
+    "es": {
+      "title": "Taller de azulejos",
+      "shortDescription": "Crea tu propio azulejo pintado a mano con artesanos locales.",
+      "story": "Prueba suerte con la forma de arte más reconocible de Portugal. En este taller práctico, un artesano local te guía a través de las técnicas para pintar un azulejo tradicional, que te llevarás a casa como un recuerdo único.",
+      "highlights": ["Taller práctico de pintura sobre azulejos", "Aprende técnicas tradicionales de azulejo", "Guiado por artesanos locales", "Llévate a casa tu propio azulejo pintado a mano"],
+      "included": ["Todos los materiales de pintura", "Un azulejo para llevar a casa", "Guía de un artesano"],
+      "groupSize": "Grupos pequeños, máximo 8 personas",
+      "cancellationPolicy": "Cancelación gratuita hasta 24 h antes de la experiencia."
+    },
+    "pt": {
+      "title": "Workshop de Azulejos",
+      "shortDescription": "Crie o seu próprio azulejo pintado à mão com artesãos locais.",
+      "story": "Experimente a forma de arte mais reconhecível de Portugal. Neste workshop prático, um artesão local guia-o pelas técnicas de pintura de um azulejo tradicional, que levará para casa como uma recordação única.",
+      "highlights": ["Pintura de azulejos em modo prático", "Aprenda técnicas tradicionais de azulejaria", "Orientação de artesãos locais", "Leve para casa o seu próprio azulejo pintado à mão"],
+      "included": ["Todos os materiais de pintura", "Um azulejo para levar para casa", "Orientação de artesão"],
+      "groupSize": "Grupos pequenos, máximo de 8 pessoas",
+      "cancellationPolicy": "Cancelamento gratuito até 24h antes da experiência."
+    }
+  },
+  {
+    "_id": "6a7755f87214fdd7f463f809",
+    "fr": {
+      "title": "Soirée Fado",
+      "shortDescription": "Ressentez l'émotion du Fado dans un cadre traditionnel et intimiste.",
+      "story": "Passez une soirée immergée dans le Fado, la musique traditionnelle pleine d'âme du Portugal. Interprété en direct dans un cadre traditionnel et intimiste à Miragaia, cette expérience vous rapproche de l'émotion brute et du récit qui font du Fado un trésor culturel reconnu par l'UNESCO.",
+      "highlights": ["Concert de Fado en direct", "Cadre traditionnel et intimiste", "Découvrez l'histoire et la culture du Fado", "Accord vin ou porto en option"],
+      "included": ["Spectacle de Fado en direct", "Réservation de place"],
+      "groupSize": "Lieu intimiste, places limitées",
+      "cancellationPolicy": "Annulation gratuite jusqu'à 24h avant l'expérience."
+    },
+    "es": {
+      "title": "Noche de Fado",
+      "shortDescription": "Siente la emoción del Fado en un ambiente tradicional e íntimo.",
+      "story": "Pasa una velada sumergido en el Fado, la música tradicional y llena de sentimiento de Portugal. Interpretado en directo en un ambiente tradicional e íntimo en Miragaia, esta experiencia te acerca a la emoción pura y a las historias que hacen del Fado un tesoro cultural reconocido por la UNESCO.",
+      "highlights": ["Actuación de Fado en directo", "Ambiente tradicional e íntimo", "Descubre la historia y la cultura del Fado", "Maridaje opcional con vino u oporto"],
+      "included": ["Espectáculo de Fado en directo", "Reserva de asiento"],
+      "groupSize": "Local íntimo, aforo limitado",
+      "cancellationPolicy": "Cancelación gratuita hasta 24 h antes de la experiencia."
+    },
+    "pt": {
+      "title": "Noite de Fado",
+      "shortDescription": "Sinta a emoção do Fado num ambiente tradicional e intimista.",
+      "story": "Passe uma noite mergulhado no Fado, a música tradicional cheia de sentimento de Portugal. Interpretado ao vivo num ambiente tradicional e intimista em Miragaia, esta experiência aproxima-o da emoção genuína e das histórias que fazem do Fado um património cultural reconhecido pela UNESCO.",
+      "highlights": ["Espetáculo de Fado ao vivo", "Ambiente tradicional e intimista", "Conheça a história e a cultura do Fado", "Harmonização opcional com vinho ou Vinho do Porto"],
+      "included": ["Espetáculo de Fado ao vivo", "Reserva de lugar"],
+      "groupSize": "Espaço intimista, lugares limitados",
+      "cancellationPolicy": "Cancelamento gratuito até 24h antes da experiência."
+    }
+  },
+  {
+    "_id": "6a7755f87214fdd7f463f80a",
+    "fr": {
+      "title": "Visite du marché du Bolhão",
+      "shortDescription": "Explorez le marché traditionnel de Porto et goûtez des produits locaux.",
+      "story": "Parcourez l'historique marché du Bolhão avec un guide local, en dégustant produits frais, fromages traditionnels, charcuteries et pâtisseries en chemin. Une excellente introduction à la culture culinaire quotidienne de Porto et aux commerçants qui la font vivre.",
+      "highlights": ["Explorez l'historique marché du Bolhão", "Goûtez des produits et spécialités locaux", "Rencontrez des commerçants locaux", "Découvrez la culture culinaire de Porto"],
+      "included": ["Guide local", "Dégustations de produits"],
+      "groupSize": "Petits groupes, 10 personnes maximum",
+      "cancellationPolicy": "Annulation gratuite jusqu'à 24h avant l'expérience."
+    },
+    "es": {
+      "title": "Visita al mercado do Bolhão",
+      "shortDescription": "Explora el mercado tradicional de Oporto y prueba productos locales.",
+      "story": "Recorre el histórico Mercado do Bolhão con un guía local, degustando productos frescos, quesos tradicionales, embutidos y repostería por el camino. Una gran introducción a la cultura gastronómica cotidiana de Oporto y a los comerciantes que la mantienen viva.",
+      "highlights": ["Explora el histórico Mercado do Bolhão", "Prueba productos y delicias locales", "Conoce a comerciantes locales", "Descubre la cultura gastronómica de Oporto"],
+      "included": ["Guía local", "Degustaciones de productos"],
+      "groupSize": "Grupos pequeños, máximo 10 personas",
+      "cancellationPolicy": "Cancelación gratuita hasta 24 h antes de la experiencia."
+    },
+    "pt": {
+      "title": "Visita ao Mercado do Bolhão",
+      "shortDescription": "Explore o mercado tradicional do Porto e prove produtos locais.",
+      "story": "Percorra o histórico Mercado do Bolhão com um guia local, provando produtos frescos, queijos tradicionais, enchidos e doçaria pelo caminho. Uma excelente introdução à cultura gastronómica do dia a dia do Porto e aos vendedores que a mantêm viva.",
+      "highlights": ["Explore o histórico Mercado do Bolhão", "Prove produtos e iguarias locais", "Conheça vendedores locais", "Descubra a cultura gastronómica do Porto"],
+      "included": ["Guia local", "Provas de produtos"],
+      "groupSize": "Grupos pequenos, máximo de 10 pessoas",
+      "cancellationPolicy": "Cancelamento gratuito até 24h antes da experiência."
+    }
+  },
+  {
+    "_id": "6a7755f87214fdd7f463f80b",
+    "fr": {
+      "title": "Randonnée côtière et nature",
+      "shortDescription": "Randonnée côtière panoramique avec des vues époustouflantes sur l'Atlantique.",
+      "story": "Échangez les rues pavées contre le grand large lors de cette randonnée panoramique qui débute à Foz do Douro, là où le Douro rencontre l'Atlantique. Profitez de vues océaniques à couper le souffle, de l'air marin et d'un rythme plus tranquille, loin du centre-ville.",
+      "highlights": ["Sentier côtier panoramique", "Vues époustouflantes sur l'océan Atlantique", "Air pur et nature loin de la ville", "Idéal pour la photographie"],
+      "included": ["Guide local"],
+      "groupSize": "Petits groupes, 12 personnes maximum",
+      "cancellationPolicy": "Annulation gratuite jusqu'à 24h avant l'expérience."
+    },
+    "es": {
+      "title": "Caminata costera y naturaleza",
+      "shortDescription": "Caminata costera panorámica con impresionantes vistas al Atlántico.",
+      "story": "Cambia las calles empedradas por el litoral abierto en esta caminata panorámica que comienza en Foz do Douro, donde el río Duero se encuentra con el Atlántico. Disfruta de amplias vistas al océano, aire marino y un ritmo más pausado, lejos del centro de la ciudad.",
+      "highlights": ["Sendero costero panorámico", "Impresionantes vistas al océano Atlántico", "Aire fresco y naturaleza lejos de la ciudad", "Ideal para la fotografía"],
+      "included": ["Guía local"],
+      "groupSize": "Grupos pequeños, máximo 12 personas",
+      "cancellationPolicy": "Cancelación gratuita hasta 24 h antes de la experiencia."
+    },
+    "pt": {
+      "title": "Caminhada Costeira e Natureza",
+      "shortDescription": "Caminhada costeira panorâmica com vistas deslumbrantes sobre o Atlântico.",
+      "story": "Troque as ruas de calçada pelo litoral aberto nesta caminhada panorâmica que começa na Foz do Douro, onde o rio Douro encontra o Atlântico. Desfrute de vistas amplas sobre o oceano, ar marítimo e um ritmo mais tranquilo, longe do centro da cidade.",
+      "highlights": ["Percurso costeiro panorâmico", "Vistas deslumbrantes sobre o Oceano Atlântico", "Ar puro e natureza longe da cidade", "Ótimo para fotografia"],
+      "included": ["Guia local"],
+      "groupSize": "Grupos pequenos, máximo de 12 pessoas",
+      "cancellationPolicy": "Cancelamento gratuito até 24h antes da experiência."
+    }
+  },
+  {
+    "_id": "6a7755f87214fdd7f463f80c",
+    "fr": {
+      "title": "Poterie et céramique",
+      "shortDescription": "Essayez des techniques de poterie traditionnelles et créez votre propre pièce.",
+      "story": "Installez-vous au tour de potier dans un atelier de céramique traditionnel à Cedofeita, guidé par un artisan local. Apprenez des techniques pratiques pour façonner l'argile et repartez avec une pièce que vous aurez créée vous-même.",
+      "highlights": ["Expérience pratique au tour de potier", "Guidé par un céramiste local", "Créez votre propre pièce à rapporter chez vous", "Apprenez des techniques traditionnelles"],
+      "included": ["Tout le matériel", "Encadrement par un artisan"],
+      "groupSize": "Petits groupes, 8 personnes maximum",
+      "cancellationPolicy": "Annulation gratuite jusqu'à 24h avant l'expérience."
+    },
+    "es": {
+      "title": "Alfarería y cerámica",
+      "shortDescription": "Prueba técnicas tradicionales de alfarería y crea tu propia pieza.",
+      "story": "Siéntate al torno de alfarero en un taller de cerámica tradicional en Cedofeita, guiado por un artesano local. Aprende técnicas prácticas para moldear el barro y llévate una pieza hecha por ti mismo.",
+      "highlights": ["Experiencia práctica en el torno de alfarero", "Guiado por un ceramista local", "Crea tu propia pieza para llevar a casa", "Aprende técnicas tradicionales"],
+      "included": ["Todos los materiales", "Guía de un artesano"],
+      "groupSize": "Grupos pequeños, máximo 8 personas",
+      "cancellationPolicy": "Cancelación gratuita hasta 24 h antes de la experiencia."
+    },
+    "pt": {
+      "title": "Cerâmica e Olaria",
+      "shortDescription": "Experimente técnicas tradicionais de olaria e faça a sua própria peça.",
+      "story": "Sente-se ao torno de oleiro num atelier de cerâmica tradicional em Cedofeita, guiado por um artesão local. Aprenda técnicas práticas para moldar o barro e leve consigo uma peça feita por si.",
+      "highlights": ["Experiência prática no torno de oleiro", "Orientação de um ceramista local", "Faça a sua própria peça para levar para casa", "Aprenda técnicas tradicionais"],
+      "included": ["Todos os materiais", "Orientação de artesão"],
+      "groupSize": "Grupos pequenos, máximo de 8 pessoas",
+      "cancellationPolicy": "Cancelamento gratuito até 24h antes da experiência."
+    }
+  },
+  {
+    "_id": "6a7755f87214fdd7f463f80d",
+    "fr": {
+      "title": "Street art et lieux secrets",
+      "shortDescription": "Découvrez le street art vibrant de Porto et des lieux locaux méconnus.",
+      "story": "Explorez le quartier de Bonfim à Porto lors d'une promenade guidée à travers ses fresques murales et son street art vibrant, à la découverte de lieux locaux méconnus que la plupart des visiteurs ne voient jamais. Une facette fraîche et contemporaine de Porto, au-delà du centre historique.",
+      "highlights": ["Découvrez un street art et des fresques vibrantes", "Explorez le quartier de Bonfim à Porto", "Histoires locales et lieux secrets", "Une expérience hors des sentiers battus"],
+      "included": ["Guide local"],
+      "groupSize": "Petits groupes, 12 personnes maximum",
+      "cancellationPolicy": "Annulation gratuite jusqu'à 24h avant l'expérience."
+    },
+    "es": {
+      "title": "Arte urbano y rincones ocultos",
+      "shortDescription": "Descubre el vibrante arte urbano de Oporto y rincones locales escondidos.",
+      "story": "Explora el barrio de Bonfim, en Oporto, en un paseo guiado por sus vibrantes murales y arte urbano, descubriendo rincones locales escondidos que la mayoría de los visitantes nunca ven. Una cara fresca y contemporánea de Oporto, más allá del centro histórico.",
+      "highlights": ["Descubre un arte urbano y murales vibrantes", "Explora el barrio de Bonfim en Oporto", "Historias locales y rincones ocultos", "Una experiencia fuera de lo habitual"],
+      "included": ["Guía local"],
+      "groupSize": "Grupos pequeños, máximo 12 personas",
+      "cancellationPolicy": "Cancelación gratuita hasta 24 h antes de la experiencia."
+    },
+    "pt": {
+      "title": "Arte Urbana e Recantos Escondidos",
+      "shortDescription": "Descubra a arte urbana vibrante do Porto e recantos locais escondidos.",
+      "story": "Explore o bairro do Bonfim, no Porto, numa caminhada guiada pelos seus murais vibrantes e arte urbana, descobrindo recantos locais escondidos que a maioria dos visitantes nunca vê. Um lado fresco e contemporâneo do Porto, para além do centro histórico.",
+      "highlights": ["Descubra arte urbana e murais vibrantes", "Explore o bairro do Bonfim, no Porto", "Histórias locais e recantos escondidos", "Uma experiência fora do roteiro habitual"],
+      "included": ["Guia local"],
+      "groupSize": "Grupos pequenos, máximo de 12 pessoas",
+      "cancellationPolicy": "Cancelamento gratuito até 24h antes da experiência."
+    }
+  }
+]

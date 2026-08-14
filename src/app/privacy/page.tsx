@@ -1,7 +1,7 @@
 import { t } from "@/i18n";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { headers } from "next/headers";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 
 const LAST_UPDATED = "August 10, 2026";
 const SUPPORT_EMAIL = "support@gowithporto.pt";

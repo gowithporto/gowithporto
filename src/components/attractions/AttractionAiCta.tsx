@@ -1,7 +1,7 @@
 import Button from "@/components/ui/Button";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 
 import bgArt from "@/assets/1. home page/discover_porto/top-attraction bg.png";
 

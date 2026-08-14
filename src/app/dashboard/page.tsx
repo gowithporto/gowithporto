@@ -1,4 +1,5 @@
 import { authOptions } from "@/lib/auth";
+import { localizedPath } from "@/lib/localePath";
 import {
   CreditCardIcon,
   ShoppingBagIcon,
@@ -7,7 +8,7 @@ import {
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import { redirect } from "next/navigation";
 import { FaHeart, FaShoppingBag } from "react-icons/fa";
 import { FaWandMagicSparkles } from "react-icons/fa6";
@@ -84,7 +85,7 @@ async function getData() {
 
 export default async function DashboardOverviewPage() {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/");
+  if (!session) redirect(await localizedPath("/"));
 
   const { orders, credits, aiHistory } = await getData();
 

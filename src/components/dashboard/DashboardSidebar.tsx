@@ -11,7 +11,7 @@ import {
 import { CheckBadgeIcon, ShieldCheckIcon } from "@heroicons/react/24/solid";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowRightFromBracket } from "react-icons/fa6";

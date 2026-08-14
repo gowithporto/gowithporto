@@ -1,0 +1,530 @@
+[
+  {
+    "_id": "6a773c9bd6a9e92e9b284f05",
+    "fr": {
+      "title": "Praça da Batalha",
+      "shortDescription": "Une place historique dominée par le Teatro Nacional São João, à la lisière de la vieille ville de Porto.",
+      "history": "La Praça da Batalha est l'une des principales places de Porto depuis le Moyen Âge. Elle est dominée par le Teatro Nacional São João, un théâtre Beaux-Arts reconstruit après qu'un incendie en 1908 a détruit la salle de spectacle originale du XVIIIe siècle. La place marque la limite orientale du centre historique.",
+      "highlights": ["Abrite le Teatro Nacional São João", "L'une des plus anciennes places publiques de Porto", "Marque le début de la Rua de Santa Catarina", "À quelques minutes à pied de la gare de São Bento"],
+      "bestTimeToVisit": "Toute l'année",
+      "openingHours": "Toujours accessible (horaires du théâtre variables selon les représentations)",
+      "entryFee": "Gratuit pour visiter la place ; billets de théâtre variables",
+      "howToGetThere": "5 min à pied à l'est de la gare de São Bento."
+    },
+    "es": {
+      "title": "Praça da Batalha",
+      "shortDescription": "Una plaza histórica presidida por el Teatro Nacional São João, en el borde del casco antiguo de Oporto.",
+      "history": "La Praça da Batalha ha sido una de las principales plazas de Oporto desde la Edad Media. Está dominada por el Teatro Nacional São João, un teatro de estilo Beaux-Arts reconstruido tras un incendio en 1908 que destruyó la sala original del siglo XVIII. La plaza marca el límite oriental del centro histórico.",
+      "highlights": ["Alberga el Teatro Nacional São João", "Una de las plazas públicas más antiguas de Oporto", "Marca el inicio de la Rua de Santa Catarina", "A pocos minutos a pie de la estación de São Bento"],
+      "bestTimeToVisit": "Todo el año",
+      "openingHours": "Siempre accesible (horario del teatro según la función)",
+      "entryFee": "Entrada gratuita a la plaza; las entradas del teatro varían",
+      "howToGetThere": "5 min a pie al este de la estación de São Bento."
+    },
+    "pt": {
+      "title": "Praça da Batalha",
+      "shortDescription": "Uma praça histórica dominada pelo Teatro Nacional São João, na fronteira do centro histórico do Porto.",
+      "history": "A Praça da Batalha é uma das principais praças do Porto desde a Idade Média. É dominada pelo Teatro Nacional São João, um teatro de estilo Beaux-Arts reconstruído depois de um incêndio em 1908 ter destruído a sala de espetáculos original do século XVIII. A praça marca o limite oriental do centro histórico.",
+      "highlights": ["Acolhe o Teatro Nacional São João", "Uma das praças públicas mais antigas do Porto", "Marca o início da Rua de Santa Catarina", "A poucos minutos a pé da Estação de São Bento"],
+      "bestTimeToVisit": "Todo o ano",
+      "openingHours": "Sempre acessível (horário do teatro varia consoante o espetáculo)",
+      "entryFee": "Entrada gratuita na praça; bilhetes de teatro variam",
+      "howToGetThere": "5 min a pé a este da Estação de São Bento."
+    }
+  },
+  {
+    "_id": "6a773c9cd6a9e92e9b284f17",
+    "fr": {
+      "title": "Mosteiro da Serra do Pilar",
+      "shortDescription": "Un monastère circulaire du XVIe siècle au sommet de la colline de Gaia, offrant l'une des plus belles vues panoramiques de Porto.",
+      "history": "Construit entre 1538 et 1670, ce monastère Renaissance se distingue par son cloître circulaire, assez rare. Perché sur la colline de Gaia, au-dessus du tablier supérieur du pont Dom Luís I, sa terrasse a servi de poste d'observation militaire pendant le siège de Porto en 1809, et offre aujourd'hui l'un des plus beaux points de vue gratuits sur la Ribeira.",
+      "highlights": ["Monastère Renaissance au cloître circulaire, une rareté", "Poste d'observation militaire pendant le siège de Porto en 1809", "L'un des plus beaux points de vue panoramiques sur la Ribeira", "Juste à côté du tablier supérieur du pont Dom Luís I"],
+      "bestTimeToVisit": "Avril – octobre",
+      "openingHours": "Terrasse toujours accessible ; intérieur du monastère à horaires limités",
+      "entryFee": "Gratuit (terrasse)",
+      "howToGetThere": "Traversez le tablier supérieur du pont Dom Luís I, ou prenez le téléphérique de Gaia jusqu'à Jardim do Morro."
+    },
+    "es": {
+      "title": "Mosteiro da Serra do Pilar",
+      "shortDescription": "Un monasterio circular del siglo XVI en lo alto de la colina de Gaia, con una de las mejores vistas panorámicas de Oporto.",
+      "history": "Construido entre 1538 y 1670, este monasterio renacentista destaca por su claustro circular, poco habitual. Encaramado en la ladera de Gaia, sobre el tablero superior del puente Dom Luís I, su terraza se usó como puesto de vigilancia militar durante el sitio de Oporto de 1809, y hoy es uno de los mejores miradores gratuitos sobre Ribeira.",
+      "highlights": ["Monasterio renacentista con un inusual claustro circular", "Usado como puesto de vigilancia militar durante el sitio de Oporto de 1809", "Uno de los mejores miradores panorámicos sobre Ribeira", "Justo al lado del tablero superior del puente Dom Luís I"],
+      "bestTimeToVisit": "Abril – octubre",
+      "openingHours": "Terraza siempre accesible; interior del monasterio con horario limitado",
+      "entryFee": "Gratis (terraza)",
+      "howToGetThere": "Cruza el tablero superior del puente Dom Luís I, o toma el teleférico de Gaia hasta Jardim do Morro."
+    },
+    "pt": {
+      "title": "Mosteiro da Serra do Pilar",
+      "shortDescription": "Um mosteiro circular do século XVI no alto da colina de Gaia, com uma das melhores vistas panorâmicas do Porto.",
+      "history": "Construído entre 1538 e 1670, este mosteiro renascentista é invulgar pelo seu claustro circular. Empoleirado na encosta de Gaia, acima do tabuleiro superior da Ponte D. Luís I, o seu terreiro foi usado como posto de vigia militar durante o Cerco do Porto de 1809, sendo hoje um dos melhores miradouros gratuitos sobre a Ribeira.",
+      "highlights": ["Mosteiro renascentista com um raro claustro circular", "Usado como posto de vigia militar durante o Cerco do Porto de 1809", "Um dos melhores miradouros panorâmicos sobre a Ribeira", "Mesmo ao lado do tabuleiro superior da Ponte D. Luís I"],
+      "bestTimeToVisit": "Abr. – out.",
+      "openingHours": "Terreiro sempre acessível; interior do mosteiro com horário limitado",
+      "entryFee": "Gratuito (terreiro)",
+      "howToGetThere": "Atravesse o tabuleiro superior da Ponte D. Luís I, ou apanhe o Teleférico de Gaia até ao Jardim do Morro."
+    }
+  },
+  {
+    "_id": "6a773c9cd6a9e92e9b284f20",
+    "fr": {
+      "title": "WOW – World of Wine",
+      "shortDescription": "Un quartier culturel installé dans d'anciens entrepôts de vin à Gaia, avec sept musées interactifs consacrés au vin, au liège et au chocolat.",
+      "history": "Ouvert en 2020, WOW (World of Wine) a transformé un ensemble d'anciens entrepôts de vin de Porto à Vila Nova de Gaia en un quartier culturel de 55 000 m². Il regroupe sept expériences muséales distinctes — dont The Wine Experience, The Chocolate Story et Planet Cork — ainsi que des restaurants, des boutiques et une terrasse sur le toit.",
+      "highlights": ["Sept musées répartis sur 55 000 m² d'anciens entrepôts de vin", "Consacré au vin, au liège, au chocolat et à l'histoire du vin de Porto", "Ouvert en 2020 au cœur du quartier des caves de Gaia", "Restaurants et terrasse sur le toit sur place"],
+      "bestTimeToVisit": "Toute l'année",
+      "openingHours": "10h00 – 19h00 (variable selon la saison)",
+      "entryFee": "À partir d'environ 14 € par musée ; pass multi-musées disponibles",
+      "howToGetThere": "Prenez le téléphérique de Gaia ou traversez le pont Dom Luís I jusqu'à Cais de Gaia."
+    },
+    "es": {
+      "title": "WOW – World of Wine",
+      "shortDescription": "Un distrito cultural en los antiguos almacenes de vino de Gaia, con siete museos interactivos sobre vino, corcho y chocolate.",
+      "history": "Inaugurado en 2020, WOW (World of Wine) transformó un conjunto de antiguos almacenes de vino de Oporto en Vila Nova de Gaia en un barrio cultural de 55.000 m². Alberga siete experiencias museísticas independientes —entre ellas The Wine Experience, The Chocolate Story y Planet Cork— además de restaurantes, tiendas y una terraza en la azotea.",
+      "highlights": ["Siete museos repartidos en 55.000 m² de antiguos almacenes de vino", "Dedicado al vino, el corcho, el chocolate y la historia del vino de Oporto", "Inaugurado en 2020 en el corazón del barrio de bodegas de Gaia", "Restaurantes y terraza en la azotea en el propio recinto"],
+      "bestTimeToVisit": "Todo el año",
+      "openingHours": "10:00 – 19:00 (varía según la temporada)",
+      "entryFee": "Desde ~14 € por museo; disponibles pases multi-museo",
+      "howToGetThere": "Toma el teleférico de Gaia o cruza el puente Dom Luís I hasta Cais de Gaia."
+    },
+    "pt": {
+      "title": "WOW – World of Wine",
+      "shortDescription": "Um quarteirão cultural nos antigos armazéns de vinho de Gaia, com sete museus interativos sobre vinho, cortiça e chocolate.",
+      "history": "Inaugurado em 2020, o WOW (World of Wine) transformou um conjunto de antigos armazéns de vinho do Porto em Vila Nova de Gaia num quarteirão cultural de 55.000 m². Reúne sete experiências museológicas distintas — incluindo The Wine Experience, The Chocolate Story e Planet Cork — além de restaurantes, lojas e um terraço com vista.",
+      "highlights": ["Sete museus distribuídos por 55.000 m² de antigos armazéns de vinho", "Aborda o vinho, a cortiça, o chocolate e a história do vinho do Porto", "Inaugurado em 2020 no coração do bairro das caves de Gaia", "Restaurantes e terraço no local"],
+      "bestTimeToVisit": "Todo o ano",
+      "openingHours": "10h00 – 19h00 (varia consoante a época)",
+      "entryFee": "A partir de ~14 € por museu; disponíveis passes multi-museu",
+      "howToGetThere": "Apanhe o Teleférico de Gaia ou atravesse a Ponte D. Luís I até ao Cais de Gaia."
+    }
+  },
+  {
+    "_id": "6a773c9cd6a9e92e9b284f23",
+    "fr": {
+      "title": "Museu do Vinho do Porto",
+      "shortDescription": "Un petit musée municipal retraçant l'histoire du vin de Porto, installé dans un ancien entrepôt au bord du fleuve.",
+      "history": "Installé dans un ancien entrepôt de vin de Porto du XVIIIe siècle, sur les quais de la Ribeira, ce musée municipal retrace l'histoire de la boisson, depuis les vignobles de la vallée du Douro jusqu'au commerce d'exportation qui a façonné la fortune de Porto — un pendant plus discret et traditionnel du grand complexe WOW de Gaia.",
+      "highlights": ["Installé dans un ancien entrepôt de vin du XVIIIe siècle", "Retrace le vin de Porto, du vignoble à l'exportation", "Une alternative plus tranquille aux grands musées du vin de Gaia", "Sur les quais de la Ribeira"],
+      "bestTimeToVisit": "Toute l'année",
+      "openingHours": "Mar–dim, 10h00 – 18h00",
+      "entryFee": "À partir de 2,50 €",
+      "howToGetThere": "Sur les quais de la Ribeira, près de Cais da Ribeira."
+    },
+    "es": {
+      "title": "Museu do Vinho do Porto",
+      "shortDescription": "Un pequeño museo municipal que recorre la historia del vino de Oporto, en un antiguo almacén junto al río.",
+      "history": "Instalado en un antiguo almacén de vino de Oporto del siglo XVIII, en el paseo fluvial de Ribeira, este museo municipal recorre la historia de la bebida desde los viñedos del valle del Duero hasta el comercio de exportación que forjó la fortuna de Oporto: una alternativa más tranquila y tradicional al gran complejo WOW de Gaia.",
+      "highlights": ["Instalado en un antiguo almacén de vino del siglo XVIII", "Recorre el vino de Oporto, del viñedo a la exportación", "Una alternativa más tranquila a los grandes museos del vino de Gaia", "En el paseo fluvial de Ribeira"],
+      "bestTimeToVisit": "Todo el año",
+      "openingHours": "Mar–dom, 10:00 – 18:00",
+      "entryFee": "Desde 2,50 €",
+      "howToGetThere": "En el paseo fluvial de Ribeira, cerca de Cais da Ribeira."
+    },
+    "pt": {
+      "title": "Museu do Vinho do Porto",
+      "shortDescription": "Um pequeno museu municipal que percorre a história do Vinho do Porto, instalado num antigo armazém ribeirinho.",
+      "history": "Instalado num antigo armazém de Vinho do Porto do século XVIII, na marginal da Ribeira, este museu municipal percorre a história da bebida desde as vinhas do Douro até ao comércio de exportação que moldou a fortuna do Porto — um contraponto mais discreto e tradicional ao grande complexo WOW, em Gaia.",
+      "highlights": ["Instalado num antigo armazém de vinho do século XVIII", "Percorre o Vinho do Porto, da vinha à exportação", "Uma alternativa mais tranquila aos grandes museus do vinho de Gaia", "Na marginal da Ribeira"],
+      "bestTimeToVisit": "Todo o ano",
+      "openingHours": "Ter.–dom., 10h00 – 18h00",
+      "entryFee": "A partir de 2,50 €",
+      "howToGetThere": "Na marginal da Ribeira, perto do Cais da Ribeira."
+    }
+  },
+  {
+    "_id": "6a773c9cd6a9e92e9b284f26",
+    "fr": {
+      "title": "Fundação de Serralves",
+      "shortDescription": "Le principal musée d'art contemporain du Portugal, installé dans un parc Art déco de 18 hectares.",
+      "history": "Serralves associe un musée d'art contemporain, conçu par l'architecte portugais Álvaro Siza Vieira et ouvert en 1999, à la Casa de Serralves, villa Art déco des années 1930, et à 18 hectares de jardins à la française et de bois. C'est l'institution d'art contemporain la plus visitée du Portugal, et le parc à lui seul justifie la visite.",
+      "highlights": ["Musée d'art contemporain conçu par Álvaro Siza Vieira", "Villa Art déco des années 1930 et 18 hectares de jardins", "Institution d'art contemporain la plus visitée du Portugal", "Parcours en hauteur à travers la canopée du parc"],
+      "bestTimeToVisit": "Avril – octobre",
+      "openingHours": "10h00 – 19h00 (variable selon la saison)",
+      "entryFee": "À partir d'environ 10 € (parc seul) jusqu'à 24 € (accès complet)",
+      "howToGetThere": "Environ 25 min en métro/bus depuis le centre-ville, ou en taxi/VTC."
+    },
+    "es": {
+      "title": "Fundação de Serralves",
+      "shortDescription": "El principal museo de arte contemporáneo de Portugal, situado dentro de un parque Art Déco de 18 hectáreas.",
+      "history": "Serralves combina un museo de arte contemporáneo, diseñado por el arquitecto portugués Álvaro Siza Vieira e inaugurado en 1999, con la Casa de Serralves, una villa Art Déco de los años 30, y 18 hectáreas de jardines formales y bosque. Es la institución de arte contemporáneo más visitada de Portugal, y el parque por sí solo ya merece la visita.",
+      "highlights": ["Museo de arte contemporáneo diseñado por Álvaro Siza Vieira", "Villa Art Déco de los años 30 y 18 hectáreas de jardines", "La institución de arte contemporáneo más visitada de Portugal", "Paseo elevado entre las copas de los árboles del parque"],
+      "bestTimeToVisit": "Abril – octubre",
+      "openingHours": "10:00 – 19:00 (varía según la temporada)",
+      "entryFee": "Desde ~10 € (solo parque) hasta 24 € (acceso completo)",
+      "howToGetThere": "~25 min en metro/autobús desde el centro, o en taxi/VTC."
+    },
+    "pt": {
+      "title": "Fundação de Serralves",
+      "shortDescription": "O principal museu de arte contemporânea de Portugal, dentro de um parque Art Déco de 18 hectares.",
+      "history": "Serralves reúne um museu de arte contemporânea, projetado pelo arquiteto português Álvaro Siza Vieira e inaugurado em 1999, com a Casa de Serralves, uma vivenda Art Déco dos anos 1930, e 18 hectares de jardins formais e mata. É a instituição de arte contemporânea mais visitada de Portugal, e só o parque já justifica a visita.",
+      "highlights": ["Museu de arte contemporânea projetado por Álvaro Siza Vieira", "Vivenda Art Déco dos anos 1930 e 18 hectares de jardins", "A instituição de arte contemporânea mais visitada de Portugal", "Passadiço pelas copas das árvores do parque"],
+      "bestTimeToVisit": "Abr. – out.",
+      "openingHours": "10h00 – 19h00 (varia consoante a época)",
+      "entryFee": "A partir de ~10 € (só parque) até 24 € (acesso total)",
+      "howToGetThere": "~25 min de metro/autocarro a partir do centro da cidade, ou de táxi/TVDE."
+    }
+  },
+  {
+    "_id": "6a773c9cd6a9e92e9b284f29",
+    "fr": {
+      "title": "Museu FC Porto",
+      "shortDescription": "Le musée du club du FC Porto, à l'intérieur de l'Estádio do Dragão, avec une salle des trophées et une visite du stade.",
+      "history": "Ouvert en 2013 au sein de l'Estádio do Dragão, le musée du FC Porto retrace l'histoire de l'un des trois grands clubs de football portugais, fondé en 1893, dont ses victoires en Coupe d'Europe/Ligue des champions en 1987 et 2004, ainsi qu'une visite du stade incluant la pelouse, les vestiaires et la zone presse.",
+      "highlights": ["Retrace l'histoire du FC Porto depuis 1893", "Salle des trophées avec deux victoires en Coupe d'Europe", "Le billet combiné inclut une visite du stade", "À l'intérieur de l'Estádio do Dragão"],
+      "bestTimeToVisit": "Toute l'année",
+      "openingHours": "10h00 – 19h00 (habituellement ; fermé les jours de match)",
+      "entryFee": "À partir d'environ 12 € (musée + visite du stade)",
+      "howToGetThere": "Station de métro Estádio do Dragão (ligne jaune)."
+    },
+    "es": {
+      "title": "Museu FC Porto",
+      "shortDescription": "El museo del club del FC Porto, dentro del Estádio do Dragão, con sala de trofeos y visita al estadio.",
+      "history": "Inaugurado en 2013 dentro del Estádio do Dragão, el museo del FC Porto recorre la historia de uno de los tres grandes clubes de fútbol de Portugal, fundado en 1893, incluidas sus victorias en la Copa de Europa/Champions League en 1987 y 2004, junto con una visita al estadio que incluye el campo, los vestuarios y la zona de prensa.",
+      "highlights": ["Recorre la historia del FC Porto desde 1893", "Sala de trofeos con dos títulos de la Copa de Europa", "La entrada combinada incluye una visita al estadio", "Dentro del Estádio do Dragão"],
+      "bestTimeToVisit": "Todo el año",
+      "openingHours": "10:00 – 19:00 (habitual; cerrado los días de partido)",
+      "entryFee": "Desde ~12 € (museo + visita al estadio)",
+      "howToGetThere": "Estación de metro Estádio do Dragão (línea amarilla)."
+    },
+    "pt": {
+      "title": "Museu FC Porto",
+      "shortDescription": "O museu do clube do FC Porto, dentro do Estádio do Dragão, com sala de troféus e visita ao estádio.",
+      "history": "Inaugurado em 2013 dentro do Estádio do Dragão, o museu do FC Porto conta a história de um dos três grandes clubes de futebol portugueses, fundado em 1893, incluindo as conquistas da Taça dos Campeões Europeus/Liga dos Campeões em 1987 e 2004, além de uma visita ao estádio que percorre o relvado, os balneários e a zona de imprensa.",
+      "highlights": ["Conta a história do FC Porto desde 1893", "Sala de troféus com duas conquistas europeias", "O bilhete combinado inclui visita ao estádio", "Dentro do Estádio do Dragão"],
+      "bestTimeToVisit": "Todo o ano",
+      "openingHours": "10h00 – 19h00 (habitual; encerrado em dias de jogo)",
+      "entryFee": "A partir de ~12 € (museu + visita ao estádio)",
+      "howToGetThere": "Estação de metro Estádio do Dragão (linha amarela)."
+    }
+  },
+  {
+    "_id": "6a773c9dd6a9e92e9b284f2c",
+    "fr": {
+      "title": "Miradouro da Vitória",
+      "shortDescription": "Une petite terrasse peu fréquentée, offrant l'une des plus belles vues sur les toits de la Ribeira et le Douro.",
+      "history": "Niché dans les rues escarpées du quartier de Vitória, au-dessus de la Ribeira, ce belvédère modeste est apprécié des habitants justement parce qu'il attire moins de monde que les points de vue plus célèbres. De là, l'enchevêtrement des toits de tuiles orangées dévale vers le fleuve, avec le pont Dom Luís I visible au loin.",
+      "highlights": ["Une alternative plus tranquille aux points de vue les plus célèbres de Porto", "Vue panoramique sur les toits de la Ribeira jusqu'au Douro", "Gratuit et accessible à toute heure", "À quelques minutes de marche en pente depuis la cathédrale"],
+      "bestTimeToVisit": "Toute l'année, idéal au coucher du soleil",
+      "openingHours": "Toujours accessible",
+      "entryFee": "Gratuit",
+      "howToGetThere": "10 min de montée à pied depuis la cathédrale Sé, à travers le quartier de Vitória."
+    },
+    "es": {
+      "title": "Miradouro da Vitória",
+      "shortDescription": "Una pequeña terraza poco concurrida con una de las mejores vistas sobre los tejados de Ribeira y el Duero.",
+      "history": "Escondido entre las empinadas calles del barrio de Vitória, sobre Ribeira, este modesto mirador es uno de los favoritos de los locales precisamente porque atrae a menos multitudes que los puntos más famosos. Desde aquí, el mosaico de tejados anaranjados desciende hacia el río, con el puente Dom Luís I visible a lo lejos.",
+      "highlights": ["Una alternativa más tranquila a los miradores más famosos de Oporto", "Vista panorámica de los tejados de Ribeira hasta el Duero", "Gratuito y abierto a todas horas", "Una breve y empinada caminata desde la Catedral"],
+      "bestTimeToVisit": "Todo el año, ideal al atardecer",
+      "openingHours": "Siempre accesible",
+      "entryFee": "Gratis",
+      "howToGetThere": "10 min a pie cuesta arriba desde la Catedral Sé, a través del barrio de Vitória."
+    },
+    "pt": {
+      "title": "Miradouro da Vitória",
+      "shortDescription": "Um terreiro pequeno e pouco concorrido, com uma das melhores vistas sobre os telhados da Ribeira e o Douro.",
+      "history": "Escondido nas ruas íngremes do bairro da Vitória, acima da Ribeira, este miradouro modesto é um dos preferidos dos portuenses justamente por atrair menos multidões do que os pontos mais conhecidos. Daqui, o emaranhado de telhados de telha vã desce até ao rio, com a Ponte D. Luís I visível ao longe.",
+      "highlights": ["Uma alternativa mais tranquila aos miradouros mais conhecidos do Porto", "Vista panorâmica sobre os telhados da Ribeira até ao Douro", "Gratuito e acessível a qualquer hora", "Uma curta e íngreme caminhada a partir da Sé"],
+      "bestTimeToVisit": "Todo o ano, melhor ao pôr do sol",
+      "openingHours": "Sempre acessível",
+      "entryFee": "Gratuito",
+      "howToGetThere": "10 min a pé a subir a partir da Sé do Porto, através do bairro da Vitória."
+    }
+  },
+  {
+    "_id": "6a773c9dd6a9e92e9b284f2f",
+    "fr": {
+      "title": "Jardim do Morro",
+      "shortDescription": "Une terrasse engazonnée au sommet du téléphérique de Gaia, avec une vue dégagée sur la Ribeira.",
+      "history": "Le Jardim do Morro se trouve à l'extrémité côté Gaia du tablier supérieur du pont Dom Luís I, juste à l'arrivée de la station haute du téléphérique et de l'arrêt de métro Jardim do Morro. C'est moins un jardin formel qu'une vaste pelouse en terrasse — les habitants s'y retrouvent le soir pour profiter gratuitement de la même vue que les visiteurs paient pour admirer depuis une terrasse de restaurant.",
+      "highlights": ["Vaste pelouse en terrasse au sommet du téléphérique de Gaia", "Vue dégagée sur le Douro jusqu'à la Ribeira", "Un lieu prisé des habitants au coucher du soleil", "Accès direct en métro via la station Jardim do Morro"],
+      "bestTimeToVisit": "Toute l'année, idéal au coucher du soleil",
+      "openingHours": "Toujours accessible",
+      "entryFee": "Gratuit",
+      "howToGetThere": "Station de métro Jardim do Morro, ou le sommet du téléphérique de Gaia."
+    },
+    "es": {
+      "title": "Jardim do Morro",
+      "shortDescription": "Una terraza ajardinada en lo alto del teleférico de Gaia, con una vista despejada hacia Ribeira.",
+      "history": "Jardim do Morro se encuentra en el extremo del lado de Gaia del tablero superior del puente Dom Luís I, justo donde llegan tanto la estación superior del teleférico como la parada de metro Jardim do Morro. Más que un jardín formal, es una amplia explanada de césped en terraza: los vecinos se reúnen aquí al atardecer para disfrutar gratis de la misma vista que los visitantes pagan por ver desde la terraza de un restaurante.",
+      "highlights": ["Amplia explanada de césped en lo alto del teleférico de Gaia", "Vista despejada sobre el Duero hacia Ribeira", "Un lugar popular entre los locales al atardecer", "Acceso directo en metro por la estación Jardim do Morro"],
+      "bestTimeToVisit": "Todo el año, ideal al atardecer",
+      "openingHours": "Siempre accesible",
+      "entryFee": "Gratis",
+      "howToGetThere": "Estación de metro Jardim do Morro, o la parte alta del teleférico de Gaia."
+    },
+    "pt": {
+      "title": "Jardim do Morro",
+      "shortDescription": "Um terreiro relvado no topo do teleférico de Gaia, com vista aberta e desimpedida sobre a Ribeira.",
+      "history": "O Jardim do Morro fica no extremo do lado de Gaia do tabuleiro superior da Ponte D. Luís I, mesmo onde chegam a estação superior do teleférico e a paragem de metro Jardim do Morro. É menos um jardim formal do que um relvado aberto — os portuenses juntam-se aqui ao final da tarde para a mesma vista que os visitantes pagam para ver de um terraço de restaurante.",
+      "highlights": ["Relvado aberto no topo do teleférico de Gaia", "Vista desimpedida sobre o Douro até à Ribeira", "Um local popular entre os locais ao pôr do sol", "Acesso direto de metro pela estação Jardim do Morro"],
+      "bestTimeToVisit": "Todo o ano, melhor ao pôr do sol",
+      "openingHours": "Sempre acessível",
+      "entryFee": "Gratuito",
+      "howToGetThere": "Estação de metro Jardim do Morro, ou o topo do Teleférico de Gaia."
+    }
+  },
+  {
+    "_id": "6a773c9dd6a9e92e9b284f35",
+    "fr": {
+      "title": "Pont Maria Pia",
+      "shortDescription": "Un ancien pont ferroviaire du XIXe siècle conçu par l'entreprise de Gustave Eiffel, visible juste en amont du pont Dom Luís I.",
+      "history": "Achevé en 1877, le pont Maria Pia a été conçu par l'entreprise d'ingénierie de Gustave Eiffel pour faire franchir au chemin de fer Lisbonne–Porto les gorges escarpées du Douro ; il était alors le pont le plus haut du monde. Mis hors service en 1991 lorsqu'un nouveau pont ferroviaire a été construit à ses côtés, il demeure aujourd'hui un remarquable témoignage de l'ingénierie du XIXe siècle.",
+      "highlights": ["Conçu par l'entreprise d'ingénierie de Gustave Eiffel, achevé en 1877", "Fut le pont le plus haut du monde lors de sa construction", "Mis hors service en 1991", "Meilleure vue depuis les rives du fleuve ou une croisière sur le Douro"],
+      "bestTimeToVisit": "Toute l'année",
+      "openingHours": "Visible à tout moment (non ouvert à la traversée)",
+      "entryFee": "Gratuit",
+      "howToGetThere": "Meilleure vue depuis les rives du Douro près de Campanhã, ou lors d'une croisière fluviale."
+    },
+    "es": {
+      "title": "Puente Maria Pia",
+      "shortDescription": "Un puente ferroviario del siglo XIX, retirado de servicio, diseñado por la empresa de Gustave Eiffel, visible justo río arriba del puente Dom Luís I.",
+      "history": "Terminado en 1877, el puente Maria Pia fue diseñado por la empresa de ingeniería de Gustave Eiffel para llevar el ferrocarril Lisboa–Oporto a través del escarpado desfiladero del Duero, y fue el puente más alto del mundo en su época. Retirado del servicio en 1991, cuando se construyó a su lado un puente ferroviario más moderno, hoy se mantiene en pie como una notable obra de ingeniería del siglo XIX.",
+      "highlights": ["Diseñado por la empresa de ingeniería de Gustave Eiffel, terminado en 1877", "Fue el puente más alto del mundo cuando se construyó", "Retirado del servicio ferroviario en 1991", "Mejor vista desde las orillas del río o un crucero por el Duero"],
+      "bestTimeToVisit": "Todo el año",
+      "openingHours": "Visible en todo momento (no se puede cruzar)",
+      "entryFee": "Gratis",
+      "howToGetThere": "Se ve mejor desde las orillas del Duero cerca de Campanhã, o desde un crucero fluvial."
+    },
+    "pt": {
+      "title": "Ponte Maria Pia",
+      "shortDescription": "Uma antiga ponte ferroviária do século XIX, projetada pela empresa de Gustave Eiffel, visível a montante da Ponte D. Luís I.",
+      "history": "Concluída em 1877, a Ponte Maria Pia foi projetada pela empresa de engenharia de Gustave Eiffel para levar a linha ferroviária Lisboa–Porto sobre a garganta íngreme do Douro, sendo na época a ponte mais alta do mundo. Desativada em 1991, quando uma nova ponte ferroviária foi construída ao seu lado, permanece hoje como um notável exemplo de engenharia do século XIX.",
+      "highlights": ["Projetada pela empresa de engenharia de Gustave Eiffel, concluída em 1877", "Foi a ponte mais alta do mundo à data da construção", "Desativada do serviço ferroviário em 1991", "Melhor vista a partir das margens do rio ou de um cruzeiro no Douro"],
+      "bestTimeToVisit": "Todo o ano",
+      "openingHours": "Visível a qualquer hora (não está aberta à travessia)",
+      "entryFee": "Gratuito",
+      "howToGetThere": "Melhor vista a partir das margens do Douro perto de Campanhã, ou de um cruzeiro fluvial."
+    }
+  },
+  {
+    "_id": "6a773c9dd6a9e92e9b284f38",
+    "fr": {
+      "title": "Pont de l'Arrábida",
+      "shortDescription": "Un majestueux pont en arc de béton du milieu du XXe siècle, en aval du centre historique.",
+      "history": "Inauguré en 1963, le pont de l'Arrábida fut, à l'époque, le plus long pont en arc de béton du monde, conçu par l'ingénieur Edgar Cardoso pour faire franchir à la route côtière le Douro en direction de Foz et de l'Atlantique. Sa travée unique de 270 mètres contraste fortement avec les ponts métalliques historiques situés en amont.",
+      "highlights": ["Inauguré en 1963, autrefois le plus long pont en arc de béton du monde", "Conçu par le spécialiste portugais des ponts Edgar Cardoso", "Travée unique de 270 mètres enjambant le Douro", "Meilleure vue depuis la promenade riveraine près de Foz"],
+      "bestTimeToVisit": "Toute l'année",
+      "openingHours": "Visible à tout moment",
+      "entryFee": "Gratuit",
+      "howToGetThere": "Le long de la route côtière en direction de Foz do Douro, à l'ouest du centre."
+    },
+    "es": {
+      "title": "Puente de Arrábida",
+      "shortDescription": "Un imponente puente en arco de hormigón de mediados del siglo XX, río abajo del centro histórico.",
+      "history": "Inaugurado en 1963, el puente de Arrábida fue en su momento el puente en arco de hormigón más largo del mundo, diseñado por el ingeniero Edgar Cardoso para llevar la carretera costera a través del Duero hacia Foz y el Atlántico. Su vano único de 270 metros contrasta notablemente con los históricos puentes de hierro situados río arriba.",
+      "highlights": ["Inaugurado en 1963, en su día el puente en arco de hormigón más largo del mundo", "Diseñado por el especialista portugués en puentes Edgar Cardoso", "Vano único de 270 metros que cruza el Duero", "Mejor vista desde el paseo fluvial cerca de Foz"],
+      "bestTimeToVisit": "Todo el año",
+      "openingHours": "Visible en todo momento",
+      "entryFee": "Gratis",
+      "howToGetThere": "Por la carretera junto al río hacia Foz do Douro, al oeste del centro."
+    },
+    "pt": {
+      "title": "Ponte da Arrábida",
+      "shortDescription": "Uma imponente ponte em arco de betão de meados do século XX, a jusante do centro histórico.",
+      "history": "Inaugurada em 1963, a Ponte da Arrábida foi, na época, a ponte em arco de betão mais longa do mundo, projetada pelo engenheiro Edgar Cardoso para levar a estrada marginal sobre o Douro em direção à Foz e ao Atlântico. O seu vão único de 270 metros contrasta fortemente com as históricas pontes de ferro a montante.",
+      "highlights": ["Inaugurada em 1963, outrora a ponte em arco de betão mais longa do mundo", "Projetada pelo engenheiro português Edgar Cardoso", "Vão único de 270 metros sobre o Douro", "Melhor vista a partir do passeio marginal perto da Foz"],
+      "bestTimeToVisit": "Todo o ano",
+      "openingHours": "Visível a qualquer hora",
+      "entryFee": "Gratuito",
+      "howToGetThere": "Pela estrada marginal em direção à Foz do Douro, a oeste do centro."
+    }
+  },
+  {
+    "_id": "6a773c9dd6a9e92e9b284f3b",
+    "fr": {
+      "title": "Parque da Cidade",
+      "shortDescription": "Le plus grand parc urbain du Portugal, 83 hectares de lacs, sentiers et pelouses jusqu'à l'Atlantique.",
+      "history": "Inauguré en 1993 et conçu par l'architecte paysagiste Sidónio Pardal, le Parque da Cidade s'étend sur 83 hectares entre le quartier de Boavista et la côte atlantique, ce qui en fait le plus grand parc urbain du Portugal. Ses lacs, ruisseaux et sentiers de promenade sont très appréciés des coureurs et des cyclistes.",
+      "highlights": ["83 hectares — le plus grand parc urbain du Portugal", "Inauguré en 1993, conçu par Sidónio Pardal", "Lacs, ruisseaux et sentiers prisés des coureurs et cyclistes", "S'étend jusqu'au littoral atlantique"],
+      "bestTimeToVisit": "Avril – octobre",
+      "openingHours": "Toujours accessible",
+      "entryFee": "Gratuit",
+      "howToGetThere": "Métro jusqu'à Francos, ou bus en direction de Boavista/Foz."
+    },
+    "es": {
+      "title": "Parque da Cidade",
+      "shortDescription": "El parque urbano más grande de Portugal, 83 hectáreas de lagos, senderos y praderas hasta el Atlántico.",
+      "history": "Inaugurado en 1993 y diseñado por el arquitecto paisajista Sidónio Pardal, el Parque da Cidade ocupa 83 hectáreas entre el barrio de Boavista y la costa atlántica, lo que lo convierte en el parque urbano más grande de Portugal. Sus lagos, arroyos y senderos son muy populares entre corredores y ciclistas.",
+      "highlights": ["83 hectáreas: el parque urbano más grande de Portugal", "Inaugurado en 1993, diseñado por Sidónio Pardal", "Lagos, arroyos y senderos populares entre corredores y ciclistas", "Se extiende hasta el litoral atlántico"],
+      "bestTimeToVisit": "Abril – octubre",
+      "openingHours": "Siempre accesible",
+      "entryFee": "Gratis",
+      "howToGetThere": "Metro hasta Francos, o autobús hacia Boavista/Foz."
+    },
+    "pt": {
+      "title": "Parque da Cidade",
+      "shortDescription": "O maior parque urbano de Portugal, 83 hectares de lagos, percursos e relvados até ao Atlântico.",
+      "history": "Inaugurado em 1993 e projetado pelo arquiteto paisagista Sidónio Pardal, o Parque da Cidade ocupa 83 hectares entre a zona da Boavista e a costa atlântica, sendo o maior parque urbano de Portugal. Os seus lagos, ribeiras e percursos pedestres são muito procurados por corredores e ciclistas.",
+      "highlights": ["83 hectares — o maior parque urbano de Portugal", "Inaugurado em 1993, projetado por Sidónio Pardal", "Lagos, ribeiras e percursos populares entre corredores e ciclistas", "Estende-se até ao litoral atlântico"],
+      "bestTimeToVisit": "Abr. – out.",
+      "openingHours": "Sempre acessível",
+      "entryFee": "Gratuito",
+      "howToGetThere": "Metro até Francos, ou autocarro em direção à Boavista/Foz."
+    }
+  },
+  {
+    "_id": "6a773c9ed6a9e92e9b284f3e",
+    "fr": {
+      "title": "Jardim do Passeio Alegre",
+      "shortDescription": "Un jardin ombragé du XIXe siècle, là où le Douro rencontre l'Atlantique, à Foz.",
+      "history": "Aménagé dans les années 1860, le Jardim do Passeio Alegre est un jardin à la française planté de hauts platanes, orné de fontaines et de statues, à l'embouchure du Douro, à Foz do Douro. C'est ici que les Portuenses fortunés venaient autrefois se promener le soir.",
+      "highlights": ["Aménagé dans les années 1860 à l'embouchure du Douro", "Jardin-promenade historique de l'élite de Porto", "Platanes ombragés, fontaines et statues", "Situé juste entre le fleuve et les plages de Foz"],
+      "bestTimeToVisit": "Avril – octobre",
+      "openingHours": "Toujours accessible",
+      "entryFee": "Gratuit",
+      "howToGetThere": "La ligne de tramway 1 relie directement la Ribeira à Foz."
+    },
+    "es": {
+      "title": "Jardim do Passeio Alegre",
+      "shortDescription": "Un jardín umbrío del siglo XIX donde el Duero se encuentra con el Atlántico, en Foz.",
+      "history": "Trazado en la década de 1860, el Jardim do Passeio Alegre es un jardín formal de altos plátanos, fuentes y estatuas en la desembocadura del Duero, en Foz do Douro. Fue históricamente el lugar donde los portuenses adinerados paseaban al atardecer.",
+      "highlights": ["Trazado en la década de 1860 en la desembocadura del Duero", "Jardín-paseo histórico de la élite de Oporto", "Plátanos umbríos, fuentes y estatuas", "Situado justo entre el río y las playas de Foz"],
+      "bestTimeToVisit": "Abril – octubre",
+      "openingHours": "Siempre accesible",
+      "entryFee": "Gratis",
+      "howToGetThere": "La línea de tranvía 1 conecta directamente Ribeira con Foz."
+    },
+    "pt": {
+      "title": "Jardim do Passeio Alegre",
+      "shortDescription": "Um jardim sombreado do século XIX onde o Douro encontra o Atlântico, na Foz.",
+      "history": "Traçado na década de 1860, o Jardim do Passeio Alegre é um jardim formal de plátanos altos, fontes e estátuas na foz do Douro, na Foz do Douro. Foi historicamente o local onde os portuenses abastados passeavam ao final da tarde.",
+      "highlights": ["Traçado na década de 1860 na foz do Douro", "Jardim-passeio histórico da elite portuense", "Plátanos sombreados, fontes e estátuas", "Fica mesmo entre o rio e as praias da Foz"],
+      "bestTimeToVisit": "Abr. – out.",
+      "openingHours": "Sempre acessível",
+      "entryFee": "Gratuito",
+      "howToGetThere": "A linha de elétrico 1 liga diretamente a Ribeira à Foz."
+    }
+  },
+  {
+    "_id": "6a773c9ed6a9e92e9b284f41",
+    "fr": {
+      "title": "Praia de Matosinhos",
+      "shortDescription": "Une longue plage de surf atlantique juste au nord de Porto, bordée de restaurants de fruits de mer et d'un port de pêche animé.",
+      "history": "La Praia de Matosinhos s'étend le long de l'Atlantique, juste au nord de Foz do Douro. C'est depuis longtemps une plage prisée des habitants plutôt que des touristes — abritant un port de pêche actif et certains des restaurants de poisson grillé les plus réputés de la région — et l'un des spots de surf les plus populaires de Porto.",
+      "highlights": ["Une longue plage de surf atlantique juste au nord de la ville", "Port de pêche actif et restaurants de poisson grillé", "L'un des spots de surf les plus populaires de Porto", "Facilement accessible en métro depuis le centre"],
+      "bestTimeToVisit": "Juin – septembre",
+      "openingHours": "Toujours accessible",
+      "entryFee": "Gratuit",
+      "howToGetThere": "Métro jusqu'à Matosinhos Sul (ligne bleue), environ 20 min depuis le centre."
+    },
+    "es": {
+      "title": "Praia de Matosinhos",
+      "shortDescription": "Una larga playa atlántica de surf justo al norte de Oporto, rodeada de restaurantes de marisco y un activo puerto pesquero.",
+      "history": "La Praia de Matosinhos se extiende a lo largo del Atlántico, justo al norte de Foz do Douro. Ha sido durante mucho tiempo una playa de locales más que de turistas —alberga un puerto pesquero en activo y algunos de los restaurantes de pescado a la brasa más reputados de la región— y es uno de los spots de surf más populares de Oporto.",
+      "highlights": ["Una larga playa atlántica de surf justo al norte de la ciudad", "Alberga un puerto pesquero activo y restaurantes de pescado a la brasa", "Uno de los spots de surf más populares de Oporto", "Fácil acceso en metro desde el centro"],
+      "bestTimeToVisit": "Junio – septiembre",
+      "openingHours": "Siempre accesible",
+      "entryFee": "Gratis",
+      "howToGetThere": "Metro hasta Matosinhos Sul (línea azul), ~20 min desde el centro."
+    },
+    "pt": {
+      "title": "Praia de Matosinhos",
+      "shortDescription": "Uma longa praia atlântica de surf a norte do Porto, rodeada de marisqueiras e um movimentado porto de pesca.",
+      "history": "A Praia de Matosinhos estende-se ao longo do Atlântico, mesmo a norte da Foz do Douro. É há muito uma praia de portuenses mais do que de turistas — com um porto de pesca ativo e algumas das melhores marisqueiras e casas de peixe grelhado da região — e é um dos pontos de surf mais populares do Porto.",
+      "highlights": ["Uma longa praia atlântica de surf a norte da cidade", "Porto de pesca ativo e restaurantes de peixe grelhado", "Um dos pontos de surf mais populares do Porto", "Fácil acesso de metro a partir do centro"],
+      "bestTimeToVisit": "Jun. – set.",
+      "openingHours": "Sempre acessível",
+      "entryFee": "Gratuito",
+      "howToGetThere": "Metro até Matosinhos Sul (linha azul), ~20 min a partir do centro."
+    }
+  },
+  {
+    "_id": "6a773c9ed6a9e92e9b284f44",
+    "fr": {
+      "title": "Rua de Santa Catarina",
+      "shortDescription": "La principale rue commerçante de Porto, qui va de la Praça da Batalha jusqu'au Café Majestic et à la Capela das Almas.",
+      "history": "La Rua de Santa Catarina est la principale rue commerçante de Porto depuis la fin du XIXe siècle. Elle s'étend aujourd'hui sur plus d'un kilomètre, de la Praça da Batalha jusqu'à la Capela das Almas, au Café Majestic et à l'entrée du Mercado do Bolhão, mêlant enseignes internationales et institutions historiques de Porto.",
+      "highlights": ["Principale rue commerçante de Porto depuis la fin du XIXe siècle", "Passe devant la Capela das Almas et le Café Majestic", "Mène directement au Mercado do Bolhão", "Plus d'un kilomètre de boutiques, de cafés et d'animation"],
+      "bestTimeToVisit": "Toute l'année",
+      "openingHours": "Boutiques généralement ouvertes de 10h00 à 19h00",
+      "entryFee": "Gratuit",
+      "howToGetThere": "La station de métro Bolhão se trouve à mi-parcours."
+    },
+    "es": {
+      "title": "Rua de Santa Catarina",
+      "shortDescription": "La principal calle comercial de Oporto, que va desde Praça da Batalha hasta el Café Majestic y la Capela das Almas.",
+      "history": "La Rua de Santa Catarina ha sido la principal calle comercial de Oporto desde finales del siglo XIX. Hoy recorre más de un kilómetro desde Praça da Batalha, pasando por la Capela das Almas, el Café Majestic y la entrada del Mercado do Bolhão, combinando cadenas internacionales con antiguos comercios de Oporto.",
+      "highlights": ["Principal calle comercial de Oporto desde finales del siglo XIX", "Pasa junto a la Capela das Almas y el Café Majestic", "Lleva directamente al Mercado do Bolhão", "Más de un kilómetro de tiendas, cafés y vida de calle"],
+      "bestTimeToVisit": "Todo el año",
+      "openingHours": "Tiendas normalmente de 10:00 a 19:00",
+      "entryFee": "Gratis",
+      "howToGetThere": "La estación de metro Bolhão se encuentra a mitad de recorrido."
+    },
+    "pt": {
+      "title": "Rua de Santa Catarina",
+      "shortDescription": "A principal rua comercial do Porto, que vai da Praça da Batalha até ao Café Majestic e à Capela das Almas.",
+      "history": "A Rua de Santa Catarina é a principal rua comercial do Porto desde finais do século XIX. Hoje estende-se por mais de um quilómetro, da Praça da Batalha até à Capela das Almas, ao Café Majestic e à entrada do Mercado do Bolhão, misturando cadeias internacionais com antigos estabelecimentos portuenses.",
+      "highlights": ["Principal rua comercial do Porto desde finais do século XIX", "Passa pela Capela das Almas e pelo Café Majestic", "Leva diretamente ao Mercado do Bolhão", "Mais de um quilómetro de lojas, cafés e vida de rua"],
+      "bestTimeToVisit": "Todo o ano",
+      "openingHours": "Lojas normalmente das 10h00 às 19h00",
+      "entryFee": "Gratuito",
+      "howToGetThere": "A estação de metro do Bolhão fica a meio do percurso."
+    }
+  },
+  {
+    "_id": "6a773c9ed6a9e92e9b284f47",
+    "fr": {
+      "title": "Rua das Flores",
+      "shortDescription": "Une rue piétonne du XVIe siècle, autrefois occupée par des orfèvres, aujourd'hui transformée en boutiques, cafés et petites galeries.",
+      "history": "Nommée d'après les jardins fleuris qui la bordaient autrefois, la Rua das Flores date du XVIe siècle et abritait historiquement les orfèvres et argentiers de Porto. Entièrement piétonnisée ces dernières années, c'est aujourd'hui l'une des rues les plus animées du centre historique, bordée de cafés indépendants, de petites galeries et de l'église-musée de la Misericórdia.",
+      "highlights": ["Datant du XVIe siècle, ancien quartier des orfèvres de Porto", "Entièrement piétonne, bordée de cafés et de galeries", "Passe devant l'Igreja da Misericórdia do Porto", "Relie la gare de São Bento aux quais du fleuve"],
+      "bestTimeToVisit": "Toute l'année",
+      "openingHours": "Toujours accessible",
+      "entryFee": "Gratuit",
+      "howToGetThere": "5 min à pied depuis la gare de São Bento, en direction du fleuve."
+    },
+    "es": {
+      "title": "Rua das Flores",
+      "shortDescription": "Una calle peatonal del siglo XVI de antiguos talleres de orfebres, hoy convertida en boutiques, cafés y pequeñas galerías.",
+      "history": "Llamada así por los jardines floridos que antaño la bordeaban, la Rua das Flores data del siglo XVI y fue históricamente el hogar de los orfebres y plateros de Oporto. Totalmente peatonalizada en los últimos años, es hoy una de las calles con más vida del centro histórico, llena de cafés independientes, pequeñas galerías y la iglesia-museo de la Misericórdia.",
+      "highlights": ["Data del siglo XVI, antiguo hogar de los orfebres de Oporto", "Totalmente peatonal, llena de cafés y galerías", "Pasa junto a la Igreja da Misericórdia do Porto", "Conecta la estación de São Bento con el paseo fluvial"],
+      "bestTimeToVisit": "Todo el año",
+      "openingHours": "Siempre accesible",
+      "entryFee": "Gratis",
+      "howToGetThere": "5 min a pie desde la estación de São Bento, hacia el río."
+    },
+    "pt": {
+      "title": "Rua das Flores",
+      "shortDescription": "Uma rua pedonal do século XVI de antigas ourivesarias, hoje transformada em boutiques, cafés e pequenas galerias.",
+      "history": "Com o nome inspirado nos jardins floridos que outrora a ladeavam, a Rua das Flores remonta ao século XVI e foi historicamente o centro dos ourives e prateiros do Porto. Totalmente pedonalizada nos últimos anos, é hoje uma das ruas com mais vida do centro histórico, repleta de cafés independentes, pequenas galerias e a igreja-museu da Misericórdia.",
+      "highlights": ["Remonta ao século XVI, antiga morada dos ourives do Porto", "Totalmente pedonal, repleta de cafés e galerias", "Passa pela Igreja da Misericórdia do Porto", "Liga a Estação de São Bento à zona ribeirinha"],
+      "bestTimeToVisit": "Todo o ano",
+      "openingHours": "Sempre acessível",
+      "entryFee": "Gratuito",
+      "howToGetThere": "5 min a pé a partir da Estação de São Bento, em direção ao rio."
+    }
+  },
+  {
+    "_id": "6a773c9ed6a9e92e9b284f4a",
+    "fr": {
+      "title": "Mercado do Bolhão",
+      "shortDescription": "Le marché couvert historique de Porto, ouvert en 1914 et récemment restauré, vendant produits frais, fleurs, viande et poisson.",
+      "history": "Le Mercado do Bolhão a ouvert ses portes en 1914 dans un marché couvert de deux étages en fer et pierre construit à cet effet, et est rapidement devenu le principal marché de produits frais de la ville. Après des années de déclin, il a fait l'objet d'une importante rénovation, rouvrant en 2022 avec sa structure en fer d'origine restaurée aux côtés de nouveaux stands de restauration, tout en continuant d'accueillir les traditionnels primeurs, poissonniers et fleuristes au rez-de-chaussée.",
+      "highlights": ["Ouvert en 1914 dans un marché couvert en fer et pierre", "Rouvert en 2022 après une importante rénovation", "Étals traditionnels de produits frais, poissons et fleurs au rez-de-chaussée", "Stands de restauration et petits restaurants à l'étage"],
+      "bestTimeToVisit": "Toute l'année",
+      "openingHours": "Lun–sam, 8h00 – 20h00 (fermé le dimanche)",
+      "entryFee": "Entrée gratuite",
+      "howToGetThere": "Station de métro Bolhão, sur la Rua de Santa Catarina."
+    },
+    "es": {
+      "title": "Mercado do Bolhão",
+      "shortDescription": "El histórico mercado de Oporto de 1914, recientemente restaurado, con productos frescos, flores, carne y pescado.",
+      "history": "El Mercado do Bolhão abrió en 1914 en un mercado de dos plantas construido a propósito en hierro y piedra, y rápidamente se convirtió en el principal mercado de productos frescos de la ciudad. Tras años de declive, sufrió una gran renovación y reabrió en 2022 con su estructura de hierro original restaurada junto a nuevos puestos gastronómicos, manteniendo en la planta baja los tradicionales puestos de verdura, pescado y flores.",
+      "highlights": ["Abierto en 1914 en un mercado de hierro y piedra", "Reabierto en 2022 tras una gran restauración", "Puestos tradicionales de productos frescos, pescado y flores en la planta baja", "Puestos de comida y restaurantes informales en el piso superior"],
+      "bestTimeToVisit": "Todo el año",
+      "openingHours": "Lun–sáb, 8:00 – 20:00 (cerrado los domingos)",
+      "entryFee": "Entrada gratuita",
+      "howToGetThere": "Estación de metro Bolhão, en la Rua de Santa Catarina."
+    },
+    "pt": {
+      "title": "Mercado do Bolhão",
+      "shortDescription": "O histórico mercado do Porto de 1914, recentemente restaurado, com produtos frescos, flores, carne e peixe.",
+      "history": "O Mercado do Bolhão abriu em 1914 num mercado de dois pisos construído propositadamente em ferro e pedra, tornando-se rapidamente o principal mercado de produtos frescos da cidade. Após anos de degradação, passou por uma grande obra de reabilitação, reabrindo em 2022 com a sua estrutura de ferro original restaurada e novas bancas de restauração, mantendo no piso térreo as tradicionais bancas de hortaliças, peixe e flores.",
+      "highlights": ["Aberto em 1914 num mercado de ferro e pedra", "Reaberto em 2022 após uma grande obra de reabilitação", "Bancas tradicionais de produtos frescos, peixe e flores no piso térreo", "Bancas de comida e restauração informal no piso superior"],
+      "bestTimeToVisit": "Todo o ano",
+      "openingHours": "Seg.–sáb., 8h00 – 20h00 (encerrado aos domingos)",
+      "entryFee": "Entrada gratuita",
+      "howToGetThere": "Estação de metro do Bolhão, na Rua de Santa Catarina."
+    }
+  }
+]

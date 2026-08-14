@@ -1,5 +1,7 @@
 "use client";
 
+import { t } from "@/i18n";
+import { useLanguage } from "@/providers/LanguageProvider";
 import Image from "next/image";
 import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
@@ -10,14 +12,15 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 
-const reasons = [
-  "AI-powered personalized trip plans",
-  "Handpicked local experiences",
-  "Trusted by travelers worldwide",
-  "24/7 customer support",
+const REASON_KEYS = [
+  "home.whyChoose.reason1",
+  "home.whyChoose.reason2",
+  "home.whyChoose.reason3",
+  "home.whyChoose.reason4",
 ];
 
 export default function WhyChooseStayInspired() {
+  const { lang } = useLanguage();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
@@ -38,13 +41,13 @@ export default function WhyChooseStayInspired() {
           />
           <div className="relative z-10 sm:max-w-[65%]">
             <h3 className="font-serif text-2xl font-medium text-[var(--primary)]">
-              Why Choose GoWithPorto?
+              {t(lang, "home.whyChoose.heading")}
             </h3>
             <ul className="mt-5 space-y-3">
-              {reasons.map((reason) => (
-                <li key={reason} className="flex items-start gap-2 text-sm text-[#4b5b66]">
+              {REASON_KEYS.map((key) => (
+                <li key={key} className="flex items-start gap-2 text-sm text-[#4b5b66]">
                   <FaCheckCircle className="mt-0.5 shrink-0 text-[var(--primary)]" />
-                  {reason}
+                  {t(lang, key)}
                 </li>
               ))}
             </ul>
@@ -59,29 +62,28 @@ export default function WhyChooseStayInspired() {
           />
           <div className="relative z-10">
             <h3 className="font-serif text-2xl font-medium text-[var(--primary)]">
-              Stay Inspired
+              {t(lang, "home.stayInspired.heading")}
             </h3>
             <p className="mt-3 max-w-xs text-sm text-[#4b5b66]">
-              Get travel tips, exclusive offers and Porto stories straight to
-              your inbox.
+              {t(lang, "home.stayInspired.subtitle")}
             </p>
 
             {subscribed ? (
               <p className="mt-5 text-sm font-medium text-[var(--primary)]">
-                Thanks for subscribing!
+                {t(lang, "home.stayInspired.thanks")}
               </p>
             ) : (
               <form onSubmit={handleSubscribe} className="mt-5 flex max-w-sm gap-2">
                 <Input
                   type="email"
                   required
-                  placeholder="Enter your email"
+                  placeholder={t(lang, "home.stayInspired.emailPlaceholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="bg-white/90"
                 />
                 <Button type="submit" className="shrink-0 cursor-pointer">
-                  Subscribe
+                  {t(lang, "home.stayInspired.subscribe")}
                 </Button>
               </form>
             )}

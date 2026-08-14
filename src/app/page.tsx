@@ -6,7 +6,7 @@ import { useLanguage } from "@/providers/LanguageProvider";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import backgroundImage from "../assets/1. home page/banner2.png";
 import bottomLeftLine1 from "../assets/bottom left line 1.png";
 import bottomRightLine1 from "../assets/bottom right line 1.png";

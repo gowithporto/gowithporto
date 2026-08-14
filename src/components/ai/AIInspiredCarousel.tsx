@@ -1,3 +1,7 @@
+"use client";
+
+import { t } from "@/i18n";
+import { useLanguage } from "@/providers/LanguageProvider";
 import Image from "next/image";
 
 import historic from "@/assets/1. home page/discover_porto/1.png";
@@ -8,34 +12,20 @@ import centerLine from "@/assets/center line 3.png";
 
 import Carousel from "@/components/home/Carousel";
 
-const inspirations = [
-  {
-    image: historic,
-    title: "Historic Porto",
-    subtitle: "Culture, landmarks & timeless charm",
-  },
-  {
-    image: foodie,
-    title: "Foodie Escape",
-    subtitle: "Taste the best of Porto",
-  },
-  {
-    image: adventure,
-    title: "Adventure Vibes",
-    subtitle: "Nature, ocean & adrenaline",
-  },
-  {
-    image: romantic,
-    title: "Romantic Getaway",
-    subtitle: "Perfect moments for two",
-  },
+const INSPIRATIONS = [
+  { image: historic, titleKey: "ai.inspired.historic.title", subtitleKey: "ai.inspired.historic.subtitle" },
+  { image: foodie, titleKey: "ai.inspired.foodie.title", subtitleKey: "ai.inspired.foodie.subtitle" },
+  { image: adventure, titleKey: "ai.inspired.adventure.title", subtitleKey: "ai.inspired.adventure.subtitle" },
+  { image: romantic, titleKey: "ai.inspired.romantic.title", subtitleKey: "ai.inspired.romantic.subtitle" },
 ];
 
 export default function AIInspiredCarousel() {
+  const { lang } = useLanguage();
+
   return (
     <section className="mx-auto max-w-6xl px-6 py-16 sm:px-10">
       <h2 className="text-center font-serif text-3xl font-medium text-[var(--primary)]">
-        Get inspired by what&apos;s possible
+        {t(lang, "ai.inspired.heading")}
       </h2>
       <Image
         src={centerLine}
@@ -45,21 +35,24 @@ export default function AIInspiredCarousel() {
 
       <div className="mt-10">
         <Carousel itemClassName="w-56 sm:w-64">
-          {inspirations.map((item) => (
-            <div key={item.title}>
-              <div className="overflow-hidden rounded-2xl shadow-sm">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  className="h-44 w-full object-cover transition duration-300 hover:scale-105 sm:h-52"
-                />
+          {INSPIRATIONS.map((item) => {
+            const title = t(lang, item.titleKey);
+            return (
+              <div key={item.titleKey}>
+                <div className="overflow-hidden rounded-2xl shadow-sm">
+                  <Image
+                    src={item.image}
+                    alt={title}
+                    className="h-44 w-full object-cover transition duration-300 hover:scale-105 sm:h-52"
+                  />
+                </div>
+                <p className="mt-3 text-sm font-semibold text-[var(--text)]">
+                  {title}
+                </p>
+                <p className="text-xs text-gray-500">{t(lang, item.subtitleKey)}</p>
               </div>
-              <p className="mt-3 text-sm font-semibold text-[var(--text)]">
-                {item.title}
-              </p>
-              <p className="text-xs text-gray-500">{item.subtitle}</p>
-            </div>
-          ))}
+            );
+          })}
         </Carousel>
       </div>
     </section>

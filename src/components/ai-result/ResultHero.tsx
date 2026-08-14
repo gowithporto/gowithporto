@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import { FaCalendarAlt, FaCoins, FaRegClock, FaUsers } from "react-icons/fa";
 
 import banner from "@/assets/5. ai response page/ai response banner.png";

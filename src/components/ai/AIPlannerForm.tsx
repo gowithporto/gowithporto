@@ -1,5 +1,7 @@
 "use client";
 
+import { t } from "@/i18n";
+import { useLanguage } from "@/providers/LanguageProvider";
 import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 import {
@@ -24,13 +26,29 @@ import Button from "@/components/ui/Button";
 
 const DAY_OPTIONS = Array.from({ length: 14 }, (_, i) => String(i + 1));
 
+// `value` is what's actually submitted (and interpolated straight into the Gemini
+// prompt by promptBuilder.ts) — it must stay a stable English identifier regardless
+// of UI language. Only `labelKey` (the on-screen text) is translated.
 const TRAVEL_STYLES = [
-  { label: "Culture & History", icon: FaLandmark },
-  { label: "Food & Wine", icon: FaWineGlassAlt },
-  { label: "Adventure", icon: FaHiking },
-  { label: "Relaxation", icon: FaSpa },
-  { label: "Nightlife", icon: FaMoon },
-  { label: "Shopping", icon: FaShoppingBag },
+  { value: "Culture & History", labelKey: "ai.form.style.culture", icon: FaLandmark },
+  { value: "Food & Wine", labelKey: "ai.form.style.food", icon: FaWineGlassAlt },
+  { value: "Adventure", labelKey: "ai.form.style.adventure", icon: FaHiking },
+  { value: "Relaxation", labelKey: "ai.form.style.relaxation", icon: FaSpa },
+  { value: "Nightlife", labelKey: "ai.form.style.nightlife", icon: FaMoon },
+  { value: "Shopping", labelKey: "ai.form.style.shopping", icon: FaShoppingBag },
+];
+
+const BUDGET_OPTIONS = [
+  { value: "Cheap", labelKey: "ai.form.budget.cheap" },
+  { value: "Medium", labelKey: "ai.form.budget.medium" },
+  { value: "Luxury", labelKey: "ai.form.budget.luxury" },
+];
+
+const GROUP_OPTIONS = [
+  { value: "Solo", labelKey: "ai.form.group.solo" },
+  { value: "Couple", labelKey: "ai.form.group.couple" },
+  { value: "Family", labelKey: "ai.form.group.family" },
+  { value: "Friends", labelKey: "ai.form.group.friends" },
 ];
 
 const fieldClass =
@@ -38,6 +56,7 @@ const fieldClass =
 
 export default function AIPlannerForm() {
   const { data: session } = useSession();
+  const { lang } = useLanguage();
   const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
@@ -51,12 +70,12 @@ export default function AIPlannerForm() {
 
   const isFormValid = form.days && form.budget && form.people;
 
-  const toggleStyle = (label: string) => {
+  const toggleStyle = (value: string) => {
     setForm((f) => ({
       ...f,
-      travelStyles: f.travelStyles.includes(label)
-        ? f.travelStyles.filter((s) => s !== label)
-        : [...f.travelStyles, label],
+      travelStyles: f.travelStyles.includes(value)
+        ? f.travelStyles.filter((s) => s !== value)
+        : [...f.travelStyles, value],
     }));
   };
 
@@ -66,7 +85,7 @@ export default function AIPlannerForm() {
     });
 
     if (!res.ok) {
-      alert("Unable to start payment. Please try again.");
+      alert(t(lang, "ai.form.paymentError"));
       setLoading(false);
       return;
     }
@@ -78,13 +97,13 @@ export default function AIPlannerForm() {
   async function handleSubmit() {
     if (!session) {
       toast.custom(
-        (t) => (
+        (tst) => (
           <div
             className="flex items-start gap-3 rounded-2xl border border-black/5 bg-white px-4 py-3.5 shadow-lg transition-all duration-300"
             style={{
               maxWidth: 360,
-              opacity: t.visible ? 1 : 0,
-              transform: t.visible ? "translateY(0)" : "translateY(-8px)",
+              opacity: tst.visible ? 1 : 0,
+              transform: tst.visible ? "translateY(0)" : "translateY(-8px)",
             }}
           >
             <span className="mt-0.5 flex h-8 w-8 flex-none items-center justify-center rounded-full bg-[#2c6e9b]/10 text-[#2c6e9b]">
@@ -92,10 +111,10 @@ export default function AIPlannerForm() {
             </span>
             <div>
               <p className="text-sm font-medium text-[var(--primary)]">
-                Login required
+                {t(lang, "ai.form.loginRequiredTitle")}
               </p>
               <p className="mt-0.5 text-xs text-gray-500">
-                Sign in to generate your personalized Porto plan.
+                {t(lang, "ai.form.loginRequiredBody")}
               </p>
             </div>
           </div>
@@ -130,7 +149,7 @@ export default function AIPlannerForm() {
       const data = await res.json();
 
       if (!res.ok || data.error) {
-        alert(data.error || "Failed to generate plan. Please try again.");
+        alert(data.error || t(lang, "ai.form.genericError"));
         setLoading(false);
         return;
       }
@@ -147,7 +166,7 @@ export default function AIPlannerForm() {
       }
     } catch (error) {
       console.error(error);
-      alert("Something went wrong. Please try again.");
+      alert(t(lang, "ai.form.somethingWrong"));
       setLoading(false);
     }
   }
@@ -156,17 +175,17 @@ export default function AIPlannerForm() {
     <div className="rounded-3xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
       <div className="text-[var(--primary)]">
         <h2 className="font-serif text-xl font-medium sm:text-2xl">
-          Let&apos;s plan your unforgettable Porto adventure
+          {t(lang, "ai.form.heading")}
         </h2>
       </div>
       <p className="mt-1.5 text-sm text-gray-500">
-        The more details you share, the better your AI travel plan will be.
+        {t(lang, "ai.form.subheading")}
       </p>
 
       <div className="mt-6 space-y-5">
         <div>
           <label className="mb-1 block text-sm font-medium text-black/60">
-            Destination
+            {t(lang, "ai.form.destination")}
           </label>
           <div className="relative">
             <FaMapMarkerAlt className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -181,7 +200,7 @@ export default function AIPlannerForm() {
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
             <label className="mb-1 block text-sm font-medium text-black/60">
-              Number of days
+              {t(lang, "ai.form.days")}
             </label>
             <div className="relative">
               <FaCalendarAlt className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -202,7 +221,7 @@ export default function AIPlannerForm() {
 
           <div>
             <label className="mb-1 block text-sm font-medium text-black/60">
-              Travel dates (optional)
+              {t(lang, "ai.form.dates")}
             </label>
             <div className="relative">
               <FaCalendarAlt className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -218,7 +237,7 @@ export default function AIPlannerForm() {
 
         <div>
           <label className="mb-1 block text-sm font-medium text-black/60">
-            Budget
+            {t(lang, "ai.form.budget")}
           </label>
           <div className="relative">
             <FaCoins className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -228,11 +247,13 @@ export default function AIPlannerForm() {
               className={fieldClass}
             >
               <option value="" disabled>
-                Select budget
+                {t(lang, "ai.form.budgetPlaceholder")}
               </option>
-              <option value="Cheap">Cheap</option>
-              <option value="Medium">Medium</option>
-              <option value="Luxury">Luxury</option>
+              {BUDGET_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {t(lang, opt.labelKey)}
+                </option>
+              ))}
             </select>
             <FaChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400" />
           </div>
@@ -240,7 +261,7 @@ export default function AIPlannerForm() {
 
         <div>
           <label className="mb-1 block text-sm font-medium text-black/60">
-            Travel group
+            {t(lang, "ai.form.group")}
           </label>
           <div className="relative">
             <FaUsers className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -250,12 +271,13 @@ export default function AIPlannerForm() {
               className={fieldClass}
             >
               <option value="" disabled>
-                Select group size
+                {t(lang, "ai.form.groupPlaceholder")}
               </option>
-              <option value="Solo">Solo</option>
-              <option value="Couple">Couple</option>
-              <option value="Family">Family</option>
-              <option value="Friends">Friends</option>
+              {GROUP_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {t(lang, opt.labelKey)}
+                </option>
+              ))}
             </select>
             <FaChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400" />
           </div>
@@ -263,16 +285,16 @@ export default function AIPlannerForm() {
 
         <div>
           <label className="mb-2 block text-sm font-medium text-black/60">
-            Travel style (select all that apply)
+            {t(lang, "ai.form.travelStyle")}
           </label>
           <div className="flex flex-wrap gap-2">
-            {TRAVEL_STYLES.map(({ label, icon: Icon }) => {
-              const selected = form.travelStyles.includes(label);
+            {TRAVEL_STYLES.map(({ value, labelKey, icon: Icon }) => {
+              const selected = form.travelStyles.includes(value);
               return (
                 <button
-                  key={label}
+                  key={value}
                   type="button"
-                  onClick={() => toggleStyle(label)}
+                  onClick={() => toggleStyle(value)}
                   className={`relative flex cursor-pointer items-center gap-1.5 rounded-lg border px-3.5 py-2 text-xs font-medium transition ${
                     selected
                       ? "border-[#2c6e9b] bg-[#2c6e9b]/5 text-[#2c6e9b]"
@@ -280,7 +302,7 @@ export default function AIPlannerForm() {
                   }`}
                 >
                   <Icon className={selected ? "text-[#2c6e9b]" : "text-gray-400"} />
-                  {label}
+                  {t(lang, labelKey)}
                   {selected && (
                     <FaCheckCircle className="absolute -right-1.5 -top-1.5 h-3.5 w-3.5 rounded-full bg-white text-[#2c6e9b]" />
                   )}
@@ -292,14 +314,14 @@ export default function AIPlannerForm() {
 
         <div>
           <label className="mb-1 block text-sm font-medium text-black/60">
-            Interests (optional)
+            {t(lang, "ai.form.interests")}
           </label>
           <div className="relative">
             <textarea
               value={form.interests}
               maxLength={250}
               rows={3}
-              placeholder="e.g. I love local food, art, architecture, hiking..."
+              placeholder={t(lang, "ai.form.interestsPlaceholder")}
               onChange={(e) =>
                 setForm({ ...form, interests: e.target.value })
               }
@@ -317,12 +339,12 @@ export default function AIPlannerForm() {
           disabled={!isFormValid || loading}
         >
           <FaMagic />
-          {loading ? "Generating Plan..." : "Generate My Porto Plan"}
+          {loading ? t(lang, "ai.form.generating") : t(lang, "ai.form.generate")}
         </Button>
 
         <p className="flex items-center justify-center gap-1.5 text-xs text-gray-400">
           <FaLock className="text-[10px]" />
-          Your information is secure and used only to create your plan.
+          {t(lang, "ai.form.disclaimer")}
         </p>
       </div>
     </div>

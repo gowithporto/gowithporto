@@ -3,7 +3,7 @@
 import { t } from "@/i18n";
 import { useLanguage } from "@/providers/LanguageProvider";
 import { ChevronDownIcon, LifebuoyIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import { useState } from "react";
 
 interface FaqItem {

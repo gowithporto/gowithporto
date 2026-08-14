@@ -3,11 +3,14 @@
 import LineFooter from "@/assets/center line 3.png";
 import FooterFrameBottom from "@/assets/footer frame bottom.png";
 import FooterFrameTop from "@/assets/footer frame top.png";
+import { t } from "@/i18n";
+import { useLanguage } from "@/providers/LanguageProvider";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 export default function Footer() {
   const { data: session } = useSession();
+  const { lang } = useLanguage();
 
   const isAdmin = session?.user?.role === "ADMIN";
 
@@ -70,31 +73,31 @@ export default function Footer() {
         >
           {/* Company */}
           <div className="space-y-3 grid grid-row-[1fr_auto]">
-            <h3 className="font-serif text-xl font-medium text-[#415a6b]">Company</h3>
-            <Link href="/about">About Us</Link>
-            <Link href="/contact">Contact</Link>
+            <h3 className="font-serif text-xl font-medium text-[#415a6b]">{t(lang, "footer.company")}</h3>
+            <Link href="/about">{t(lang, "footer.aboutUs")}</Link>
+            <Link href="/contact">{t(lang, "footer.contact")}</Link>
           </div>
 
           {/* Services */}
           <div className="space-y-3 grid grid-row-[1fr_auto]">
-            <h3 className="font-serif text-xl font-medium text-[#415a6b]">Services</h3>
-            <Link href="/ai">AI Trip Planner</Link>
-            <Link href="/shop">Souvenirs Shop</Link>
-            <Link href="#">Local Guides</Link>
-            <Link href="/bike-rentals">Bike Rentals</Link>
+            <h3 className="font-serif text-xl font-medium text-[#415a6b]">{t(lang, "footer.services")}</h3>
+            <Link href="/ai">{t(lang, "footer.aiPlanner")}</Link>
+            <Link href="/shop">{t(lang, "footer.shop")}</Link>
+            <Link href="#">{t(lang, "footer.localGuides")}</Link>
+            <Link href="/bike-rentals">{t(lang, "footer.bikeRentals")}</Link>
           </div>
 
           {/* Support */}
           <div className="space-y-3 grid grid-row-[1fr_auto]">
-            <h3 className="font-serif text-xl font-medium text-[#415a6b]">Support</h3>
-            <Link href="/faq">Help Center</Link>
-            <Link href="/privacy">Privacy Policy</Link>
+            <h3 className="font-serif text-xl font-medium text-[#415a6b]">{t(lang, "footer.support")}</h3>
+            <Link href="/faq">{t(lang, "footer.helpCenter")}</Link>
+            <Link href="/privacy">{t(lang, "footer.privacyPolicy")}</Link>
           </div>
         </div>
 
         {/* COPYRIGHT */}
         <p className="mt-14 mb-10 text-sm text-gray-500">
-          © {new Date().getFullYear()} GoWithPorto. All rights reserved.
+          © {new Date().getFullYear()} GoWithPorto. {t(lang, "footer.copyrightSuffix")}
         </p>
       </div>
 

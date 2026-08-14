@@ -5,7 +5,7 @@ import { t } from "@/i18n";
 import { useLanguage } from "@/providers/LanguageProvider";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 

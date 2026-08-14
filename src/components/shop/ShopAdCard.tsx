@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 
 import galoAd from "@/assets/2. shop page/galo ad.png";
 

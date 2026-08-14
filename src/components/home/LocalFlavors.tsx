@@ -1,3 +1,7 @@
+"use client";
+
+import { t } from "@/i18n";
+import { useLanguage } from "@/providers/LanguageProvider";
 import Image from "next/image";
 
 import img1 from "@/assets/1. home page/local flavor of porto/1.png";
@@ -16,29 +20,31 @@ import centerLine from "@/assets/center line 3.png";
 
 import Carousel from "./Carousel";
 
-const flavors = [
-  { image: img1, caption: "Francesinha" },
-  { image: img2, caption: "Octopus Stew" },
-  { image: img3, caption: "Pastéis de Nata" },
-  { image: img4, caption: "Grilled Fish" },
-  { image: img5, caption: "Local Cheeses" },
-  { image: img6, caption: "Port Wine" },
-  { image: img7, caption: "Petiscos" },
-  { image: img8, caption: "Fresh Seafood" },
-  { image: img9, caption: "Traditional Bakery" },
-  { image: img10, caption: "Wine Tasting" },
-  { image: img11, caption: "Market Produce" },
-  { image: img12, caption: "Café Culture" },
+const FLAVORS = [
+  { image: img1, captionKey: "home.localFlavors.caption.francesinha" },
+  { image: img2, captionKey: "home.localFlavors.caption.octopus" },
+  { image: img3, captionKey: "home.localFlavors.caption.pasteis" },
+  { image: img4, captionKey: "home.localFlavors.caption.grilledFish" },
+  { image: img5, captionKey: "home.localFlavors.caption.cheeses" },
+  { image: img6, captionKey: "home.localFlavors.caption.portWine" },
+  { image: img7, captionKey: "home.localFlavors.caption.petiscos" },
+  { image: img8, captionKey: "home.localFlavors.caption.seafood" },
+  { image: img9, captionKey: "home.localFlavors.caption.bakery" },
+  { image: img10, captionKey: "home.localFlavors.caption.tasting" },
+  { image: img11, captionKey: "home.localFlavors.caption.market" },
+  { image: img12, captionKey: "home.localFlavors.caption.cafe" },
 ];
 
 export default function LocalFlavors() {
+  const { lang } = useLanguage();
+
   return (
     <section
       id="local-flavors"
       className="mx-auto max-w-6xl px-6 py-16 sm:px-10"
     >
       <h2 className="text-center font-serif text-3xl font-medium text-[var(--primary)]">
-        Local Flavors of Porto
+        {t(lang, "home.localFlavors.heading")}
       </h2>
       <Image
         src={centerLine}
@@ -48,11 +54,11 @@ export default function LocalFlavors() {
 
       <div className="mt-10">
         <Carousel itemClassName="w-36 sm:w-44">
-          {flavors.map((flavor, i) => (
+          {FLAVORS.map((flavor, i) => (
             <div key={i} className="overflow-hidden rounded-2xl shadow-sm">
               <Image
                 src={flavor.image}
-                alt={flavor.caption}
+                alt={t(lang, flavor.captionKey)}
                 className="h-40 w-full object-cover transition duration-300 hover:scale-105 sm:h-48"
               />
             </div>

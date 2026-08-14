@@ -4,7 +4,7 @@ import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

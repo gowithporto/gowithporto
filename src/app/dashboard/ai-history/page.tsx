@@ -1,7 +1,8 @@
 import { authOptions } from "@/lib/auth";
+import { localizedPath } from "@/lib/localePath";
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
-import Link from "next/link";
+import Link from "@/components/ui/LocalizedLink";
 import { redirect } from "next/navigation";
 import { FaCalendarAlt, FaCoins, FaUsers } from "react-icons/fa";
 import { FaWandMagicSparkles } from "react-icons/fa6";
@@ -23,7 +24,7 @@ async function getAIHistory() {
 
 export default async function AIHistoryPage() {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/");
+  if (!session) redirect(await localizedPath("/"));
 
   const history = await getAIHistory();
 

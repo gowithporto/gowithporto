@@ -6,6 +6,7 @@ import {
   WalletIcon,
 } from "@heroicons/react/24/outline";
 import { authOptions } from "@/lib/auth";
+import { localizedPath } from "@/lib/localePath";
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -60,7 +61,7 @@ async function getCredits() {
 
 export default async function TransactionsPage() {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/");
+  if (!session) redirect(await localizedPath("/"));
 
   const [transactions, creditData, orders] = await Promise.all([
     getTransactions(),
