@@ -25,6 +25,9 @@ const LocalExperienceSchema = new Schema(
     featured: { type: Boolean, default: false },
     order: { type: Number, default: 0 },
     active: { type: Boolean, default: true },
+
+    // Optional per-locale overrides for translatable fields, e.g. { fr: { title, shortDescription, ... }, es: {...}, pt: {...} }
+    translations: { type: Schema.Types.Mixed, default: {} },
   },
   { timestamps: true }
 );

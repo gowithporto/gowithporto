@@ -24,6 +24,9 @@ const ProductSchema = new Schema(
     },
 
     active: { type: Boolean, default: true },
+
+    // Optional per-locale overrides for translatable fields, e.g. { fr: { title, description }, es: {...}, pt: {...} }
+    translations: { type: Schema.Types.Mixed, default: {} },
   },
   { timestamps: true }
 );

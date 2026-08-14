@@ -1,7 +1,23 @@
+import { locales } from "@/i18n";
+import { resolveLocalized } from "@/lib/localizeContent";
 import { connectDB } from "@/lib/mongodb";
 import LocalExperience from "@/models/LocalExperience";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { cache } from "react";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://www.gowithporto.pt";
+
+const TRANSLATABLE_FIELDS = [
+  "title",
+  "shortDescription",
+  "story",
+  "highlights",
+  "included",
+  "meetingPoint",
+  "groupSize",
+  "cancellationPolicy",
+] as const;
 
 const getExperience = cache(async (slug: string) => {
   await connectDB();
@@ -14,9 +30,13 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const experience = await getExperience(slug);
+  const hdrs = await headers();
+  const lang = hdrs.get("x-locale") || "en";
+  const raw = await getExperience(slug);
 
-  if (!experience) return { title: "Experience Not Found" };
+  if (!raw) return { title: "Experience Not Found" };
+
+  const experience = resolveLocalized(raw, lang, TRANSLATABLE_FIELDS);
 
   const description =
     experience.shortDescription?.slice(0, 155) ||
@@ -24,9 +44,16 @@ export async function generateMetadata({
 
   const image = experience.gallery?.[0] || experience.coverImage;
 
+  const languages: Record<string, string> = {};
+  for (const l of locales) {
+    languages[l] =
+      l === "en" ? `${BASE_URL}/local-experiences/${slug}` : `${BASE_URL}/${l}/local-experiences/${slug}`;
+  }
+
   return {
     title: `${experience.title} | GoWithPorto`,
     description,
+    alternates: { languages },
     openGraph: {
       title: experience.title,
       description,
@@ -44,7 +71,10 @@ export default async function LocalExperienceLayout({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const experience = await getExperience(slug);
+  const hdrs = await headers();
+  const lang = hdrs.get("x-locale") || "en";
+  const raw = await getExperience(slug);
+  const experience = raw ? resolveLocalized(raw, lang, TRANSLATABLE_FIELDS) : null;
 
   const jsonLd = experience
     ? {

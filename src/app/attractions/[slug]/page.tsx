@@ -25,6 +25,7 @@ import AttractionsInfoStrip from "@/components/attractions/AttractionsInfoStrip"
 import NearbyPlaces from "@/components/attractions/NearbyPlaces";
 import Button from "@/components/ui/Button";
 import { useFavorite } from "@/hooks/useFavorite";
+import { useLanguage } from "@/providers/LanguageProvider";
 import { getAttractionBadge } from "@/utils/attractionBadge";
 
 function formatLabel(value: string) {
@@ -52,6 +53,7 @@ type Attraction = {
 
 export default function AttractionDetailPage() {
   const { slug } = useParams();
+  const { lang } = useLanguage();
   const [attraction, setAttraction] = useState<Attraction | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
@@ -72,14 +74,14 @@ export default function AttractionDetailPage() {
     setNotFound(false);
     setActiveImage(0);
 
-    fetch(`/api/attractions/${slug}`)
+    fetch(`/api/attractions/${slug}?lang=${lang}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.error) setNotFound(true);
         else setAttraction(data);
       })
       .catch(() => setNotFound(true));
-  }, [slug]);
+  }, [slug, lang]);
 
   if (notFound) {
     return (

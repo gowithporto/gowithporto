@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/mongodb";
 import AIResponse from "@/models/AIResponse";
 import User from "@/models/User";
 import { generateAIResponse } from "@/services/ai";
+import { AIRateLimitError } from "@/services/ai/aiProvider";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
@@ -77,6 +78,14 @@ export async function POST(req: Request) {
       remainingCredits: user.credits,
     });
   } catch (error) {
+    if (error instanceof AIRateLimitError) {
+      console.warn("AI preview rate limited:", error.message);
+      return NextResponse.json(
+        { error: "We're experiencing high demand right now — please try again in a moment." },
+        { status: 429 }
+      );
+    }
+
     console.error("AI preview error:", error);
     return NextResponse.json(
       { error: "Internal server error" },

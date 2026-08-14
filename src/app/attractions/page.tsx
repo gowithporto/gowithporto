@@ -12,21 +12,23 @@ import AttractionCategorySidebar from "@/components/attractions/AttractionCatego
 import AttractionsBanner from "@/components/attractions/AttractionsBanner";
 import AttractionsFunFact from "@/components/attractions/AttractionsFunFact";
 import AttractionsInfoStrip from "@/components/attractions/AttractionsInfoStrip";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 const PAGE_SIZE = 6;
 
 export default function AttractionsPage() {
+  const { lang } = useLanguage();
   const [attractions, setAttractions] = useState<any[]>([]);
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fetch("/api/attractions")
+    fetch(`/api/attractions?lang=${lang}`)
       .then((res) => res.json())
       .then((data) => setAttractions(Array.isArray(data) ? data : []))
       .catch(() => setAttractions([]));
-  }, []);
+  }, [lang]);
 
   useEffect(() => {
     setPage(1);

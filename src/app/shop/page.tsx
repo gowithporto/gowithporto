@@ -7,15 +7,17 @@ import InfoStrip from "@/components/shop/InfoStrip";
 import ShopAdCard from "@/components/shop/ShopAdCard";
 import ShopBanner from "@/components/shop/ShopBanner";
 import { slugifyCategory } from "@/lib/slugifyCategory";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 type Category = { name: string; slug: string; image?: string };
 
 export default function ShopPage() {
+  const { lang } = useLanguage();
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    fetch("/api/products")
+    fetch(`/api/products?lang=${lang}`)
       .then((res) => res.json())
       .then((data) => setProducts(Array.isArray(data) ? data : []))
       .catch(() => setProducts([]));
@@ -24,7 +26,7 @@ export default function ShopPage() {
       .then((res) => res.json())
       .then((data) => setCategories(Array.isArray(data) ? data : []))
       .catch(() => setCategories([]));
-  }, []);
+  }, [lang]);
 
   const categoryTiles = useMemo(() => {
     const counts = new Map<string, number>();

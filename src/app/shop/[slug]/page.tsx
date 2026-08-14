@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import InfoStrip from "@/components/shop/InfoStrip";
 import Button from "@/components/ui/Button";
 import { useFavorite } from "@/hooks/useFavorite";
+import { useLanguage } from "@/providers/LanguageProvider";
 import { addToCart } from "@/store/slices/cartSlice";
 
 function formatLabel(value: string) {
@@ -49,6 +50,7 @@ type Product = {
 
 export default function ProductDetailPage() {
   const { slug } = useParams();
+  const { lang } = useLanguage();
   const [product, setProduct] = useState<Product | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
@@ -63,14 +65,14 @@ export default function ProductDetailPage() {
     setActiveImage(0);
     setQty(1);
 
-    fetch(`/api/products/${slug}`)
+    fetch(`/api/products/${slug}?lang=${lang}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.error) setNotFound(true);
         else setProduct(data);
       })
       .catch(() => setNotFound(true));
-  }, [slug]);
+  }, [slug, lang]);
 
   if (notFound) {
     return (

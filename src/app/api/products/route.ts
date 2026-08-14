@@ -1,7 +1,10 @@
+import { resolveLocalized } from "@/lib/localizeContent";
 import { connectDB } from "@/lib/mongodb";
 import "@/models";
 import Product from "@/models/Product";
 import { NextResponse } from "next/server";
+
+const TRANSLATABLE_FIELDS = ["title", "description"] as const;
 
 export async function GET(req: Request) {
   try {
@@ -11,6 +14,7 @@ export async function GET(req: Request) {
 
     const category = searchParams.get("category");
     const sort = searchParams.get("sort");
+    const lang = searchParams.get("lang") || "en";
 
     const filter: any = { active: true };
 
@@ -27,9 +31,12 @@ export async function GET(req: Request) {
 
     const products = await Product.find(filter)
       .sort(sortOption)
-      .populate("storeId", "name slug");
+      .populate("storeId", "name slug")
+      .lean();
 
-    return NextResponse.json(products);
+    const localized = products.map((p) => resolveLocalized(p, lang, TRANSLATABLE_FIELDS));
+
+    return NextResponse.json(localized);
   } catch (err) {
     console.error("PRODUCT API ERROR:", err);
     return NextResponse.json([], { status: 500 });

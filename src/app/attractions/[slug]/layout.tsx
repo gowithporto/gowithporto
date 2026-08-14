@@ -1,7 +1,23 @@
+import { locales } from "@/i18n";
+import { resolveLocalized } from "@/lib/localizeContent";
 import { connectDB } from "@/lib/mongodb";
 import Attraction from "@/models/Attraction";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { cache } from "react";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://www.gowithporto.pt";
+
+const TRANSLATABLE_FIELDS = [
+  "title",
+  "shortDescription",
+  "history",
+  "highlights",
+  "bestTimeToVisit",
+  "openingHours",
+  "entryFee",
+  "howToGetThere",
+] as const;
 
 const getAttraction = cache(async (slug: string) => {
   await connectDB();
@@ -14,9 +30,13 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const attraction = await getAttraction(slug);
+  const hdrs = await headers();
+  const lang = hdrs.get("x-locale") || "en";
+  const raw = await getAttraction(slug);
 
-  if (!attraction) return { title: "Attraction Not Found" };
+  if (!raw) return { title: "Attraction Not Found" };
+
+  const attraction = resolveLocalized(raw, lang, TRANSLATABLE_FIELDS);
 
   const description =
     attraction.shortDescription?.slice(0, 155) ||
@@ -24,9 +44,15 @@ export async function generateMetadata({
 
   const image = attraction.gallery?.[0] || attraction.coverImage;
 
+  const languages: Record<string, string> = {};
+  for (const l of locales) {
+    languages[l] = l === "en" ? `${BASE_URL}/attractions/${slug}` : `${BASE_URL}/${l}/attractions/${slug}`;
+  }
+
   return {
     title: `${attraction.title} | GoWithPorto`,
     description,
+    alternates: { languages },
     openGraph: {
       title: attraction.title,
       description,
@@ -44,7 +70,10 @@ export default async function AttractionLayout({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const attraction = await getAttraction(slug);
+  const hdrs = await headers();
+  const lang = hdrs.get("x-locale") || "en";
+  const raw = await getAttraction(slug);
+  const attraction = raw ? resolveLocalized(raw, lang, TRANSLATABLE_FIELDS) : null;
 
   const jsonLd = attraction
     ? {

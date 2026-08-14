@@ -24,6 +24,7 @@ const LANGUAGE_OPTIONS = [
   { code: "en", label: "English" },
   { code: "fr", label: "Français" },
   { code: "es", label: "Español" },
+  { code: "pt", label: "Português" },
 ];
 
 export default function Header() {

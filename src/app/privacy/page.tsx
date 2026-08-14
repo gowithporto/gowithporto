@@ -1,24 +1,42 @@
+import { t } from "@/i18n";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
+import { headers } from "next/headers";
 import Link from "next/link";
 
 const LAST_UPDATED = "August 10, 2026";
 const SUPPORT_EMAIL = "support@gowithporto.pt";
 
-const SECTIONS = [
-  { id: "who-we-are", title: "1. Who We Are" },
-  { id: "information-we-collect", title: "2. Information We Collect" },
-  { id: "how-we-use", title: "3. How We Use Your Information" },
-  { id: "legal-basis", title: "4. Legal Basis for Processing" },
-  { id: "cookies", title: "5. Cookies & Similar Technologies" },
-  { id: "sharing", title: "6. Who We Share Data With" },
-  { id: "transfers", title: "7. International Data Transfers" },
-  { id: "retention", title: "8. Data Retention" },
-  { id: "your-rights", title: "9. Your Rights" },
-  { id: "children", title: "10. Children's Privacy" },
-  { id: "security", title: "11. Data Security" },
-  { id: "changes", title: "12. Changes to This Policy" },
-  { id: "contact", title: "13. Contact Us" },
-];
+const SECTION_IDS = [
+  "who-we-are",
+  "information-we-collect",
+  "how-we-use",
+  "legal-basis",
+  "cookies",
+  "sharing",
+  "transfers",
+  "retention",
+  "your-rights",
+  "children",
+  "security",
+  "changes",
+  "contact",
+] as const;
+
+const SECTION_TITLE_KEYS: Record<(typeof SECTION_IDS)[number], string> = {
+  "who-we-are": "privacy.section.whoWeAre.title",
+  "information-we-collect": "privacy.section.collect.title",
+  "how-we-use": "privacy.section.howWeUse.title",
+  "legal-basis": "privacy.section.legalBasis.title",
+  cookies: "privacy.section.cookies.title",
+  sharing: "privacy.section.sharing.title",
+  transfers: "privacy.section.transfers.title",
+  retention: "privacy.section.retention.title",
+  "your-rights": "privacy.section.yourRights.title",
+  children: "privacy.section.children.title",
+  security: "privacy.section.security.title",
+  changes: "privacy.section.changes.title",
+  contact: "privacy.section.contactUs.title",
+};
 
 function Section({
   id,
@@ -37,7 +55,12 @@ function Section({
   );
 }
 
-export default function PrivacyPage() {
+const SHARING_PROVIDERS = ["google", "stripe", "mongodb", "cloudinary", "resend", "gemini", "vercel"] as const;
+
+export default async function PrivacyPage() {
+  const hdrs = await headers();
+  const lang = hdrs.get("x-locale") || "en";
+
   return (
     <div className="space-y-12 px-4 pt-24 pb-20 sm:px-8 sm:pt-28 lg:px-12">
       <div className="mx-auto max-w-2xl text-center">
@@ -45,25 +68,26 @@ export default function PrivacyPage() {
           <ShieldCheckIcon className="h-6 w-6" />
         </div>
         <h1 className="font-serif text-3xl font-medium text-[var(--primary)] sm:text-4xl">
-          Privacy Policy
+          {t(lang, "privacy.title")}
         </h1>
         <div className="mx-auto mt-3 h-[2px] w-16 bg-[#2c6e9b]/40" />
-        <p className="mt-5 text-sm text-gray-500">Last updated: {LAST_UPDATED}</p>
-        <p className="mt-3 text-[var(--text)]">
-          This policy explains what personal data GoWithPorto collects, why, and the rights you
-          have over it under the EU General Data Protection Regulation (GDPR).
+        <p className="mt-5 text-sm text-gray-500">
+          {t(lang, "privacy.lastUpdatedLabel")} {LAST_UPDATED}
         </p>
+        <p className="mt-3 text-[var(--text)]">{t(lang, "privacy.subtitle")}</p>
       </div>
 
       <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[240px_1fr]">
         {/* TABLE OF CONTENTS */}
         <nav className="hidden self-start rounded-2xl border border-black/5 bg-white/80 p-5 text-sm shadow-sm backdrop-blur lg:block lg:sticky lg:top-28">
-          <p className="mb-3 font-serif text-sm font-medium text-[#1d3d5c]">On this page</p>
+          <p className="mb-3 font-serif text-sm font-medium text-[#1d3d5c]">
+            {t(lang, "privacy.tocHeading")}
+          </p>
           <ul className="space-y-2">
-            {SECTIONS.map((s) => (
-              <li key={s.id}>
-                <a href={`#${s.id}`} className="text-[var(--text)] hover:text-[#2c6e9b]">
-                  {s.title}
+            {SECTION_IDS.map((id) => (
+              <li key={id}>
+                <a href={`#${id}`} className="text-[var(--text)] hover:text-[#2c6e9b]">
+                  {t(lang, SECTION_TITLE_KEYS[id])}
                 </a>
               </li>
             ))}
@@ -72,15 +96,10 @@ export default function PrivacyPage() {
 
         {/* CONTENT */}
         <div className="space-y-10 rounded-2xl border border-black/5 bg-white/80 p-6 shadow-sm backdrop-blur sm:p-10">
-          <Section id="who-we-are" title="1. Who We Are">
+          <Section id="who-we-are" title={t(lang, "privacy.section.whoWeAre.title")}>
+            <p>{t(lang, "privacy.section.whoWeAre.p1")}</p>
             <p>
-              GoWithPorto (&quot;GoWithPorto&quot;, &quot;we&quot;, &quot;us&quot;) is a Porto-based tourism platform that
-              helps travelers plan trips, book bike rentals and local experiences, and shop
-              souvenirs from independent local shops in Porto, Portugal. GoWithPorto is the data
-              controller responsible for your personal data described in this policy.
-            </p>
-            <p>
-              Questions about this policy or your data can be sent to{" "}
+              {t(lang, "privacy.section.whoWeAre.contactPrefix")}{" "}
               <a href={`mailto:${SUPPORT_EMAIL}`} className="font-medium text-[#2c6e9b] underline hover:no-underline">
                 {SUPPORT_EMAIL}
               </a>
@@ -88,201 +107,111 @@ export default function PrivacyPage() {
             </p>
           </Section>
 
-          <Section id="information-we-collect" title="2. Information We Collect">
-            <p>We collect the minimum data needed to run the service:</p>
+          <Section id="information-we-collect" title={t(lang, "privacy.section.collect.title")}>
+            <p>{t(lang, "privacy.section.collect.intro")}</p>
             <ul className="list-disc space-y-2 pl-5">
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Account data</span> — name, email
-                address, and profile picture, provided by Google when you sign in with your
-                Google account. We do not receive or store your Google password.
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Order & booking data</span> —
-                items purchased, shipping details, and order status for souvenirs, bike rentals,
-                and local experiences.
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Payment data</span> — handled
-                entirely by our payment processor, Stripe. GoWithPorto never receives or stores
-                your full card number.
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">AI trip planner inputs</span> —
-                the dates, interests, and preferences you enter to generate an itinerary, and
-                the itineraries generated for you, saved under &quot;My Trips&quot; in your account.
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Store owner content</span> — if you
-                sell on our marketplace, product listings and images you upload.
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Contact form messages</span> — the
-                name, email, and message you submit through our Contact Support page.
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Technical data</span> — IP address
-                and basic request metadata, used briefly for security purposes such as
-                rate-limiting login attempts.
-              </li>
+              {(["account", "orders", "payment", "aiInputs", "storeContent", "contactForm", "technical"] as const).map(
+                (item) => (
+                  <li key={item}>
+                    <span className="font-medium text-[#1d3d5c]">
+                      {t(lang, `privacy.section.collect.item.${item}.label`)}
+                    </span>{" "}
+                    {t(lang, `privacy.section.collect.item.${item}.text`)}
+                  </li>
+                ),
+              )}
             </ul>
           </Section>
 
-          <Section id="how-we-use" title="3. How We Use Your Information">
+          <Section id="how-we-use" title={t(lang, "privacy.section.howWeUse.title")}>
             <ul className="list-disc space-y-2 pl-5">
-              <li>To create and manage your account and let you sign in securely.</li>
-              <li>To process orders and bookings, and send confirmation and shipping emails.</li>
-              <li>To generate AI trip itineraries based on the preferences you provide.</li>
-              <li>To respond to messages sent through our Contact Support page.</li>
-              <li>To detect and prevent fraud, abuse, and unauthorized access.</li>
-              <li>To meet our legal and accounting obligations.</li>
+              {[1, 2, 3, 4, 5, 6].map((n) => (
+                <li key={n}>{t(lang, `privacy.section.howWeUse.item${n}`)}</li>
+              ))}
             </ul>
-            <p>We do not sell your personal data, and we do not use it for third-party advertising.</p>
+            <p>{t(lang, "privacy.section.howWeUse.noSell")}</p>
           </Section>
 
-          <Section id="legal-basis" title="4. Legal Basis for Processing">
-            <p>Under the GDPR, we rely on the following legal bases:</p>
+          <Section id="legal-basis" title={t(lang, "privacy.section.legalBasis.title")}>
+            <p>{t(lang, "privacy.section.legalBasis.intro")}</p>
             <ul className="list-disc space-y-2 pl-5">
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Contract</span> — processing needed
-                to create your account, fulfil orders/bookings, and deliver AI itineraries you
-                request.
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Legitimate interest</span> —
-                keeping the platform secure (e.g. rate-limiting), and responding to support
-                requests.
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Legal obligation</span> — retaining
-                order and payment records as required by tax and accounting law.
-              </li>
+              {(["contract", "legitimateInterest", "legalObligation"] as const).map((item) => (
+                <li key={item}>
+                  <span className="font-medium text-[#1d3d5c]">
+                    {t(lang, `privacy.section.legalBasis.item.${item}.label`)}
+                  </span>{" "}
+                  {t(lang, `privacy.section.legalBasis.item.${item}.text`)}
+                </li>
+              ))}
             </ul>
           </Section>
 
-          <Section id="cookies" title="5. Cookies & Similar Technologies">
-            <p>
-              GoWithPorto uses a small number of strictly necessary cookies: a secure session
-              cookie to keep you signed in, and a preference cookie to remember your chosen
-              language. We do not use third-party advertising or tracking cookies.
-            </p>
+          <Section id="cookies" title={t(lang, "privacy.section.cookies.title")}>
+            <p>{t(lang, "privacy.section.cookies.p1")}</p>
           </Section>
 
-          <Section id="sharing" title="6. Who We Share Data With">
-            <p>
-              We only share personal data with service providers who process it on our behalf,
-              strictly to run the service:
-            </p>
+          <Section id="sharing" title={t(lang, "privacy.section.sharing.title")}>
+            <p>{t(lang, "privacy.section.sharing.intro")}</p>
             <ul className="list-disc space-y-2 pl-5">
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Google</span> — for secure sign-in
-                (Google OAuth).
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Stripe</span> — for payment
-                processing at checkout.
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">MongoDB Atlas</span> — our
-                database provider, hosted in the EU (Paris, France region).
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Cloudinary</span> — for storing and
-                serving product and profile images.
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Resend</span> — for delivering
-                transactional emails (order confirmations, receipts, welcome emails).
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Google Gemini API</span> — to
-                generate AI trip itineraries from the preferences you provide.
-              </li>
-              <li>
-                <span className="font-medium text-[#1d3d5c]">Vercel</span> — our application
-                hosting provider.
-              </li>
+              {SHARING_PROVIDERS.map((item) => (
+                <li key={item}>
+                  <span className="font-medium text-[#1d3d5c]">
+                    {t(lang, `privacy.section.sharing.item.${item}.label`)}
+                  </span>{" "}
+                  {t(lang, `privacy.section.sharing.item.${item}.text`)}
+                </li>
+              ))}
+            </ul>
+            <p>{t(lang, "privacy.section.sharing.outro")}</p>
+          </Section>
+
+          <Section id="transfers" title={t(lang, "privacy.section.transfers.title")}>
+            <p>{t(lang, "privacy.section.transfers.p1")}</p>
+          </Section>
+
+          <Section id="retention" title={t(lang, "privacy.section.retention.title")}>
+            <p>{t(lang, "privacy.section.retention.p1")}</p>
+          </Section>
+
+          <Section id="your-rights" title={t(lang, "privacy.section.yourRights.title")}>
+            <p>{t(lang, "privacy.section.yourRights.intro")}</p>
+            <ul className="list-disc space-y-2 pl-5">
+              {[1, 2, 3, 4, 5, 6].map((n) => (
+                <li key={n}>{t(lang, `privacy.section.yourRights.item${n}`)}</li>
+              ))}
             </ul>
             <p>
-              Each provider is contractually restricted to using your data only to provide their
-              service to us. We may also disclose data where required by law.
-            </p>
-          </Section>
-
-          <Section id="transfers" title="7. International Data Transfers">
-            <p>
-              Some of our service providers (such as Google, Stripe, and Resend) may process
-              data outside the European Economic Area, including in the United States. Where
-              this happens, we rely on providers that offer appropriate safeguards, such as
-              Standard Contractual Clauses, to protect your data in line with GDPR requirements.
-            </p>
-          </Section>
-
-          <Section id="retention" title="8. Data Retention">
-            <p>
-              We keep account data for as long as your account is active. Order and payment
-              records are kept as required by Portuguese tax and accounting law. Contact form
-              messages are kept only as long as needed to resolve your request. You can ask us
-              to delete your account and associated data at any time — see Section 9.
-            </p>
-          </Section>
-
-          <Section id="your-rights" title="9. Your Rights">
-            <p>Under the GDPR, you have the right to:</p>
-            <ul className="list-disc space-y-2 pl-5">
-              <li>Access the personal data we hold about you.</li>
-              <li>Correct inaccurate or incomplete data.</li>
-              <li>Request deletion of your data (&quot;right to be forgotten&quot;).</li>
-              <li>Restrict or object to certain processing.</li>
-              <li>Receive your data in a portable format.</li>
-              <li>Withdraw consent at any time, where processing is based on consent.</li>
-            </ul>
-            <p>
-              To exercise any of these rights, email{" "}
+              {t(lang, "privacy.section.yourRights.exercisePrefix")}{" "}
               <a href={`mailto:${SUPPORT_EMAIL}`} className="font-medium text-[#2c6e9b] underline hover:no-underline">
                 {SUPPORT_EMAIL}
               </a>
-              . You also have the right to lodge a complaint with Portugal&apos;s data protection
-              authority, the Comissão Nacional de Proteção de Dados (CNPD).
+              {t(lang, "privacy.section.yourRights.complaintSuffix")}
             </p>
           </Section>
 
-          <Section id="children" title="10. Children's Privacy">
-            <p>
-              GoWithPorto is not directed at children, and we do not knowingly collect personal
-              data from anyone under 16. If you believe a child has provided us with personal
-              data, please contact us and we will delete it.
-            </p>
+          <Section id="children" title={t(lang, "privacy.section.children.title")}>
+            <p>{t(lang, "privacy.section.children.p1")}</p>
           </Section>
 
-          <Section id="security" title="11. Data Security">
-            <p>
-              We use industry-standard safeguards to protect your data, including encrypted
-              connections (HTTPS), access-restricted databases, and secure authentication. No
-              method of transmission or storage is 100% secure, but we work to protect your
-              information using commercially reasonable measures.
-            </p>
+          <Section id="security" title={t(lang, "privacy.section.security.title")}>
+            <p>{t(lang, "privacy.section.security.p1")}</p>
           </Section>
 
-          <Section id="changes" title="12. Changes to This Policy">
-            <p>
-              We may update this policy from time to time as our service evolves. Material
-              changes will be reflected by updating the &quot;Last updated&quot; date at the top of this
-              page.
-            </p>
+          <Section id="changes" title={t(lang, "privacy.section.changes.title")}>
+            <p>{t(lang, "privacy.section.changes.p1")}</p>
           </Section>
 
-          <Section id="contact" title="13. Contact Us">
+          <Section id="contact" title={t(lang, "privacy.section.contactUs.title")}>
             <p>
-              For any questions about this Privacy Policy or how your data is handled, reach us
-              at{" "}
+              {t(lang, "privacy.section.contactUs.prefix")}{" "}
               <a href={`mailto:${SUPPORT_EMAIL}`} className="font-medium text-[#2c6e9b] underline hover:no-underline">
                 {SUPPORT_EMAIL}
               </a>{" "}
-              or via our{" "}
+              {t(lang, "privacy.section.contactUs.middle")}{" "}
               <Link href="/contact" className="font-medium text-[#2c6e9b] underline hover:no-underline">
-                Contact Support
+                {t(lang, "privacy.section.contactUs.linkText")}
               </Link>{" "}
-              page. We&apos;re based in Porto, Portugal.
+              {t(lang, "privacy.section.contactUs.suffix")}
             </p>
           </Section>
         </div>

@@ -23,6 +23,7 @@ import LocalExperiencesAiCta from "@/components/localExperiences/LocalExperience
 import LocalExperiencesInfoStrip from "@/components/localExperiences/LocalExperiencesInfoStrip";
 import Button from "@/components/ui/Button";
 import { useFavorite } from "@/hooks/useFavorite";
+import { useLanguage } from "@/providers/LanguageProvider";
 import { formatExperienceLabel } from "@/utils/experienceBadge";
 
 type LocalExperience = {
@@ -49,6 +50,7 @@ type LocalExperience = {
 
 export default function LocalExperienceDetailPage() {
   const { slug } = useParams();
+  const { lang } = useLanguage();
   const [experience, setExperience] = useState<LocalExperience | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
@@ -69,14 +71,14 @@ export default function LocalExperienceDetailPage() {
     setNotFound(false);
     setActiveImage(0);
 
-    fetch(`/api/local-experiences/${slug}`)
+    fetch(`/api/local-experiences/${slug}?lang=${lang}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.error) setNotFound(true);
         else setExperience(data);
       })
       .catch(() => setNotFound(true));
-  }, [slug]);
+  }, [slug, lang]);
 
   if (notFound) {
     return (

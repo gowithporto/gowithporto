@@ -14,6 +14,7 @@ import LocalExperienceFiltersSidebar, {
 import LocalExperiencesAiCta from "@/components/localExperiences/LocalExperiencesAiCta";
 import LocalExperiencesBanner from "@/components/localExperiences/LocalExperiencesBanner";
 import LocalExperiencesInfoStrip from "@/components/localExperiences/LocalExperiencesInfoStrip";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 const PAGE_SIZE = 9;
 
@@ -25,6 +26,7 @@ const SORT_OPTIONS = [
 ];
 
 export default function LocalExperiencesPage() {
+  const { lang } = useLanguage();
   const [experiences, setExperiences] = useState<any[]>([]);
   const [category, setCategory] = useState("");
   const [durations, setDurations] = useState<string[]>([]);
@@ -34,11 +36,11 @@ export default function LocalExperiencesPage() {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fetch("/api/local-experiences")
+    fetch(`/api/local-experiences?lang=${lang}`)
       .then((res) => res.json())
       .then((data) => setExperiences(Array.isArray(data) ? data : []))
       .catch(() => setExperiences([]));
-  }, []);
+  }, [lang]);
 
   useEffect(() => {
     setPage(1);
