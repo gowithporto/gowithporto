@@ -16,6 +16,21 @@ import {
   type OrderConfirmationData,
 } from "./emailTemplates/orderConfirmation";
 import {
+  disputeResolvedHtml,
+  disputeResolvedSubject,
+  type DisputeResolvedData,
+} from "./emailTemplates/disputeResolved";
+import {
+  orderDispatchedHtml,
+  orderDispatchedSubject,
+  type OrderDispatchedData,
+} from "./emailTemplates/orderDispatched";
+import {
+  orderReadyForPickupHtml,
+  orderReadyForPickupSubject,
+  type OrderReadyForPickupData,
+} from "./emailTemplates/orderReadyForPickup";
+import {
   orderShippedHtml,
   orderShippedSubject,
   type OrderShippedData,
@@ -65,6 +80,18 @@ export function sendOrderShippedEmail(to: string, data: OrderShippedData) {
   return send(to, orderShippedSubject(data), orderShippedHtml(data));
 }
 
+export function sendOrderDispatchedEmail(to: string, data: OrderDispatchedData) {
+  return send(to, orderDispatchedSubject(data), orderDispatchedHtml(data));
+}
+
+export function sendOrderReadyForPickupEmail(to: string, data: OrderReadyForPickupData) {
+  return send(to, orderReadyForPickupSubject(data), orderReadyForPickupHtml(data));
+}
+
+export function sendDisputeResolvedEmail(to: string, data: DisputeResolvedData) {
+  return send(to, disputeResolvedSubject(data), disputeResolvedHtml(data));
+}
+
 export function sendCreditReceiptEmail(to: string, data: CreditReceiptData) {
   return send(to, creditReceiptSubject(), creditReceiptHtml(data));
 }
@@ -91,6 +118,15 @@ interface OrderLike {
 
 function orderNumber(order: OrderLike) {
   return `#ORD-${order._id.toString().slice(-6).toUpperCase()}`;
+}
+
+interface OrderItemLike {
+  title?: string;
+  etaText?: string;
+  resolution?: {
+    outcome?: string;
+    buyerRefundAmount?: number;
+  };
 }
 
 async function recipientNameFor(email: string) {
@@ -140,5 +176,53 @@ export async function sendOrderShippedForOrder(order: OrderLike) {
       month: "long",
       day: "numeric",
     }),
+  });
+}
+
+/** Composes and sends the "dispatched" email for a single item on an order. */
+export async function sendOrderDispatchedForOrder(order: OrderLike, item: OrderItemLike) {
+  if (!order.userEmail) return;
+
+  const recipientName = await recipientNameFor(order.userEmail);
+
+  await sendOrderDispatchedEmail(order.userEmail, {
+    recipientName,
+    orderNumber: orderNumber(order),
+    itemTitle: item.title || "Item",
+    etaText: item.etaText || "Soon",
+  });
+}
+
+/** Composes and sends the "ready for pickup" email for a single item on an order. */
+export async function sendOrderReadyForPickupForOrder(
+  order: OrderLike,
+  item: OrderItemLike,
+  storeName?: string
+) {
+  if (!order.userEmail) return;
+
+  const recipientName = await recipientNameFor(order.userEmail);
+
+  await sendOrderReadyForPickupEmail(order.userEmail, {
+    recipientName,
+    orderNumber: orderNumber(order),
+    itemTitle: item.title || "Item",
+    etaText: item.etaText || "Soon",
+    storeName: storeName || "the store",
+  });
+}
+
+/** Composes and sends the dispute-resolution outcome email for a single item on an order. */
+export async function sendDisputeResolvedForOrder(order: OrderLike, item: OrderItemLike) {
+  if (!order.userEmail) return;
+
+  const recipientName = await recipientNameFor(order.userEmail);
+
+  await sendDisputeResolvedEmail(order.userEmail, {
+    recipientName,
+    orderNumber: orderNumber(order),
+    itemTitle: item.title || "Item",
+    outcome: (item.resolution?.outcome as DisputeResolvedData["outcome"]) || "buyer_fault",
+    buyerRefundAmount: item.resolution?.buyerRefundAmount || 0,
   });
 }

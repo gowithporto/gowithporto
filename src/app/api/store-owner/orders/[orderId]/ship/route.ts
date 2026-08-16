@@ -37,6 +37,16 @@ export async function PUT(
     return NextResponse.json({ error: "Order not found" }, { status: 404 });
   }
 
+  if (order.paymentIntentId) {
+    return NextResponse.json(
+      {
+        error:
+          "This order uses per-item fulfillment — dispatch items individually.",
+      },
+      { status: 400 }
+    );
+  }
+
   // Ensure this store owns at least one item
   const ownsItems = order.items.some((item: any) =>
     productIds.includes(item.productId.toString())
@@ -53,9 +63,18 @@ export async function PUT(
     );
   }
 
+  const isPickup = order.deliveryType
+    ? order.deliveryType === "pickup"
+    : !order.address;
+
   order.status = "shipped";
   await order.save();
-  await sendOrderShippedForOrder(order);
+
+  // Pickup orders are handed over in person — the "on its way" shipped
+  // email is only accurate for orders actually going out for delivery.
+  if (!isPickup) {
+    await sendOrderShippedForOrder(order);
+  }
 
   return NextResponse.json({ success: true });
 }

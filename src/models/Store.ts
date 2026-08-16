@@ -12,6 +12,9 @@ export interface IStore extends Document {
   role: "STORE_OWNER";
   deliveryFee: number;
 
+  // 📦 Fulfillment (given to delivery/pickup staff — never the login storeCode)
+  fulfillmentPinHash?: string;
+
   // 💳 Stripe Connect (payouts)
   stripeAccountId?: string;
   stripeOnboardingComplete: boolean;
@@ -36,6 +39,9 @@ const StoreSchema = new Schema<IStore>(
       type: Number,
       default: 0,
     },
+
+    // 📦 Fulfillment (given to delivery/pickup staff — never the login storeCode)
+    fulfillmentPinHash: { type: String },
 
     // 💳 Stripe Connect (payouts)
     stripeAccountId: { type: String },

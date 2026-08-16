@@ -5,14 +5,9 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { sendWelcomeEmail } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
-import { checkRateLimit } from "@/lib/rateLimit";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 import Store from "@/models/Store";
 import User from "@/models/User";
-
-function getClientIp(req?: { headers?: Record<string, string | undefined> }) {
-  const forwarded = req?.headers?.["x-forwarded-for"];
-  return forwarded?.split(",")[0]?.trim() || "unknown";
-}
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -33,7 +28,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        const ip = getClientIp(req);
+        const ip = getClientIp(req?.headers);
         if (!checkRateLimit(`admin-login:${ip}:${credentials.email}`)) {
           return null;
         }
@@ -78,7 +73,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         if (!credentials) return null;
 
-        const ip = getClientIp(req);
+        const ip = getClientIp(req?.headers);
         if (!checkRateLimit(`store-owner-login:${ip}:${credentials.storeCode}`)) {
           return null;
         }

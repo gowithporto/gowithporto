@@ -1,6 +1,7 @@
 import { connectDB } from "@/lib/mongodb";
 import Product from "@/models/Product";
 import Store from "@/models/Store";
+import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -51,17 +52,11 @@ export async function POST(req: Request) {
     }
   );
 
-  // Platform commission is taken from product sales only — the store owner
-  // keeps 100% of the delivery fee, since that's their shipping cost.
-  const productsSubtotalCents = items.reduce((sum: number, item: any) => {
-    const { price } = resolveLine(item);
-    return sum + Math.round(price * 100) * item.quantity;
-  }, 0);
-
-  const canSplit = store.stripeAccountId && store.stripeOnboardingComplete;
-  const applicationFeeAmount = canSplit
-    ? Math.round(productsSubtotalCents * (store.commissionRate / 100))
-    : undefined;
+  // Money no longer splits at checkout — the full charge goes to the platform's
+  // own Stripe balance. The seller's cut only transfers once delivery/pickup is
+  // confirmed (see /api/fulfill/[token]/confirm), using this pre-generated id as
+  // both the Order's _id and the PaymentIntent's transfer_group for 1:1 reconciliation.
+  const orderId = new mongoose.Types.ObjectId();
 
   let deliveryFee = 0;
 
@@ -91,6 +86,7 @@ export async function POST(req: Request) {
     cancel_url: `${process.env.NEXTAUTH_URL}/checkout/cancel`,
 
     metadata: {
+      orderId: orderId.toString(),
       deliveryType,
       deliveryFee,
       address: address ? JSON.stringify(address) : "",
@@ -99,14 +95,9 @@ export async function POST(req: Request) {
       storeId: storeId.toString(),
     },
 
-    ...(canSplit && {
-      payment_intent_data: {
-        application_fee_amount: applicationFeeAmount,
-        transfer_data: {
-          destination: store.stripeAccountId,
-        },
-      },
-    }),
+    payment_intent_data: {
+      transfer_group: orderId.toString(),
+    },
   });
 
   return NextResponse.json({ url: session.url });

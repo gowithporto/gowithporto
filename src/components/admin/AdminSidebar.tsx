@@ -5,6 +5,7 @@ import {
   BuildingStorefrontIcon,
   Cog6ToothIcon,
   CpuChipIcon,
+  ExclamationTriangleIcon,
   HomeIcon,
   LifebuoyIcon,
   MapPinIcon,
@@ -33,6 +34,7 @@ const navigation = [
   },
   { name: "Bike Rentals", href: "/admin/bike-rentals", icon: TruckIcon },
   { name: "Orders", href: "/admin/orders", icon: ShoppingBagIcon },
+  { name: "Disputes", href: "/admin/disputes", icon: ExclamationTriangleIcon },
   { name: "Users", href: "/admin/users", icon: UserGroupIcon },
   { name: "AI Settings", href: "/admin/ai-settings", icon: CpuChipIcon },
 ];

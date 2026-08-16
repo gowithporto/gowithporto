@@ -18,7 +18,11 @@ export async function POST(req: Request) {
   await connectDB();
 
   const session = await stripe.checkout.sessions.retrieve(sessionId, {
-    expand: ["line_items", "payment_intent.payment_method"],
+    expand: [
+      "line_items",
+      "payment_intent.payment_method",
+      "payment_intent.latest_charge",
+    ],
   });
 
   if (session.payment_status !== "paid") {

@@ -1,6 +1,7 @@
 import { authOptions } from "@/lib/auth";
 import { connectDB } from "@/lib/mongodb";
 import Store from "@/models/Store";
+import bcrypt from "bcryptjs";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
@@ -16,7 +17,9 @@ export async function GET(
   const { id } = await params;
   await connectDB();
 
-  const store = await Store.findById(id);
+  const store = await Store.findById(id).select(
+    "-passwordHash -fulfillmentPinHash"
+  );
   if (!store) {
     return NextResponse.json({ error: "Store not found" }, { status: 404 });
   }
@@ -37,7 +40,7 @@ export async function PUT(
 
   const { id } = await params;
   const body = await req.json();
-  const { name, location, deliveryFee, commissionRate } = body;
+  const { name, location, deliveryFee, commissionRate, fulfillmentPin } = body;
 
   if (!name || !location) {
     return NextResponse.json(
@@ -66,11 +69,20 @@ export async function PUT(
 
   await connectDB();
 
-  const store = await Store.findByIdAndUpdate(
-    id,
-    { name, location, deliveryFee, commissionRate },
-    { new: true }
-  );
+  const update: Record<string, unknown> = {
+    name,
+    location,
+    deliveryFee,
+    commissionRate,
+  };
+
+  if (typeof fulfillmentPin === "string" && fulfillmentPin.trim()) {
+    update.fulfillmentPinHash = await bcrypt.hash(fulfillmentPin.trim(), 10);
+  }
+
+  const store = await Store.findByIdAndUpdate(id, update, {
+    new: true,
+  }).select("-passwordHash -fulfillmentPinHash");
 
   if (!store) {
     return NextResponse.json({ error: "Store not found" }, { status: 404 });

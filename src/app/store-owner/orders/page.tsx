@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  BuildingStorefrontIcon,
   CalendarDaysIcon,
   CheckCircleIcon,
   ClipboardDocumentListIcon,
@@ -17,11 +18,31 @@ import toast from "react-hot-toast";
 
 import { cn } from "@/utils/cn";
 
+type FulfillmentStatus =
+  | "pending"
+  | "dispatched"
+  | "ready_for_pickup"
+  | "delivered"
+  | "picked_up"
+  | "issue_reported"
+  | "resolved";
+
 type OrderItem = {
+  _id: string;
   productId: string;
   title: string;
   price: number;
   quantity: number;
+  fulfillmentStatus?: FulfillmentStatus;
+  etaText?: string;
+  dispatchedAt?: string;
+  confirmedAt?: string;
+  issueReport?: {
+    reportedBy: "buyer" | "handler";
+    reasonCode?: string;
+    note?: string;
+  };
+  resolution?: { outcome?: string };
 };
 
 type Order = {
@@ -29,6 +50,8 @@ type Order = {
   userEmail: string;
   status: string;
   createdAt: string;
+  deliveryType?: "pickup" | "delivery";
+  paymentIntentId?: string;
   address?: {
     name: string;
     street: string;
@@ -57,6 +80,16 @@ const STATUS_STYLES: Record<string, { label: string; className: string }> = {
   },
 };
 
+const ITEM_STATUS_STYLES: Record<FulfillmentStatus, { label: string; className: string }> = {
+  pending: { label: "Awaiting Dispatch", className: "bg-amber-50 text-amber-600" },
+  dispatched: { label: "Dispatched", className: "bg-blue-50 text-blue-600" },
+  ready_for_pickup: { label: "Ready for Pickup", className: "bg-blue-50 text-blue-600" },
+  delivered: { label: "Delivered", className: "bg-emerald-50 text-emerald-600" },
+  picked_up: { label: "Picked Up", className: "bg-emerald-50 text-emerald-600" },
+  issue_reported: { label: "Issue Reported", className: "bg-red-50 text-red-600" },
+  resolved: { label: "Resolved", className: "bg-black/5 text-black/50" },
+};
+
 function statusBadge(status: string) {
   return (
     STATUS_STYLES[status] || {
@@ -65,6 +98,25 @@ function statusBadge(status: string) {
         "bg-amber-50 text-amber-600",
     }
   );
+}
+
+function itemIsFinal(status?: FulfillmentStatus) {
+  return status === "delivered" || status === "picked_up" || status === "resolved";
+}
+
+/** New-model orders track fulfillment per item — order.status stays "paid" forever, so the
+ * header badge is derived from whether every item has reached a final state instead. */
+function orderFulfillmentBadge(order: Order) {
+  if (!order.paymentIntentId) return statusBadge(order.status);
+  const allFinal = order.items.every((i) => itemIsFinal(i.fulfillmentStatus));
+  return allFinal
+    ? { label: "Completed", className: "bg-emerald-50 text-emerald-600" }
+    : { label: "Processing", className: "bg-blue-50 text-blue-600" };
+}
+
+function orderIsFulfilled(order: Order) {
+  if (!order.paymentIntentId) return order.status === "shipped";
+  return order.items.every((i) => itemIsFinal(i.fulfillmentStatus));
 }
 
 function orderRevenue(order: Order) {
@@ -84,6 +136,9 @@ export default function StoreOwnerOrdersPage() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("all");
   const [shippingId, setShippingId] = useState<string | null>(null);
+  const [openEtaFor, setOpenEtaFor] = useState<string | null>(null);
+  const [etaDraft, setEtaDraft] = useState("");
+  const [dispatchingItemId, setDispatchingItemId] = useState<string | null>(null);
 
   const fetchOrders = async () => {
     const res = await fetch("/api/store-owner/orders", {
@@ -98,9 +153,13 @@ export default function StoreOwnerOrdersPage() {
     fetchOrders().finally(() => setLoading(false));
   }, []);
 
-  const markAsShipped = async (orderId: string) => {
-    setShippingId(orderId);
-    const res = await fetch(`/api/store-owner/orders/${orderId}/ship`, {
+  const markAsShipped = async (order: Order) => {
+    const isPickup = order.deliveryType
+      ? order.deliveryType === "pickup"
+      : !order.address;
+
+    setShippingId(order._id);
+    const res = await fetch(`/api/store-owner/orders/${order._id}/ship`, {
       method: "PUT",
       credentials: "include",
     });
@@ -111,13 +170,42 @@ export default function StoreOwnerOrdersPage() {
       return;
     }
 
-    toast.success("Order marked as shipped");
+    toast.success(isPickup ? "Order marked as picked up" : "Order marked as shipped");
+    await fetchOrders();
+  };
+
+  const dispatchItem = async (orderId: string, itemId: string) => {
+    if (!etaDraft.trim()) {
+      toast.error("Please enter an estimated time");
+      return;
+    }
+
+    setDispatchingItemId(itemId);
+    const res = await fetch(
+      `/api/store-owner/orders/${orderId}/items/${itemId}/dispatch`,
+      {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ etaText: etaDraft.trim() }),
+      },
+    );
+    setDispatchingItemId(null);
+
+    if (!res.ok) {
+      toast.error("Failed to dispatch item");
+      return;
+    }
+
+    toast.success("Item dispatched");
+    setOpenEtaFor(null);
+    setEtaDraft("");
     await fetchOrders();
   };
 
   const stats = useMemo(() => {
-    const processing = orders.filter((o) => o.status === "paid").length;
-    const completed = orders.filter((o) => o.status === "shipped").length;
+    const processing = orders.filter((o) => !orderIsFulfilled(o)).length;
+    const completed = orders.filter((o) => orderIsFulfilled(o)).length;
     const revenue = orders.reduce((s, o) => s + orderRevenue(o), 0);
     return { total: orders.length, processing, completed, revenue };
   }, [orders]);
@@ -125,7 +213,9 @@ export default function StoreOwnerOrdersPage() {
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
     return orders.filter((o) => {
-      const matchesStatus = status === "all" || o.status === status;
+      const matchesStatus =
+        status === "all" ||
+        (status === "shipped" ? orderIsFulfilled(o) : !orderIsFulfilled(o));
       const matchesSearch =
         !term ||
         o.userEmail?.toLowerCase().includes(term) ||
@@ -230,9 +320,13 @@ export default function StoreOwnerOrdersPage() {
       ) : (
         <div className="space-y-4">
           {sorted.map((order) => {
-            const badge = statusBadge(order.status);
+            const badge = orderFulfillmentBadge(order);
             const total = orderRevenue(order);
             const isShipping = shippingId === order._id;
+            const isPickup = order.deliveryType
+              ? order.deliveryType === "pickup"
+              : !order.address;
+            const hasFulfillment = !!order.paymentIntentId;
 
             return (
               <div
@@ -254,6 +348,16 @@ export default function StoreOwnerOrdersPage() {
                       >
                         {badge.label}
                       </span>
+                      <span
+                        className={cn(
+                          "rounded-full px-2.5 py-1 text-xs font-medium",
+                          isPickup
+                            ? "bg-amber-50 text-amber-600"
+                            : "bg-[#2c6e9b]/10 text-[#2c6e9b]",
+                        )}
+                      >
+                        {isPickup ? "Pickup" : "Delivery"}
+                      </span>
                     </div>
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-black/50">
                       <span className="flex items-center gap-1.5">
@@ -270,15 +374,24 @@ export default function StoreOwnerOrdersPage() {
                     </div>
                   </div>
 
-                  {order.status === "paid" && (
+                  {/* Legacy whole-order orders keep the original single action */}
+                  {!hasFulfillment && order.status === "paid" && (
                     <button
                       type="button"
-                      onClick={() => markAsShipped(order._id)}
+                      onClick={() => markAsShipped(order)}
                       disabled={isShipping}
                       className="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#2c6e9b] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#2c6e9b]/90 disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                      <TruckIcon className="h-4 w-4" />
-                      {isShipping ? "Updating..." : "Mark as Shipped"}
+                      {isPickup ? (
+                        <BuildingStorefrontIcon className="h-4 w-4" />
+                      ) : (
+                        <TruckIcon className="h-4 w-4" />
+                      )}
+                      {isShipping
+                        ? "Updating..."
+                        : isPickup
+                          ? "Mark as Picked Up"
+                          : "Mark as Shipped"}
                     </button>
                   )}
                 </div>
@@ -292,28 +405,127 @@ export default function StoreOwnerOrdersPage() {
                         <th className="pb-2 font-medium">Qty</th>
                         <th className="pb-2 font-medium">Price</th>
                         <th className="pb-2 text-right font-medium">Subtotal</th>
+                        {hasFulfillment && (
+                          <th className="pb-2 pl-4 font-medium">Fulfillment</th>
+                        )}
                       </tr>
                     </thead>
                     <tbody>
-                      {order.items.map((item, idx) => (
-                        <tr
-                          key={idx}
-                          className="border-b border-black/5 last:border-0"
-                        >
-                          <td className="py-2.5 text-[#1d3d5c]">
-                            {item.title}
-                          </td>
-                          <td className="py-2.5 text-black/60">
-                            {item.quantity}
-                          </td>
-                          <td className="py-2.5 text-black/60">
-                            {formatEuro(item.price)}
-                          </td>
-                          <td className="py-2.5 text-right font-medium text-[#1d3d5c]">
-                            {formatEuro(item.price * item.quantity)}
-                          </td>
-                        </tr>
-                      ))}
+                      {order.items.map((item, idx) => {
+                        const itemStatus = item.fulfillmentStatus || "pending";
+                        const itemBadge = ITEM_STATUS_STYLES[itemStatus];
+                        const isOpen = openEtaFor === item._id;
+                        const isDispatching = dispatchingItemId === item._id;
+
+                        return (
+                          <tr
+                            key={item._id || idx}
+                            className="border-b border-black/5 last:border-0"
+                          >
+                            <td className="py-2.5 text-[#1d3d5c]">
+                              {item.title}
+                            </td>
+                            <td className="py-2.5 text-black/60">
+                              {item.quantity}
+                            </td>
+                            <td className="py-2.5 text-black/60">
+                              {formatEuro(item.price)}
+                            </td>
+                            <td className="py-2.5 text-right font-medium text-[#1d3d5c]">
+                              {formatEuro(item.price * item.quantity)}
+                            </td>
+                            {hasFulfillment && (
+                              <td className="py-2.5 pl-4 align-top">
+                                {itemStatus === "pending" ? (
+                                  isOpen ? (
+                                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                                      <input
+                                        value={etaDraft}
+                                        onChange={(e) => setEtaDraft(e.target.value)}
+                                        placeholder={
+                                          isPickup
+                                            ? "e.g. Today, around 3-5 PM"
+                                            : "e.g. Today, around 3-5 PM"
+                                        }
+                                        className="w-48 rounded-lg border border-black/10 px-2.5 py-1.5 text-xs outline-none focus:border-[#2c6e9b]"
+                                      />
+                                      <div className="flex gap-1.5">
+                                        <button
+                                          type="button"
+                                          disabled={isDispatching}
+                                          onClick={() => dispatchItem(order._id, item._id)}
+                                          className="cursor-pointer rounded-lg bg-[#2c6e9b] px-2.5 py-1.5 text-xs font-semibold text-white transition hover:bg-[#2c6e9b]/90 disabled:opacity-60"
+                                        >
+                                          {isDispatching ? "..." : "Confirm"}
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            setOpenEtaFor(null);
+                                            setEtaDraft("");
+                                          }}
+                                          className="cursor-pointer rounded-lg border border-black/10 px-2.5 py-1.5 text-xs text-black/50 transition hover:bg-black/5"
+                                        >
+                                          Cancel
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setOpenEtaFor(item._id);
+                                        setEtaDraft("");
+                                      }}
+                                      className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-[#2c6e9b] px-2.5 py-1.5 text-xs font-semibold text-white transition hover:bg-[#2c6e9b]/90"
+                                    >
+                                      {isPickup ? (
+                                        <BuildingStorefrontIcon className="h-3.5 w-3.5" />
+                                      ) : (
+                                        <TruckIcon className="h-3.5 w-3.5" />
+                                      )}
+                                      {isPickup ? "Mark Ready for Pickup" : "Dispatch"}
+                                    </button>
+                                  )
+                                ) : (
+                                  <div className="space-y-0.5">
+                                    <span
+                                      className={cn(
+                                        "inline-block rounded-full px-2 py-0.5 text-[11px] font-medium",
+                                        itemBadge.className,
+                                      )}
+                                    >
+                                      {itemBadge.label}
+                                    </span>
+                                    {(itemStatus === "dispatched" ||
+                                      itemStatus === "ready_for_pickup") &&
+                                      item.etaText && (
+                                        <p className="text-[11px] text-black/40">
+                                          ETA: {item.etaText}
+                                        </p>
+                                      )}
+                                    {itemIsFinal(itemStatus) && item.confirmedAt && (
+                                      <p className="text-[11px] text-black/40">
+                                        {new Date(item.confirmedAt).toLocaleDateString()}
+                                      </p>
+                                    )}
+                                    {itemStatus === "issue_reported" && item.issueReport && (
+                                      <p className="max-w-[180px] truncate text-[11px] text-black/40">
+                                        {item.issueReport.reportedBy === "buyer"
+                                          ? "Buyer: "
+                                          : "Handler: "}
+                                        {item.issueReport.note ||
+                                          item.issueReport.reasonCode ||
+                                          "No details"}
+                                      </p>
+                                    )}
+                                  </div>
+                                )}
+                              </td>
+                            )}
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                   <div className="flex justify-end py-3 text-sm">

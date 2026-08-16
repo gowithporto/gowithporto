@@ -5,15 +5,34 @@ import {
   ChevronRightIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { FaShoppingBag } from "react-icons/fa";
+import toast from "react-hot-toast";
+
+import { cn } from "@/utils/cn";
+import FulfillmentQRCode from "./FulfillmentQRCode";
+
+type FulfillmentStatus =
+  | "pending"
+  | "dispatched"
+  | "ready_for_pickup"
+  | "delivered"
+  | "picked_up"
+  | "issue_reported"
+  | "resolved";
 
 type OrderItem = {
+  _id?: string;
   productId: string;
   title: string;
   price: number;
   quantity: number;
   image?: string;
+  fulfillmentToken?: string;
+  fulfillmentStatus?: FulfillmentStatus;
+  etaText?: string;
+  issueReport?: { reportedBy: "buyer" | "handler" };
 };
 
 type Order = {
@@ -21,6 +40,7 @@ type Order = {
   createdAt: string;
   total: number;
   status: string;
+  paymentIntentId?: string;
   items: OrderItem[];
   address?: {
     name: string;
@@ -36,6 +56,23 @@ const STATUS_STYLES: Record<string, string> = {
   pending: "bg-gray-100 text-gray-700",
 };
 
+const ITEM_STATUS_STYLES: Record<FulfillmentStatus, { label: string; className: string }> = {
+  pending: { label: "Awaiting Dispatch", className: "bg-gray-100 text-gray-600" },
+  dispatched: { label: "On Its Way", className: "bg-blue-50 text-blue-600" },
+  ready_for_pickup: { label: "Ready for Pickup", className: "bg-blue-50 text-blue-600" },
+  delivered: { label: "Delivered", className: "bg-green-100 text-green-700" },
+  picked_up: { label: "Picked Up", className: "bg-green-100 text-green-700" },
+  issue_reported: { label: "Issue Reported", className: "bg-red-50 text-red-600" },
+  resolved: { label: "Resolved", className: "bg-gray-100 text-gray-600" },
+};
+
+const REASON_OPTIONS = [
+  { value: "item_not_received", label: "I don't have the item yet" },
+  { value: "item_defective_or_wrong", label: "Item is defective or wrong" },
+  { value: "no_longer_needed", label: "No longer needed" },
+  { value: "other", label: "Other" },
+];
+
 const SORT_OPTIONS = [
   { value: "newest", label: "Newest First" },
   { value: "oldest", label: "Oldest First" },
@@ -49,12 +86,18 @@ const FULFILLMENT_OPTIONS = ["All", "Delivery", "Pickup"];
 const PAGE_SIZE = 8;
 
 export default function OrdersList({ orders }: { orders: Order[] }) {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [statusFilter, setStatusFilter] = useState("All");
   const [fulfillmentFilter, setFulfillmentFilter] = useState("All");
   const [showFilters, setShowFilters] = useState(false);
   const [page, setPage] = useState(1);
+  const [qrToken, setQrToken] = useState<string | null>(null);
+  const [declineOpenFor, setDeclineOpenFor] = useState<string | null>(null);
+  const [declineReason, setDeclineReason] = useState(REASON_OPTIONS[0].value);
+  const [declineNote, setDeclineNote] = useState("");
+  const [decliningKey, setDecliningKey] = useState<string | null>(null);
 
   const filterKey = `${search}|${sortBy}|${statusFilter}|${fulfillmentFilter}`;
   const [lastFilterKey, setLastFilterKey] = useState(filterKey);
@@ -62,6 +105,27 @@ export default function OrdersList({ orders }: { orders: Order[] }) {
     setLastFilterKey(filterKey);
     setPage(1);
   }
+
+  const submitDecline = async (orderId: string, itemId: string) => {
+    const key = `${orderId}:${itemId}`;
+    setDecliningKey(key);
+    const res = await fetch(`/api/orders/${orderId}/items/${itemId}/decline`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reasonCode: declineReason, note: declineNote }),
+    });
+    setDecliningKey(null);
+
+    if (!res.ok) {
+      toast.error("Failed to submit report");
+      return;
+    }
+
+    toast.success("Issue reported — we'll review it");
+    setDeclineOpenFor(null);
+    setDeclineNote("");
+    router.refresh();
+  };
 
   const filtered = useMemo(() => {
     let rows = [...orders];
@@ -269,13 +333,124 @@ export default function OrdersList({ orders }: { orders: Order[] }) {
                     <p className="text-xs font-medium text-gray-600">
                       Items:
                     </p>
-                    <ul className="text-xs text-gray-500">
-                      {order.items.map((i, idx) => (
-                        <li key={idx}>
-                          {i.title} × {i.quantity}
-                        </li>
-                      ))}
-                    </ul>
+                    {order.paymentIntentId ? (
+                      <ul className="space-y-2 text-xs text-gray-500">
+                        {order.items.map((i, idx) => {
+                          const itemStatus = i.fulfillmentStatus || "pending";
+                          const badge = ITEM_STATUS_STYLES[itemStatus];
+                          const canAct =
+                            itemStatus === "dispatched" ||
+                            itemStatus === "ready_for_pickup";
+                          const key = `${order._id}:${i._id}`;
+                          const isDeclineOpen = declineOpenFor === key;
+                          const isSubmitting = decliningKey === key;
+
+                          return (
+                            <li
+                              key={idx}
+                              className="space-y-1.5 rounded-lg border border-black/5 p-2"
+                            >
+                              <div className="flex items-center justify-between gap-2">
+                                <span>
+                                  {i.title} × {i.quantity}
+                                </span>
+                                <span
+                                  className={cn(
+                                    "shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium",
+                                    badge.className,
+                                  )}
+                                >
+                                  {badge.label}
+                                </span>
+                              </div>
+
+                              {canAct && i.etaText && (
+                                <p className="text-[11px] text-gray-400">
+                                  ETA: {i.etaText}
+                                </p>
+                              )}
+
+                              {itemStatus === "issue_reported" && (
+                                <p className="text-[11px] text-amber-600">
+                                  We&apos;re reviewing this item.
+                                </p>
+                              )}
+
+                              {canAct && i.fulfillmentToken && !isDeclineOpen && (
+                                <div className="flex flex-wrap gap-2 pt-1">
+                                  <button
+                                    type="button"
+                                    onClick={() => setQrToken(i.fulfillmentToken!)}
+                                    className="cursor-pointer rounded-lg bg-[#2c6e9b] px-2.5 py-1 text-[11px] font-semibold text-white transition hover:bg-[#2c6e9b]/90"
+                                  >
+                                    Show confirmation code
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setDeclineOpenFor(key);
+                                      setDeclineReason(REASON_OPTIONS[0].value);
+                                      setDeclineNote("");
+                                    }}
+                                    className="cursor-pointer rounded-lg border border-black/10 px-2.5 py-1 text-[11px] text-gray-500 transition hover:bg-black/5"
+                                  >
+                                    Report a problem
+                                  </button>
+                                </div>
+                              )}
+
+                              {isDeclineOpen && (
+                                <div className="space-y-1.5 pt-1">
+                                  <select
+                                    value={declineReason}
+                                    onChange={(e) => setDeclineReason(e.target.value)}
+                                    className="w-full rounded-lg border border-black/10 px-2 py-1 text-[11px]"
+                                  >
+                                    {REASON_OPTIONS.map((r) => (
+                                      <option key={r.value} value={r.value}>
+                                        {r.label}
+                                      </option>
+                                    ))}
+                                  </select>
+                                  <textarea
+                                    value={declineNote}
+                                    onChange={(e) => setDeclineNote(e.target.value)}
+                                    placeholder="Add details (optional)"
+                                    rows={2}
+                                    className="w-full rounded-lg border border-black/10 px-2 py-1 text-[11px]"
+                                  />
+                                  <div className="flex gap-1.5">
+                                    <button
+                                      type="button"
+                                      disabled={isSubmitting}
+                                      onClick={() => submitDecline(order._id, i._id!)}
+                                      className="cursor-pointer rounded-lg bg-red-600 px-2.5 py-1 text-[11px] font-semibold text-white transition hover:bg-red-700 disabled:opacity-60"
+                                    >
+                                      {isSubmitting ? "Submitting..." : "Submit"}
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => setDeclineOpenFor(null)}
+                                      className="cursor-pointer rounded-lg border border-black/10 px-2.5 py-1 text-[11px] text-gray-500 transition hover:bg-black/5"
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : (
+                      <ul className="text-xs text-gray-500">
+                        {order.items.map((i, idx) => (
+                          <li key={idx}>
+                            {i.title} × {i.quantity}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </div>
 
@@ -319,6 +494,10 @@ export default function OrdersList({ orders }: { orders: Order[] }) {
             &raquo;
           </button>
         </div>
+      )}
+
+      {qrToken && (
+        <FulfillmentQRCode token={qrToken} onClose={() => setQrToken(null)} />
       )}
     </div>
   );

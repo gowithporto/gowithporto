@@ -14,7 +14,9 @@ export async function GET() {
     }
 
     await connectDB();
-    const stores = await Store.find({}).sort({ createdAt: -1 });
+    const stores = await Store.find({})
+      .select("-passwordHash -fulfillmentPinHash")
+      .sort({ createdAt: -1 });
 
     return NextResponse.json(stores);
   } catch (error) {

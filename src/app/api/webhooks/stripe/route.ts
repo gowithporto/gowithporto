@@ -68,7 +68,11 @@ export async function POST(req: Request) {
   }
 
   const session = await stripe.checkout.sessions.retrieve(sessionSummary.id, {
-    expand: ["line_items", "payment_intent.payment_method"],
+    expand: [
+      "line_items",
+      "payment_intent.payment_method",
+      "payment_intent.latest_charge",
+    ],
   });
 
   const orderData = await buildOrderFromStripeSession(session);

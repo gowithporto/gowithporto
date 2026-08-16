@@ -11,6 +11,7 @@ type StoreFormState = {
   location: string;
   deliveryFee: string;
   commissionRate: string;
+  fulfillmentPin: string;
 };
 
 export default function EditStorePage() {
@@ -32,6 +33,7 @@ export default function EditStorePage() {
           location: store.location,
           deliveryFee: String(store.deliveryFee ?? 0),
           commissionRate: String(store.commissionRate ?? 10),
+          fulfillmentPin: "",
         })
       )
       .catch(() => setNotFound(true));
@@ -51,6 +53,7 @@ export default function EditStorePage() {
           location: form.location,
           deliveryFee: parseFloat(form.deliveryFee) || 0,
           commissionRate: parseFloat(form.commissionRate) || 0,
+          fulfillmentPin: form.fulfillmentPin,
         }),
       });
 
@@ -139,6 +142,23 @@ export default function EditStorePage() {
             />
             <p className="mt-1 text-xs text-gray-400">
               Platform&apos;s cut of each product sale (not delivery).
+            </p>
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-gray-700">
+              Fulfillment PIN
+            </label>
+            <Input
+              type="text"
+              value={form.fulfillmentPin}
+              onChange={(e) =>
+                setForm({ ...form, fulfillmentPin: e.target.value })
+              }
+              placeholder="Leave blank to keep the current PIN"
+            />
+            <p className="mt-1 text-xs text-gray-400">
+              Given to delivery/pickup staff to confirm handoffs — never the
+              store&apos;s login code.
             </p>
           </div>
 
