@@ -2,7 +2,84 @@
 
 Update whenever a task completes or a new one is identified. Mirrors the live session task tracker.
 
-## High Priority
+> **Backlog structure changed 2026-08-16.** A full documentation audit against the
+> 21-stage lifecycle produced the item set below. See [`00-INDEX.md`](00-INDEX.md)
+> for the traceability matrix and [`01-PRODUCT.md`](01-PRODUCT.md) §9.3 for the
+> launch gate. Items are grouped by whether they block taking real money.
+
+---
+
+## P0 — Do today
+
+- [x] **Delete `src/app/api/dev/seed/`** — done 2026-08-17. `GET /api/dev/seed/products` was live in production, unauthenticated, unguarded by environment, and called `Product.deleteMany({})`. A crawler or link-preview bot could have wiped the entire catalogue, and Atlas M0 has no restore path. Route and its `seedProducts()` helper both deleted. `07-SECURITY` §1, SEC-1
+- [ ] **Point `.env.local` at a separate development cluster** — local development currently runs against the production database. Create a second free M0 cluster. `10-OPERATIONS` §2
+- [ ] **Rotate the three exposed credentials** — Gemini API key, Google OAuth client secret, Cloudinary API secret. All appeared in setup screenshots; deferred 2026-08-05. `07-SECURITY` §1, SEC-2
+
+## P1 — Blocks launch
+
+### Legal and regulatory — start first, longest lead time
+- [ ] Brief a Portuguese lawyer using `12-GOVERNANCE` §2. Settle: platform vs seller status; 14-day withdrawal implementation; buyer and store-owner terms; DSA and Accessibility Act micro-enterprise exemptions
+- [ ] Brief a Portuguese accountant. Settle: activity registration; invoicing; commission VAT treatment; **AI credits as electronically supplied services and the OSS position**; DAC7 filing mechanics
+- [ ] **Add DAC7 fields to the `Store` schema** — legal name, NIF, registered address, business registration number — and collect them at onboarding. Retrospective collection is far more expensive. `12-GOVERNANCE` §2.5
+- [ ] Accept and file standard DPAs: Stripe, MongoDB Atlas, Vercel, Cloudinary, Resend, Google
+- [ ] Disclose the Gemini transfer at the point of collection and in the privacy notice. Trip dates, group composition and interests are personal data sent to a third party, and nothing tells the user. `12-GOVERNANCE` §2.2
+- [ ] Define retention periods per collection; implement erasure, starting with a TTL on `AIResponse`
+- [ ] Write buyer terms, store-owner terms and a P2B complaint route
+
+### Engineering
+- [ ] CI workflow: typecheck, lint, build — no tests yet. ~1 hour. `09-QUALITY` §5.1
+- [ ] Branch protection on `main`; no direct pushes. ~10 min
+- [ ] Money arithmetic unit tests U-1 to U-3. `09-QUALITY` §3.1
+- [ ] Authorisation matrix test A-1 — would have caught SEC-1. `09-QUALITY` §3.3
+- [ ] Concurrency integration tests I-1, I-3, I-5. `09-QUALITY` §3.2
+- [ ] Sentry error tracking, wired to the existing error boundaries. `10-OPERATIONS` §4.3, M-1
+- [ ] Uptime monitoring on `/robots.txt`. M-2
+- [ ] Atlas backup — scheduled `mongodump` or M10 upgrade — and **rehearse a restore**. `05-DATA` §7
+- [ ] Security headers: CSP, HSTS, frame options, referrer policy. `07-SECURITY` §5.4
+- [ ] Verify the Atlas network access list is restricted, not `0.0.0.0/0`
+- [ ] Require a session and validate input on `/api/payments/checkout` and `/api/payments/ai-credits`; reject multi-store carts explicitly. SEC-3
+- [ ] Bind the Stripe session to the paying user in `/api/user/credits/add`. SEC-4
+- [ ] Google Cloud budget alert — **configure before enabling Gemini billing**, not after
+- [ ] Write a stale-handover policy. An item dispatched and never confirmed holds a buyer's money indefinitely with no rule. `04-DOMAIN` §6, `10-OPERATIONS` §5.2
+- [ ] Environment variable validation at boot — 15 vars, one guarded. `08-ENGINEERING` §6
+
+### Administrative
+- [ ] Upgrade Vercel Hobby → Pro. Hobby terms exclude commercial use (carried over from 2026-08-05)
+- [ ] Enable billing on the Google Cloud project behind `GEMINI_API_KEY`. Free tier is a hard 5 req/min (carried over)
+
+## P2 — After launch
+
+- [ ] Remaining unit and integration tests; Playwright E-1 and E-2. `09-QUALITY` §7
+- [ ] `dependabot.yml` and `npm audit` in CI. SEC-5
+- [ ] Release automation — tag, bump, changelog section on merge. Tagging lapsed at `v0.5.0`; 30 commits are untagged. `08-ENGINEERING` §10.4
+- [ ] Email delivery alerting via Resend webhooks. M-4
+- [ ] Settlement health endpoint `/api/health/settlement`. M-3
+- [ ] Stripe and Atlas alerts. M-5, M-6
+- [ ] Product analytics — closes SM-8, SM-9, SM-10. M-7
+- [ ] Rehearse a rollback once, deliberately. `10-OPERATIONS` §3.5
+- [ ] Delete the dead `backend/` directory — two zero-byte files, fossil of a rejected architecture
+- [ ] Add `LICENSE` and a README statement. Public repo, no licence, communicates nothing
+- [ ] Schema validation at trust boundaries — replace hand-rolled per-route checks
+- [ ] MFA on the ADMIN account
+- [ ] Data subject access and export
+- [ ] Five moderated usability sessions with real Porto visitors. `02-UX` §8
+- [ ] Accessibility first pass: axe-core scan, contrast audit, keyboard traversal of checkout and fulfilment
+- [ ] **Non-visual alternative to the QR handover** — a buyer who cannot present a QR code cannot receive goods they paid for. `02-UX` §7
+
+## Carried over — open items from the pre-audit backlog
+
+- [ ] Translate remaining UI chrome into `src/i18n/{en,fr,es,pt}.json` — shop, attractions, local-experiences, checkout, cart and dashboard still render hardcoded English labels. Catalogue *content* on those pages is translated as of 2026-08-13; the surrounding furniture is not. `/ai` and the home page are done
+- [ ] Extend content translation to product `variants[].name`, attraction `nearbyHotels`/`nearbyRestaurants` blurbs, and `Category`/`BikeRentalProvider` name fields — deferred out of the 2026-08-13 pass to keep it shippable in one day
+- [ ] Manually click-test the authenticated dashboard across all four languages while logged in — code review found no session-dependent branch, but that is reasoning, not evidence
+- [ ] Fix the dead `href="#"` footer links (`Footer.tsx`) — no destination pages exist yet
+- [ ] Consider Upstash Redis for rate limiting once traffic justifies distributed-safe limiting. Trigger in `11-EVOLUTION` §5
+- [ ] Close GitHub issues #1–#4 — all four are open, dated 2026-01-03, and all four features shipped months ago
+
+---
+
+## Completed — historical record
+
+### High priority (2026-08)
 
 - [x] Connect `gowithporto.pt` custom domain to the Vercel project (2026-08-04) — both `gowithporto.pt` and `www.gowithporto.pt` verified; no production deployment yet
 - [x] Full env var migration: `MONGODB_URI`, `NEXTAUTH_URL`/`NEXTAUTH_SECRET`, Google OAuth, Stripe sandbox keys, Gemini key, Cloudinary — into both Vercel and `.env.local` (2026-08-04) — first production deployment live on `www.gowithporto.pt`
@@ -11,7 +88,7 @@ Update whenever a task completes or a new one is identified. Mirrors the live se
 - [x] Resend account created (`admin@gowithporto.pt`), `gowithporto.pt` domain verified, wired 4 transactional emails: order confirmation (final design), order shipped / AI credit receipt / first-login welcome (placeholders, to be redesigned) (2026-08-05)
 - [x] Push Resend integration to GitHub/Vercel and verify in production (2026-08-05) — real purchase on `www.gowithporto.pt` produced a correctly formatted order-confirmation email; order shipped / AI credit receipt / welcome share the same send infrastructure but haven't each been individually triggered in production yet
 
-## Medium Priority
+### Medium priority (2026-08)
 
 - [x] Fix AI itinerary prompt ignoring travel style/interests, and make the instruction more specific (2026-08-06) — `AIPlannerForm` was collecting `travelStyles` and `interests` from the user but `POST /api/ai/preview` never read them from the request body, so Gemini generated itineraries with no awareness of what the user actually selected. Now passed through to the prompt, along with dates. Also rewrote the system prompt/instruction to require realistic, budget/group-appropriate, non-repeating days naming real Porto places, in a warmer "local expert" voice instead of a generic one-liner
 - [x] Fix AI itinerary credit deduction happening before the Gemini call succeeds (2026-08-06) — a failed generation (e.g. Gemini API error) was permanently burning the user's free try or a paid credit for nothing. `POST /api/ai/preview` now generates first, charges only on success
@@ -42,13 +119,13 @@ Update whenever a task completes or a new one is identified. Mirrors the live se
 - [x] Fix email logo sometimes appearing broken in Gmail (2026-08-12) — the 193KB print-resolution logo image was oversized for a 180px-wide email display, raising the odds Gmail's image proxy timed out on first open and cached the failure forever for that email. Added a 9.6KB resized `logo-email.png` for transactional emails only; `logo.png` unchanged (still used for Open Graph/social previews)
 - [x] Add a branded offline indicator + global error boundary (2026-08-12) — previously a dropped connection or uncaught error showed nothing or a generic default screen; added `ConnectivityBanner` (online/offline events + a `/robots.txt` poll fallback, shown as a branded toast) plus `error.tsx`/`global-error.tsx` fallback pages, see CHANGELOG for detail
 
-## Low Priority
+### Low priority (2026-08)
 
 - [ ] Consider Upstash Redis for rate limiting once traffic justifies distributed-safe limiting
 - [x] Pin the Gemini model to a specific dated version instead of `gemini-flash-latest` (2026-08-13) — pinned to `gemini-3.7-flash` in `geminiProvider.ts` and `scripts/translate-content.js`, with a comment pointing at Google's model list before ever bumping it
 - [ ] **Before opening the AI Planner to real users**: enable billing on the Google Cloud project behind `GEMINI_API_KEY`. The free tier is a hard 5 requests/minute with no queueing — fine for the current test-user phase, but any real traffic (a handful of people generating within the same minute) will start hitting instant 429s. Added a short retry + friendlier "high demand" message (2026-08-13, see CHANGELOG) so free-tier hiccups aren't a broken-looking error, but that only smooths small bursts — it can't substitute for billing once there's real concurrent traffic, since paying AI-credit users deserve better than a wall
 
-## Future Ideas
+### Future ideas
 
 - Bike rental + tour guide partners, generalized into the same `Store`-like Connect model as store owners
 - Referral partner (hotel/restaurant) model — curated list, manual commission, no live payment integration
