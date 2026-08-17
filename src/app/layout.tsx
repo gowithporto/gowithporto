@@ -7,6 +7,7 @@ import "./globals.css";
 import ConditionalFooter from "@/components/layout/ConditionalFooter";
 import ConnectivityBanner from "@/components/layout/ConnectivityBanner";
 import Header from "@/components/layout/Header";
+import MobileBottomNav from "@/components/layout/MobileBottomNav";
 import { locales } from "@/i18n";
 import AuthProvider from "@/providers/AuthProvider";
 import { LanguageProvider } from "@/providers/LanguageProvider";
@@ -109,6 +110,14 @@ export default async function RootLayout({
               <Header />
               {children}
               <ConditionalFooter />
+
+              {/* Reserves scroll space so the fixed mobile bottom nav never covers page content */}
+              <div
+                className="lg:hidden"
+                style={{ height: "calc(3.75rem + env(safe-area-inset-bottom))" }}
+                aria-hidden
+              />
+              <MobileBottomNav />
             </LanguageProvider>
           </ReduxProvider>
         </AuthProvider>

@@ -27,6 +27,68 @@ const LANGUAGE_OPTIONS = [
   { code: "pt", label: "Português" },
 ];
 
+function LanguageMenu({
+  lang,
+  switchLanguage,
+  align,
+}: {
+  lang: string;
+  switchLanguage: (code: string) => void;
+  align: "left" | "right";
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-label="Change language"
+        aria-expanded={open}
+        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-[#2c6e9b]/30 text-[#2c6e9b] transition hover:bg-[#2c6e9b]/10"
+      >
+        <LanguageIcon className="h-4.5 w-4.5" />
+      </button>
+
+      {open && (
+        <div
+          className={`absolute top-10 z-30 w-40 rounded-xl border border-black/5 bg-white p-1.5 shadow-lg ${
+            align === "left" ? "left-0" : "right-0"
+          }`}
+        >
+          {LANGUAGE_OPTIONS.map((option) => (
+            <button
+              key={option.code}
+              type="button"
+              onClick={() => {
+                switchLanguage(option.code);
+                setOpen(false);
+              }}
+              className={`flex w-full cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition hover:bg-[#2c6e9b]/10 ${
+                lang === option.code ? "font-semibold text-[#2c6e9b]" : "text-[var(--text)]"
+              }`}
+            >
+              {option.label}
+              {lang === option.code && <span>✓</span>}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Header() {
   const { data: session } = useSession();
   const isStoreOwner = session?.user?.role === "STORE_OWNER";
@@ -35,19 +97,7 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [langMenuOpen, setLangMenuOpen] = useState(false);
-  const langMenuRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (langMenuRef.current && !langMenuRef.current.contains(e.target as Node)) {
-        setLangMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
-  }, []);
 
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
@@ -70,27 +120,29 @@ export default function Header() {
     const rest = hasPrefix ? "/" + segments.slice(2).join("/") : pathname;
     const cleanRest = rest === "/" ? "" : rest;
     router.push(nextLang === "en" ? cleanRest || "/" : `/${nextLang}${cleanRest}`);
-    setLangMenuOpen(false);
   };
 
   return (
     <header className="absolute top-0 left-0 z-50 w-full">
-      {/* Mobile top bar */}
-      <div className="relative flex items-center justify-between px-4 py-4 lg:hidden">
+      {/* Mobile top bar — fixed so it stays visible on every page, even mid-scroll */}
+      <div
+        className="fixed top-0 left-0 z-50 flex w-full items-center justify-between border-b border-black/5 bg-white/80 px-4 py-3 backdrop-blur-lg lg:hidden"
+        style={{ paddingTop: "calc(0.75rem + env(safe-area-inset-top))" }}
+      >
         {/* Top Azulejo — smaller, decorative, behind the hamburger/logo */}
         <Image
           src={TopLeftLine}
           alt=""
           width={260}
           height={60}
-          className="pointer-events-none absolute top-0 left-0 z-0 h-auto w-20 sm:w-28"
+          className="pointer-events-none absolute top-0 left-0 z-0 h-auto w-20 opacity-60 sm:w-28"
         />
         <Image
           src={TopRightLine}
           alt=""
           width={260}
           height={60}
-          className="pointer-events-none absolute top-0 right-0 z-0 h-auto w-20 sm:w-28"
+          className="pointer-events-none absolute top-0 right-0 z-0 h-auto w-20 opacity-60 sm:w-28"
         />
 
         <button
@@ -106,7 +158,24 @@ export default function Header() {
           <Image src={Logo} alt="GoWithPorto" width={150} height={41} priority />
         </Link>
 
-        <div className="w-9" />
+        <div className="relative z-10 flex items-center gap-2">
+          <LanguageMenu lang={lang} switchLanguage={switchLanguage} align="right" />
+
+          {session && !isStoreOwner && (
+            <Link
+              href="/cart"
+              aria-label={t(lang, "nav.cart")}
+              className="relative flex h-8 w-8 items-center justify-center text-[#2c6e9b]"
+            >
+              <FaOpencart className="h-4.5 w-4.5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#eab657] text-[10px] font-semibold text-white">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+          )}
+        </div>
       </div>
 
       {/* Mobile drawer */}
@@ -239,38 +308,7 @@ export default function Header() {
         <nav className="relative flex w-full min-h-15 items-center justify-between">
           {/* LEFT — Language + AI Planner */}
           <div className="flex items-center gap-4 pl-6 mt-20 sm:mt-0 text-sm font-medium whitespace-nowrap text-[var(--text)]">
-            {/* Language Switcher */}
-            <div className="relative" ref={langMenuRef}>
-              <button
-                type="button"
-                onClick={() => setLangMenuOpen((v) => !v)}
-                aria-label="Change language"
-                aria-expanded={langMenuOpen}
-                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-[#2c6e9b]/30 text-[#2c6e9b] transition hover:bg-[#2c6e9b]/10"
-              >
-                <LanguageIcon className="h-4.5 w-4.5" />
-              </button>
-
-              {langMenuOpen && (
-                <div className="absolute top-10 left-0 z-30 w-40 rounded-xl border border-black/5 bg-white p-1.5 shadow-lg">
-                  {LANGUAGE_OPTIONS.map((option) => (
-                    <button
-                      key={option.code}
-                      type="button"
-                      onClick={() => switchLanguage(option.code)}
-                      className={`flex w-full cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition hover:bg-[#2c6e9b]/10 ${
-                        lang === option.code
-                          ? "font-semibold text-[#2c6e9b]"
-                          : "text-[var(--text)]"
-                      }`}
-                    >
-                      {option.label}
-                      {lang === option.code && <span>✓</span>}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            <LanguageMenu lang={lang} switchLanguage={switchLanguage} align="left" />
 
             {session && !isStoreOwner && (
               <Link className="hover:text-[#eab657]/80" href="/ai">
