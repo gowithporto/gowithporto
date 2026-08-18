@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 import bottomBannerAd from "@/assets/8. ai credit transactions page/bottom banner ad.png";
 import Button from "@/components/ui/Button";
@@ -17,7 +18,7 @@ export default function BuyCreditsCTA() {
       const data = await res.json();
       window.location.href = data.url;
     } catch {
-      alert("Unable to start payment. Please try again.");
+      toast.error("Unable to start payment. Please try again.");
       setLoading(false);
     }
   }

@@ -12,6 +12,16 @@ import User from "@/models/User";
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
 
+  // Without this, any callback error (e.g. a transient DB blip during the
+  // signIn callback) falls back to NextAuth's built-in dark sign-in page,
+  // which also exposes the raw admin/store-owner credential forms. Sending
+  // both signIn and error back to "/" keeps users on our own UI; Header.tsx
+  // reads the `error` query param there and shows a toast instead.
+  pages: {
+    signIn: "/",
+    error: "/",
+  },
+
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,

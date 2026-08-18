@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
+import toast from "react-hot-toast";
 
 function SuccessContent() {
   const router = useRouter();
@@ -26,7 +27,7 @@ function SuccessContent() {
         if (!res.ok) {
           const errorData = await res.json();
           console.error("Failed to finalize credits:", errorData);
-          alert("Error finalizing credits. Please contact support.");
+          toast.error("Error finalizing credits. Please contact support.");
         } else {
           console.log("Credits finalized successfully");
         }

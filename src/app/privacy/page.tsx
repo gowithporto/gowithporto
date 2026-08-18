@@ -55,7 +55,7 @@ function Section({
   );
 }
 
-const SHARING_PROVIDERS = ["google", "stripe", "mongodb", "cloudinary", "resend", "gemini", "vercel"] as const;
+const SHARING_PROVIDERS = ["google", "stripe", "mongodb", "cloudinary", "resend", "groq", "vercel"] as const;
 
 export default async function PrivacyPage() {
   const hdrs = await headers();

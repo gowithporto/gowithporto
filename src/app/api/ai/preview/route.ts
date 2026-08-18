@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       });
     }
 
-    // 🔮 REAL AI RESPONSE (Gemini) — generate before charging, so a failed
+    // 🔮 REAL AI RESPONSE (Groq) — generate before charging, so a failed
     // generation never consumes the user's free try or a paid credit
     const aiResponse = await generateAIResponse({
       systemPrompt:

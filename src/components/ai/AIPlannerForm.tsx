@@ -26,7 +26,7 @@ import Button from "@/components/ui/Button";
 
 const DAY_OPTIONS = Array.from({ length: 14 }, (_, i) => String(i + 1));
 
-// `value` is what's actually submitted (and interpolated straight into the Gemini
+// `value` is what's actually submitted (and interpolated straight into the AI
 // prompt by promptBuilder.ts) — it must stay a stable English identifier regardless
 // of UI language. Only `labelKey` (the on-screen text) is translated.
 const TRAVEL_STYLES = [
@@ -85,7 +85,7 @@ export default function AIPlannerForm() {
     });
 
     if (!res.ok) {
-      alert(t(lang, "ai.form.paymentError"));
+      toast.error(t(lang, "ai.form.paymentError"));
       setLoading(false);
       return;
     }
@@ -149,7 +149,7 @@ export default function AIPlannerForm() {
       const data = await res.json();
 
       if (!res.ok || data.error) {
-        alert(data.error || t(lang, "ai.form.genericError"));
+        toast.error(data.error || t(lang, "ai.form.genericError"));
         setLoading(false);
         return;
       }
@@ -166,7 +166,7 @@ export default function AIPlannerForm() {
       }
     } catch (error) {
       console.error(error);
-      alert(t(lang, "ai.form.somethingWrong"));
+      toast.error(t(lang, "ai.form.somethingWrong"));
       setLoading(false);
     }
   }

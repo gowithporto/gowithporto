@@ -13,6 +13,7 @@ import Image from "next/image";
 import Link from "@/components/ui/LocalizedLink";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 
 import { FaOpencart } from "react-icons/fa";
@@ -105,6 +106,21 @@ export default function Header() {
       document.body.style.overflow = "";
     };
   }, [mobileMenuOpen]);
+
+  // NextAuth redirects auth failures back to "/" with ?error=... (see pages.error
+  // in lib/auth.ts) instead of its own default page. Surface it as a toast, then
+  // strip the param so it doesn't refire on refresh.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (!params.has("error")) return;
+
+    toast.error(t(lang, "auth.signinError"));
+    params.delete("error");
+    const query = params.toString();
+    router.replace(window.location.pathname + (query ? `?${query}` : ""), {
+      scroll: false,
+    });
+  }, [lang, router]);
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
