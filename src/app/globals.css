@@ -13,6 +13,21 @@ body {
   font-family: var(--font-manrope), system-ui, sans-serif;
 }
 
+html {
+  /* Smooths anchor-link/programmatic jumps (e.g. the privacy page's table of
+     contents). Doesn't affect normal wheel/trackpad scrolling — no CSS
+     property can do that; it needs a JS scroll library, deliberately not
+     added here. */
+  scroll-behavior: smooth;
+  /* Hide the scrollbar app-wide while keeping the page scrollable. */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Old Edge/IE */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, new Edge */
+}
+
 @keyframes shrink-width {
   from {
     transform: scaleX(1);

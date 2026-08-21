@@ -1,18 +1,19 @@
 "use client";
 
 import { locales, t } from "@/i18n";
+import { useCartCount } from "@/hooks/useCartCount";
 import { useLanguage } from "@/providers/LanguageProvider";
 import {
-  HeartIcon,
   HomeIcon,
   ShoppingBagIcon,
+  ShoppingCartIcon,
   SparklesIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import {
-  HeartIcon as HeartIconSolid,
   HomeIcon as HomeIconSolid,
   ShoppingBagIcon as ShoppingBagIconSolid,
+  ShoppingCartIcon as ShoppingCartIconSolid,
   SparklesIcon as SparklesIconSolid,
   UserCircleIcon as UserCircleIconSolid,
 } from "@heroicons/react/24/solid";
@@ -25,10 +26,10 @@ const NAV_ITEMS = [
   { href: "/ai", labelKey: "nav.ai", icon: SparklesIcon, iconActive: SparklesIconSolid },
   { href: "/shop", labelKey: "nav.shop", icon: ShoppingBagIcon, iconActive: ShoppingBagIconSolid },
   {
-    href: "/dashboard/favorites",
-    labelKey: "nav.favorites",
-    icon: HeartIcon,
-    iconActive: HeartIconSolid,
+    href: "/cart",
+    labelKey: "nav.cart",
+    icon: ShoppingCartIcon,
+    iconActive: ShoppingCartIconSolid,
   },
   {
     href: "/dashboard",
@@ -54,6 +55,7 @@ export default function MobileBottomNav() {
   const { data: session } = useSession();
   const { lang } = useLanguage();
   const pathname = usePathname();
+  const cartCount = useCartCount();
 
   if (session?.user?.role === "ADMIN" || session?.user?.role === "STORE_OWNER") {
     return null;
@@ -78,9 +80,16 @@ export default function MobileBottomNav() {
             href={item.href}
             className="flex flex-1 flex-col items-center justify-center gap-0.5 py-2.5 text-[11px]"
           >
-            <Icon
-              className={`h-6 w-6 ${isActive ? "text-[#2c6e9b]" : "text-[var(--text)]/50"}`}
-            />
+            <span className="relative">
+              <Icon
+                className={`h-6 w-6 ${isActive ? "text-[#2c6e9b]" : "text-[var(--text)]/50"}`}
+              />
+              {item.href === "/cart" && cartCount > 0 && (
+                <span className="absolute -top-1 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#eab657] text-[10px] font-semibold text-white">
+                  {cartCount}
+                </span>
+              )}
+            </span>
             <span
               className={
                 isActive

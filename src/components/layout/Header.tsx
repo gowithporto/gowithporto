@@ -1,10 +1,11 @@
 "use client";
 
 import { locales, t } from "@/i18n";
+import { useCartCount } from "@/hooks/useCartCount";
 import { useLanguage } from "@/providers/LanguageProvider";
-import { RootState } from "@/store";
 import {
   Bars3Icon,
+  HeartIcon,
   LanguageIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -14,7 +15,6 @@ import Link from "@/components/ui/LocalizedLink";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
 
 import { FaOpencart } from "react-icons/fa";
 import Logo from "../../assets/GOWITHPORTO LOGO.png";
@@ -99,6 +99,8 @@ export default function Header() {
   const pathname = usePathname();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hideMobileHeader, setHideMobileHeader] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
@@ -106,6 +108,18 @@ export default function Header() {
       document.body.style.overflow = "";
     };
   }, [mobileMenuOpen]);
+
+  // Mobile top bar hides on scroll-down, reappears on scroll-up — stays
+  // visible near the top (< 80px) so it doesn't flicker on tiny scrolls.
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setHideMobileHeader(currentY > lastScrollY.current && currentY > 80);
+      lastScrollY.current = currentY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // NextAuth redirects auth failures back to "/" with ?error=... (see pages.error
   // in lib/auth.ts) instead of its own default page. Surface it as a toast, then
@@ -124,9 +138,7 @@ export default function Header() {
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
-  const cartCount = useSelector((state: RootState) =>
-    state.cart.items.reduce((sum, i) => sum + i.quantity, 0),
-  );
+  const cartCount = useCartCount();
 
   if (session?.user?.role === "ADMIN") return null;
 
@@ -140,9 +152,12 @@ export default function Header() {
 
   return (
     <header className="absolute top-0 left-0 z-50 w-full">
-      {/* Mobile top bar — fixed so it stays visible on every page, even mid-scroll */}
+      {/* Mobile top bar — fixed so it stays visible on every page, even mid-scroll.
+          Slides out of view on scroll-down and back in on scroll-up. */}
       <div
-        className="fixed top-0 left-0 z-50 flex w-full items-center justify-between border-b border-black/5 bg-white/80 px-4 py-3 backdrop-blur-lg lg:hidden"
+        className={`fixed top-0 left-0 z-50 flex w-full items-center justify-between border-b border-black/5 bg-white/50 px-4 py-3 backdrop-blur-lg transition-transform duration-300 lg:hidden ${
+          hideMobileHeader ? "-translate-y-full" : "translate-y-0"
+        }`}
         style={{ paddingTop: "calc(0.75rem + env(safe-area-inset-top))" }}
       >
         {/* Top Azulejo — smaller, decorative, behind the hamburger/logo */}
@@ -179,16 +194,11 @@ export default function Header() {
 
           {session && !isStoreOwner && (
             <Link
-              href="/cart"
-              aria-label={t(lang, "nav.cart")}
+              href="/dashboard/favorites"
+              aria-label={t(lang, "nav.favorites")}
               className="relative flex h-8 w-8 items-center justify-center text-[#2c6e9b]"
             >
-              <FaOpencart className="h-4.5 w-4.5" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#eab657] text-[10px] font-semibold text-white">
-                  {cartCount}
-                </span>
-              )}
+              <HeartIcon className="h-5 w-5" />
             </Link>
           )}
         </div>
