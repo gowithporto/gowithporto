@@ -198,7 +198,7 @@ export default function AIPlannerForm() {
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2">
-          <div>
+          <div className="min-w-0">
             <label className="mb-1 block text-sm font-medium text-black/60">
               {t(lang, "ai.form.days")}
             </label>
@@ -219,7 +219,7 @@ export default function AIPlannerForm() {
             </div>
           </div>
 
-          <div>
+          <div className="min-w-0">
             <label className="mb-1 block text-sm font-medium text-black/60">
               {t(lang, "ai.form.dates")}
             </label>
@@ -229,7 +229,7 @@ export default function AIPlannerForm() {
                 type="date"
                 value={form.dates}
                 onChange={(e) => setForm({ ...form, dates: e.target.value })}
-                className="w-full rounded-xl border border-black/10 bg-white py-3 pl-9 pr-4 text-sm text-[var(--text)] outline-none placeholder:text-gray-400 focus:border-[#2c6e9b] focus:ring-2 focus:ring-[#2c6e9b]/20"
+                className="w-full min-w-0 appearance-none rounded-xl border border-black/10 bg-white py-3 pl-9 pr-4 text-sm text-[var(--text)] outline-none placeholder:text-gray-400 focus:border-[#2c6e9b] focus:ring-2 focus:ring-[#2c6e9b]/20"
               />
             </div>
           </div>

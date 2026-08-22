@@ -1,5 +1,12 @@
 import { defaultLocale, locales } from "@/i18n";
+import { isShopEnabled } from "@/lib/marketplace";
 import { NextRequest, NextResponse } from "next/server";
+
+const SHOP_GATES: { pattern: RegExp; target: string }[] = [
+  { pattern: /^\/shop\/(?!category(?:\/|$))[^/]+\/?$/, target: "/shop" },
+  { pattern: /^\/cart(?:\/.*)?$/, target: "/shop" },
+  { pattern: /^\/checkout(?:\/.*)?$/, target: "/shop" },
+];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -11,6 +18,16 @@ export function proxy(request: NextRequest) {
   const canonicalPath = isPrefixed
     ? "/" + segments.slice(2).join("/")
     : pathname;
+
+  if (!isShopEnabled()) {
+    const gate = SHOP_GATES.find((g) => g.pattern.test(canonicalPath));
+    if (gate) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = isPrefixed ? `/${locale}${gate.target}` : gate.target;
+      redirectUrl.search = "?notice=coming-soon";
+      return NextResponse.redirect(redirectUrl);
+    }
+  }
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-locale", locale);

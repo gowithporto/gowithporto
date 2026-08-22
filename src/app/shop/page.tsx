@@ -6,12 +6,14 @@ import CategoryCard from "@/components/shop/CategoryCard";
 import InfoStrip from "@/components/shop/InfoStrip";
 import ShopAdCard from "@/components/shop/ShopAdCard";
 import ShopBanner from "@/components/shop/ShopBanner";
+import { useComingSoonNotice } from "@/hooks/useComingSoonNotice";
 import { slugifyCategory } from "@/lib/slugifyCategory";
 import { useLanguage } from "@/providers/LanguageProvider";
 
 type Category = { name: string; slug: string; image?: string };
 
 export default function ShopPage() {
+  useComingSoonNotice();
   const { lang } = useLanguage();
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);

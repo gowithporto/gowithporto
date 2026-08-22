@@ -3,7 +3,7 @@ import { connectDB } from "@/lib/mongodb";
 import AIResponse from "@/models/AIResponse";
 import User from "@/models/User";
 import { generateAIResponse } from "@/services/ai";
-import { AIRateLimitError } from "@/services/ai/aiProvider";
+import { AIIncompleteItineraryError, AIRateLimitError } from "@/services/ai/aiProvider";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
@@ -83,6 +83,17 @@ export async function POST(req: Request) {
       return NextResponse.json(
         { error: "We're experiencing high demand right now — please try again in a moment." },
         { status: 429 }
+      );
+    }
+
+    if (error instanceof AIIncompleteItineraryError) {
+      console.error("AI preview incomplete itinerary:", error.message);
+      return NextResponse.json(
+        {
+          error:
+            "We couldn't build a complete itinerary for that trip length — please try again. You haven't been charged.",
+        },
+        { status: 502 }
       );
     }
 

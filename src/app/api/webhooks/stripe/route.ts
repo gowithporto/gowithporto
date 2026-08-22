@@ -1,4 +1,5 @@
 import { buildOrderFromStripeSession } from "@/lib/buildOrderFromStripeSession";
+import { grantAiCreditsFromSession } from "@/lib/creditAiPurchase";
 import { decrementStockForOrder } from "@/lib/decrementStock";
 import { sendOrderConfirmationForOrder } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
@@ -58,6 +59,14 @@ export async function POST(req: Request) {
   }
 
   await connectDB();
+
+  if (sessionSummary.metadata?.type === "AI_CREDITS") {
+    const fullSession = await stripe.checkout.sessions.retrieve(sessionSummary.id, {
+      expand: ["payment_intent.payment_method"],
+    });
+    await grantAiCreditsFromSession(fullSession);
+    return NextResponse.json({ received: true });
+  }
 
   const existing = await Order.findOne({
     stripeSessionId: sessionSummary.id,

@@ -220,7 +220,20 @@
       "PowerShell(Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue)",
       "Bash(curl -s \"http://localhost:3000/admin/stores/6a7203f1be4b474bcd0ea482/edit\")",
       "Bash(powershell -Command \"Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue\")",
-      "Bash(curl -s http://localhost:3000/api/admin/disputes -H \"Cookie: none\")"
+      "Bash(curl -s http://localhost:3000/api/admin/disputes -H \"Cookie: none\")",
+      "Bash(node --env-file=.env.local \"C:\\\\Users\\\\HP\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-HP-Desktop-gowithporto\\\\ead1ae62-5101-44dc-97c6-6766a9b7d8a0\\\\scratchpad\\\\check-dupe-sessions.js\")",
+      "Bash(node --env-file=.env.local scripts/check-dupe-sessions.js)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} -> %{redirect_url}\\\\n\" http://localhost:3000/shop/anything-here)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} -> %{redirect_url}\\\\n\" http://localhost:3000/cart)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} -> %{redirect_url}\\\\n\" http://localhost:3000/checkout)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} -> %{redirect_url}\\\\n\" http://localhost:3000/shop/category/electronics)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} -> %{redirect_url}\\\\n\" http://localhost:3000/shop)",
+      "Bash(powershell -Command \"Get-Process -Id 15748 -ErrorAction SilentlyContinue | Format-List Id,ProcessName,Path\")",
+      "Bash(powershell -Command \"Get-CimInstance Win32_Process -Filter \\\\\"Name='node.exe'\\\\\" | Select-Object ProcessId,CommandLine | Format-List\")",
+      "Bash(taskkill //F //PID 6780 //PID 20492 //PID 15748 //PID 4660)",
+      "Bash(powershell -Command \"Get-Process node -ErrorAction SilentlyContinue\")",
+      "WebFetch(domain:console.groq.com)",
+      "Bash(npx --yes tsx --env-file=.env.local scripts/test-itinerary-fix.ts)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\AppData\\Local\\Temp\\claude\\c--Users-HP-Desktop-gowithporto\\4536f8d8-8906-4193-933a-440626063762\\scratchpad",

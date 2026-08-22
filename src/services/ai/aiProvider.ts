@@ -21,3 +21,13 @@ export class AIRateLimitError extends Error {
     this.name = "AIRateLimitError";
   }
 }
+
+// Thrown when the model returns fewer (or more) day entries than requested, even after
+// a retry with a stricter prompt — callers must not charge the user's credit/free-use
+// for an incomplete itinerary.
+export class AIIncompleteItineraryError extends Error {
+  constructor(message = "AI itinerary did not match the requested number of days") {
+    super(message);
+    this.name = "AIIncompleteItineraryError";
+  }
+}

@@ -54,11 +54,18 @@ export class GroqProvider implements AIProvider {
   }
 
   async generate(input: AIInput): Promise<AIOutput> {
+    // Generous per-day budget so a long trip can never get cut off mid-generation —
+    // roughly 350 tokens/day (title + 3-5 activities) plus headroom, capped at the
+    // model's practical completion limit.
+    const days = Number(input.userInput.days) || 1;
+    const maxCompletionTokens = Math.min(8000, 1500 + days * 350);
+
     for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
       try {
         const completion = await this.client.chat.completions.create({
           model: MODEL_NAME,
           messages: [{ role: "user", content: input.prompt }],
+          max_completion_tokens: maxCompletionTokens,
           response_format: {
             type: "json_schema",
             json_schema: {

@@ -1,8 +1,6 @@
 import { authOptions } from "@/lib/auth";
-import { sendCreditReceiptEmail } from "@/lib/email";
+import { grantAiCreditsFromSession } from "@/lib/creditAiPurchase";
 import { connectDB } from "@/lib/mongodb";
-import Transaction from "@/models/Transaction";
-import User from "@/models/User";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -31,59 +29,20 @@ export async function POST(req: Request) {
     });
     console.log("Stripe session retrieved. Status:", stripeSession.payment_status);
 
-    const paymentIntent =
-      typeof stripeSession.payment_intent === "object"
-        ? stripeSession.payment_intent
-        : null;
-    const paymentMethod =
-      paymentIntent && typeof paymentIntent.payment_method === "object"
-        ? paymentIntent.payment_method
-        : null;
-    const card = paymentMethod?.card;
-    
     if (stripeSession.payment_status !== "paid") {
       console.warn("Payment not paid for session:", sessionId);
       return NextResponse.json({ error: "Payment not completed" }, { status: 400 });
     }
 
-    // 2. Check if transaction already exists to avoid duplicates
-    const existing = await Transaction.findOne({ stripeSessionId: sessionId });
-    if (existing) {
-       return NextResponse.json({ success: true, message: "Already processed" });
+    const boundEmail = stripeSession.metadata?.userEmail || stripeSession.client_reference_id;
+    if (boundEmail !== session.user.email) {
+      return NextResponse.json(
+        { error: "Session does not belong to this user" },
+        { status: 403 }
+      );
     }
 
-    const creditsToAdd = 5; // Matches the increment logic
-
-    // 3. Update user credits
-    await User.updateOne(
-      { email: session.user.email },
-      { $inc: { credits: creditsToAdd } }
-    );
-
-    // 4. Create Transaction record
-    const newTransaction = await Transaction.create({
-      userEmail: session.user.email,
-      stripeSessionId: sessionId,
-      amount: stripeSession.amount_total ?? 500,
-      currency: stripeSession.currency ?? "eur",
-      creditsAdded: creditsToAdd,
-      cardBrand: card?.brand,
-      cardLast4: card?.last4,
-    });
-    console.log("Transaction created successfully:", newTransaction._id);
-
-    const user = await User.findOne({ email: session.user.email }).select("name");
-    await sendCreditReceiptEmail(session.user.email, {
-      recipientName: user?.name || session.user.email.split("@")[0],
-      creditsAdded: creditsToAdd,
-      amount: (stripeSession.amount_total ?? 500) / 100,
-      currency: stripeSession.currency ?? "eur",
-      date: new Date().toLocaleDateString("en-GB", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-    });
+    await grantAiCreditsFromSession(stripeSession);
 
     return NextResponse.json({ success: true });
   } catch (error) {

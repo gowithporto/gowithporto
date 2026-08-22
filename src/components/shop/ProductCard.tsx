@@ -3,8 +3,10 @@
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import Link from "@/components/ui/LocalizedLink";
+import toast from "react-hot-toast";
 
 import { useFavorite } from "@/hooks/useFavorite";
+import { isShopEnabled } from "@/lib/marketplace";
 
 type Variant = {
   _id: string;
@@ -39,11 +41,8 @@ export default function ProductCard({ product }: { product: Product }) {
     ? product.variants!.find((v) => v.image)?.image
     : product.images?.[0];
 
-  return (
-    <Link
-      href={`/shop/${product.slug}`}
-      className="group block overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:shadow-md"
-    >
+  const cardContent = (
+    <>
       <div className="relative h-44 w-full overflow-hidden bg-gray-100">
         <img
           src={thumbnail}
@@ -54,6 +53,7 @@ export default function ProductCard({ product }: { product: Product }) {
           type="button"
           onClick={(e) => {
             e.preventDefault();
+            e.stopPropagation();
             toggle();
           }}
           className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm transition hover:scale-110 cursor-pointer"
@@ -81,6 +81,34 @@ export default function ProductCard({ product }: { product: Product }) {
             : `Available: ${product.quantity || 0}`}
         </p>
       </div>
+    </>
+  );
+
+  if (!isShopEnabled()) {
+    return (
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => toast("Buying is coming soon — browsing only for now!")}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toast("Buying is coming soon — browsing only for now!");
+          }
+        }}
+        className="group block cursor-pointer overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:shadow-md"
+      >
+        {cardContent}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href={`/shop/${product.slug}`}
+      className="group block overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:shadow-md"
+    >
+      {cardContent}
     </Link>
   );
 }
