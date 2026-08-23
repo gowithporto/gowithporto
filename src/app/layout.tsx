@@ -76,6 +76,29 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+const businessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  name: "GoWithPorto",
+  url: BASE_URL,
+  logo: `${BASE_URL}/logo.png`,
+  image: `${BASE_URL}/logo.png`,
+  description: SITE_DESCRIPTION,
+  telephone: "+351927727202",
+  priceRange: "€€",
+  areaServed: [
+    { "@type": "City", name: "Porto" },
+    { "@type": "City", name: "Vila Nova de Gaia" },
+    { "@type": "City", name: "Matosinhos" },
+    { "@type": "City", name: "Póvoa de Varzim" },
+  ],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Porto",
+    addressCountry: "PT",
+  },
+};
+
 export default async function RootLayout({
   children,
 }: {
@@ -91,6 +114,10 @@ export default async function RootLayout({
       className={`${manrope.variable} ${cormorant.variable} ${righteous.variable}`}
     >
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}
+        />
         <AuthProvider>
           <ReduxProvider>
             <LanguageProvider>

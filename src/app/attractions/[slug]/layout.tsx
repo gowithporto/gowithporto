@@ -1,28 +1,10 @@
 import { locales } from "@/i18n";
+import { ATTRACTION_TRANSLATABLE_FIELDS as TRANSLATABLE_FIELDS, getAttraction } from "@/lib/attractions";
 import { resolveLocalized } from "@/lib/localizeContent";
-import { connectDB } from "@/lib/mongodb";
-import Attraction from "@/models/Attraction";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { cache } from "react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://www.gowithporto.pt";
-
-const TRANSLATABLE_FIELDS = [
-  "title",
-  "shortDescription",
-  "history",
-  "highlights",
-  "bestTimeToVisit",
-  "openingHours",
-  "entryFee",
-  "howToGetThere",
-] as const;
-
-const getAttraction = cache(async (slug: string) => {
-  await connectDB();
-  return Attraction.findOne({ slug, active: true }).lean<any>();
-});
 
 export async function generateMetadata({
   params,

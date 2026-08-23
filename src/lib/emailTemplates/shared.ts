@@ -15,6 +15,18 @@ export const logoUrl = `${BASE_URL}/logo-email.png`;
 export const shopUrl = `${BASE_URL}/shop`;
 export const ordersUrl = `${BASE_URL}/dashboard/orders`;
 export const aiUrl = `${BASE_URL}/ai`;
+export const googleReviewUrl = process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL || "";
+
+/** Small secondary link prompting a Google review, for emails sent after the customer has actually received value (shipped order, delivered credits). Renders nothing if the review link isn't configured yet. */
+export function reviewPrompt() {
+  if (!googleReviewUrl) return "";
+  return `
+    <tr>
+      <td align="center" style="padding-top:16px;">
+        <a href="${googleReviewUrl}" style="color:${colors.muted};font-size:13px;text-decoration:underline;">Enjoying GoWithPorto? Leave us a review &rarr;</a>
+      </td>
+    </tr>`;
+}
 
 /** Bordered info card matching the order-confirmation meta bar, for 2-3 label/value columns. */
 export function metaBar(cols: { label: string; value: string }[]) {

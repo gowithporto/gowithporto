@@ -1,4 +1,4 @@
-import { baseLayout, button, colors, metaBar, ordersUrl } from "./shared";
+import { baseLayout, button, colors, metaBar, ordersUrl, reviewPrompt } from "./shared";
 
 export interface OrderShippedData {
   recipientName: string;
@@ -34,6 +34,7 @@ export function orderShippedHtml(data: OrderShippedData) {
         ${button("Track My Order", ordersUrl)}
       </td>
     </tr>
+    ${reviewPrompt()}
   `;
   return baseLayout(body);
 }

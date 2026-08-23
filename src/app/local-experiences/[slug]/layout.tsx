@@ -1,28 +1,13 @@
 import { locales } from "@/i18n";
+import {
+  LOCAL_EXPERIENCE_TRANSLATABLE_FIELDS as TRANSLATABLE_FIELDS,
+  getExperience,
+} from "@/lib/localExperiences";
 import { resolveLocalized } from "@/lib/localizeContent";
-import { connectDB } from "@/lib/mongodb";
-import LocalExperience from "@/models/LocalExperience";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { cache } from "react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://www.gowithporto.pt";
-
-const TRANSLATABLE_FIELDS = [
-  "title",
-  "shortDescription",
-  "story",
-  "highlights",
-  "included",
-  "meetingPoint",
-  "groupSize",
-  "cancellationPolicy",
-] as const;
-
-const getExperience = cache(async (slug: string) => {
-  await connectDB();
-  return LocalExperience.findOne({ slug, active: true }).lean<any>();
-});
 
 export async function generateMetadata({
   params,

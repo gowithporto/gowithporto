@@ -1,4 +1,4 @@
-import { aiUrl, baseLayout, button, colors, formatEUR, metaBar } from "./shared";
+import { aiUrl, baseLayout, button, colors, formatEUR, metaBar, reviewPrompt } from "./shared";
 
 export interface CreditReceiptData {
   recipientName: string;
@@ -36,6 +36,7 @@ export function creditReceiptHtml(data: CreditReceiptData) {
         ${button("Start Planning", aiUrl)}
       </td>
     </tr>
+    ${reviewPrompt()}
   `;
   return baseLayout(body);
 }
