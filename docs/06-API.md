@@ -657,12 +657,13 @@ session.
 | Unhandled event type | `200 {received:true}` — Stripe stops retrying |
 | Errors that are not `11000` | Rethrown, producing a `500`, so Stripe retries with backoff |
 
-Two event types are handled:
+Four event types are handled:
 
 | Event | Action |
 |---|---|
 | `checkout.session.completed` | Ignores non-`paid` sessions; checks for an existing order; re-retrieves the session with `line_items` and the expanded PaymentIntent; builds the order via `buildOrderFromStripeSession`; creates it; decrements stock; emails confirmation. `11000` → the success page won the race, return `200` |
 | `account.updated` | `Store.findOneAndUpdate({stripeAccountId}, {stripeOnboardingComplete: charges_enabled && payouts_enabled})` |
+| `payout.paid` / `payout.failed` | Only when `!event.account` (the platform's own payout to the founder's linked bank account, not a connected store's payout to its own bank) — emails `ADMIN_EMAIL` with amount, status, and arrival date via `sendAdminPayoutEmail`. Must be added to the **account-scoped** endpoint's event list only, never the Connect-scoped one, or every store owner's own payout would also trigger this email (see §9.2) |
 
 ### 9.2 The Connect-scoped endpoint requirement
 

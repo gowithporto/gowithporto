@@ -36,6 +36,18 @@ import {
   type OrderShippedData,
 } from "./emailTemplates/orderShipped";
 import { welcomeHtml, welcomeSubject, type WelcomeData } from "./emailTemplates/welcome";
+import {
+  adminNewUserHtml,
+  adminNewUserSubject,
+  type AdminNewUserData,
+} from "./emailTemplates/adminNewUser";
+import {
+  adminPayoutHtml,
+  adminPayoutSubject,
+  type AdminPayoutData,
+} from "./emailTemplates/adminPayout";
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@gowithporto.pt";
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 const FROM = process.env.EMAIL_FROM || "GoWithPorto <onboarding@resend.dev>";
@@ -104,6 +116,16 @@ export function sendWelcomeEmail(to: string, data: WelcomeData) {
 export function sendContactMessageEmail(data: ContactMessageData) {
   const supportEmail = process.env.SUPPORT_EMAIL || "support@gowithporto.pt";
   return send(supportEmail, contactMessageSubject(data), contactMessageHtml(data), data.email);
+}
+
+/** Notifies the admin inbox whenever a new user registers. */
+export function sendAdminNewUserEmail(data: AdminNewUserData) {
+  return send(ADMIN_EMAIL, adminNewUserSubject(data), adminNewUserHtml(data));
+}
+
+/** Notifies the admin inbox when Stripe pays out (or fails to pay out) the platform balance to the linked bank account. */
+export function sendAdminPayoutEmail(data: AdminPayoutData) {
+  return send(ADMIN_EMAIL, adminPayoutSubject(data), adminPayoutHtml(data));
 }
 
 interface OrderLike {

@@ -1,7 +1,7 @@
 import { buildOrderFromStripeSession } from "@/lib/buildOrderFromStripeSession";
 import { grantAiCreditsFromSession } from "@/lib/creditAiPurchase";
 import { decrementStockForOrder } from "@/lib/decrementStock";
-import { sendOrderConfirmationForOrder } from "@/lib/email";
+import { sendAdminPayoutEmail, sendOrderConfirmationForOrder } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import Store from "@/models/Store";
@@ -64,6 +64,28 @@ export async function POST(req: Request) {
         ),
       }
     );
+
+    return NextResponse.json({ received: true });
+  }
+
+  if (
+    (event.type === "payout.paid" || event.type === "payout.failed") &&
+    !event.account // platform's own payout to the founder's bank, not a connected store's payout to its own bank
+  ) {
+    const payout = event.data.object as Stripe.Payout;
+
+    await sendAdminPayoutEmail({
+      payoutId: payout.id,
+      amount: payout.amount / 100,
+      currency: payout.currency,
+      status: event.type === "payout.paid" ? "paid" : "failed",
+      arrivalDate: new Date(payout.arrival_date * 1000).toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      failureMessage: payout.failure_message || undefined,
+    });
 
     return NextResponse.json({ received: true });
   }

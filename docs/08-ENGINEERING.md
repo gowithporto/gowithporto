@@ -350,6 +350,7 @@ Enumerated by `grep -rho "process\.env\.[A-Z_0-9]*" src scripts next.config.mjs`
 | `MONGODB_URI` | 6 | Atlas connection string |
 | `GEMINI_API_KEY` | 4 | Gemini client (incl. `scripts/`) |
 | `SUPPORT_EMAIL` | 2 | Contact-form destination |
+| `ADMIN_EMAIL` | 2 | New-user and payout notification destination (defaults to `admin@gowithporto.pt`) |
 | `RESEND_API_KEY` | 2 | Transactional email |
 | `STRIPE_WEBHOOK_SECRET` | 1 | Webhook signature verification |
 | `GOOGLE_CLIENT_ID` | 1 | Google OAuth |
@@ -359,7 +360,7 @@ Enumerated by `grep -rho "process\.env\.[A-Z_0-9]*" src scripts next.config.mjs`
 | `CLOUDINARY_API_KEY` | 1 | Image hosting |
 | `CLOUDINARY_API_SECRET` | 1 | Image hosting |
 
-Fourteen distinct variables. `NEXTAUTH_SECRET` is required by NextAuth but never appears in application code — it is read by the library itself, so it does not show up in this grep and would not be caught by a naive audit of `process.env` usage.
+Fifteen distinct variables. `NEXTAUTH_SECRET` is required by NextAuth but never appears in application code — it is read by the library itself, so it does not show up in this grep and would not be caught by a naive audit of `process.env` usage.
 
 Supply: `.env.local` in development (`.gitignore` line 34 excludes `.env*`, verified — no `.env` file is tracked), Vercel project environment variables in production. `scripts/*.js` are run with `node --env-file=.env.local`.
 
