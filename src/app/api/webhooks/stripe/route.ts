@@ -8,7 +8,10 @@ import Store from "@/models/Store";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripeTest = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripeLive = process.env.STRIPE_SECRET_KEY_LIVE
+  ? new Stripe(process.env.STRIPE_SECRET_KEY_LIVE)
+  : null;
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -18,17 +21,34 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing signature" }, { status: 400 });
   }
 
+  // Shop checkout (test mode) and AI-credit checkout (live mode) currently share
+  // this one endpoint URL but are registered as separate Stripe webhook
+  // destinations, each with its own signing secret — try both.
   let event: Stripe.Event;
+  let stripe = stripeTest;
 
   try {
-    event = stripe.webhooks.constructEvent(
+    event = stripeTest.webhooks.constructEvent(
       body,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
-  } catch (err) {
-    console.error("Stripe webhook signature verification failed:", err);
-    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  } catch (testErr) {
+    if (!stripeLive || !process.env.STRIPE_WEBHOOK_SECRET_LIVE) {
+      console.error("Stripe webhook signature verification failed:", testErr);
+      return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+    }
+    try {
+      event = stripeLive.webhooks.constructEvent(
+        body,
+        signature,
+        process.env.STRIPE_WEBHOOK_SECRET_LIVE
+      );
+      stripe = stripeLive;
+    } catch (liveErr) {
+      console.error("Stripe webhook signature verification failed:", liveErr);
+      return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+    }
   }
 
   if (event.type === "account.updated") {
@@ -65,6 +85,14 @@ export async function POST(req: Request) {
       expand: ["payment_intent.payment_method"],
     });
     await grantAiCreditsFromSession(fullSession);
+    return NextResponse.json({ received: true });
+  }
+
+  if (event.livemode) {
+    // Shop checkout only ever runs in test mode today — a live-mode event
+    // reaching this branch means something is misconfigured. Don't build an
+    // Order off it.
+    console.error("Unexpected live-mode event for shop order path:", event.id);
     return NextResponse.json({ received: true });
   }
 
