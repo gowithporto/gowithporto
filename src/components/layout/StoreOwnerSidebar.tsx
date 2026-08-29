@@ -7,6 +7,7 @@ import {
   CubeIcon,
   ShoppingBagIcon,
   Squares2X2Icon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -26,9 +27,28 @@ const links = [
 
 const comingSoon = [{ label: "Settings", icon: Cog6ToothIcon }];
 
-export default function StoreOwnerSidebar() {
-  const pathname = usePathname();
+function SidebarBrand() {
   const { data: session } = useSession();
+
+  return (
+    <div className="flex flex-col items-center px-2 text-center">
+      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#2c6e9b]/10">
+        <BuildingStorefrontIcon className="h-8 w-8 text-[#2c6e9b]" />
+      </div>
+      <p className="mt-3 font-serif text-lg font-semibold text-[#1d3d5c]">
+        {session?.user?.storeName || "Store Owner"}
+      </p>
+      <div className="mt-2 flex items-center gap-2 text-[#eab657]">
+        <span className="h-px w-8 bg-[#eab657]/50" />
+        <span className="text-[10px]">✦</span>
+        <span className="h-px w-8 bg-[#eab657]/50" />
+      </div>
+    </div>
+  );
+}
+
+function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
+  const pathname = usePathname();
   const [openingPayouts, setOpeningPayouts] = useState(false);
 
   const handlePayouts = async () => {
@@ -49,76 +69,98 @@ export default function StoreOwnerSidebar() {
   };
 
   return (
-    <aside className="hidden w-64 shrink-0 flex-col border-r border-black/5 bg-white px-4 py-8 lg:flex">
-      <div className="flex flex-col items-center px-2 text-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#2c6e9b]/10">
-          <BuildingStorefrontIcon className="h-8 w-8 text-[#2c6e9b]" />
-        </div>
-        <p className="mt-3 font-serif text-lg font-semibold text-[#1d3d5c]">
-          {session?.user?.storeName || "Store Owner"}
-        </p>
-        <div className="mt-2 flex items-center gap-2 text-[#eab657]">
-          <span className="h-px w-8 bg-[#eab657]/50" />
-          <span className="text-[10px]">✦</span>
-          <span className="h-px w-8 bg-[#eab657]/50" />
-        </div>
-      </div>
-
-      <nav className="mt-8 space-y-1">
-        {links.map((l) => {
-          const active = l.exact
-            ? pathname === l.href
-            : pathname === l.href || pathname.startsWith(l.href + "/");
-          const Icon = l.icon;
-          return (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={cn(
-                "flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition",
-                active
-                  ? "bg-[#2c6e9b] text-white shadow-sm"
-                  : "text-[#3d4f5c] hover:bg-black/5",
-              )}
-            >
-              <Icon className="h-5 w-5" />
-              {l.label}
-            </Link>
-          );
-        })}
-
-        <button
-          type="button"
-          onClick={handlePayouts}
-          disabled={openingPayouts}
-          className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm font-medium text-[#3d4f5c] transition hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          <CreditCardIcon className="h-5 w-5" />
-          {openingPayouts ? "Opening Stripe..." : "Payouts"}
-        </button>
-
-        {comingSoon.map((l) => (
-          <button
-            key={l.label}
-            type="button"
-            onClick={() => toast("Coming soon!")}
-            className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm font-medium text-[#3d4f5c]/50 transition hover:bg-black/5"
+    <nav className="mt-8 space-y-1">
+      {links.map((l) => {
+        const active = l.exact
+          ? pathname === l.href
+          : pathname === l.href || pathname.startsWith(l.href + "/");
+        const Icon = l.icon;
+        return (
+          <Link
+            key={l.href}
+            href={l.href}
+            onClick={onNavigate}
+            className={cn(
+              "flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition",
+              active
+                ? "bg-[#2c6e9b] text-white shadow-sm"
+                : "text-[#3d4f5c] hover:bg-black/5",
+            )}
           >
-            <l.icon className="h-5 w-5" />
+            <Icon className="h-5 w-5" />
             {l.label}
-          </button>
-        ))}
-      </nav>
+          </Link>
+        );
+      })}
 
-      <div className="mt-auto pt-8">
-        <div className="overflow-hidden rounded-2xl border border-[#2c6e9b]/15 shadow-sm">
-          <Image
-            src={Postcard}
-            alt=""
-            className="h-40 w-full object-cover object-left"
-          />
+      <button
+        type="button"
+        onClick={handlePayouts}
+        disabled={openingPayouts}
+        className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm font-medium text-[#3d4f5c] transition hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        <CreditCardIcon className="h-5 w-5" />
+        {openingPayouts ? "Opening Stripe..." : "Payouts"}
+      </button>
+
+      {comingSoon.map((l) => (
+        <button
+          key={l.label}
+          type="button"
+          onClick={() => toast("Coming soon!")}
+          className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm font-medium text-[#3d4f5c]/50 transition hover:bg-black/5"
+        >
+          <l.icon className="h-5 w-5" />
+          {l.label}
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+export default function StoreOwnerSidebar({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
+  return (
+    <>
+      {/* Desktop sidebar */}
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-black/5 bg-white px-4 py-8 lg:flex">
+        <SidebarBrand />
+        <SidebarNav />
+
+        <div className="mt-auto pt-8">
+          <div className="overflow-hidden rounded-2xl border border-[#2c6e9b]/15 shadow-sm">
+            <Image
+              src={Postcard}
+              alt=""
+              className="h-40 w-full object-cover object-left"
+            />
+          </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+
+      {/* Mobile drawer */}
+      {isOpen && (
+        <div className="lg:hidden">
+          <div className="fixed inset-0 z-60 bg-black/40" onClick={onClose} />
+          <div className="fixed top-0 left-0 z-61 flex h-full w-72 max-w-[80vw] flex-col overflow-y-auto bg-white px-4 py-6">
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close menu"
+              className="mb-2 flex h-9 w-9 cursor-pointer items-center justify-center self-end text-[#2c6e9b]"
+            >
+              <XMarkIcon className="h-6 w-6" />
+            </button>
+            <SidebarBrand />
+            <SidebarNav onNavigate={onClose} />
+          </div>
+        </div>
+      )}
+    </>
   );
 }

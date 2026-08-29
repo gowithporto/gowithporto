@@ -11,6 +11,7 @@ import MobileBottomNav from "@/components/layout/MobileBottomNav";
 import { locales } from "@/i18n";
 import AuthProvider from "@/providers/AuthProvider";
 import { LanguageProvider } from "@/providers/LanguageProvider";
+import { MobileMenuProvider } from "@/providers/MobileMenuProvider";
 import ReduxProvider from "@/providers/ReduxProvider";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://www.gowithporto.pt";
@@ -121,6 +122,7 @@ export default async function RootLayout({
         <AuthProvider>
           <ReduxProvider>
             <LanguageProvider>
+            <MobileMenuProvider>
               <Toaster
                 position="top-right"
                 toastOptions={{
@@ -145,6 +147,7 @@ export default async function RootLayout({
                 aria-hidden
               />
               <MobileBottomNav />
+            </MobileMenuProvider>
             </LanguageProvider>
           </ReduxProvider>
         </AuthProvider>

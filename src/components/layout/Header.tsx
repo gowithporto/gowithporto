@@ -3,6 +3,7 @@
 import { locales, t } from "@/i18n";
 import { useCartCount } from "@/hooks/useCartCount";
 import { useLanguage } from "@/providers/LanguageProvider";
+import { useMobileMenu } from "@/providers/MobileMenuProvider";
 import {
   Bars3Icon,
   HeartIcon,
@@ -98,7 +99,7 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isOpen: mobileMenuOpen, open: openMobileMenu, close: closeMobileMenuCtx } = useMobileMenu();
   const [hideMobileHeader, setHideMobileHeader] = useState(false);
   const lastScrollY = useRef(0);
 
@@ -136,7 +137,7 @@ export default function Header() {
     });
   }, [lang, router]);
 
-  const closeMobileMenu = () => setMobileMenuOpen(false);
+  const closeMobileMenu = () => closeMobileMenuCtx();
 
   const cartCount = useCartCount();
 
@@ -178,7 +179,7 @@ export default function Header() {
 
         <button
           type="button"
-          onClick={() => setMobileMenuOpen(true)}
+          onClick={openMobileMenu}
           aria-label="Open menu"
           className="relative z-10 flex h-9 w-9 cursor-pointer items-center justify-center text-[#2c6e9b]"
         >
@@ -208,13 +209,13 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="lg:hidden">
           <div
-            className="fixed inset-0 z-40 bg-black/40"
-            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 z-60 bg-black/40"
+            onClick={closeMobileMenuCtx}
           />
-          <div className="fixed top-0 right-0 z-50 flex h-full w-72 max-w-[80vw] flex-col overflow-y-auto bg-white p-6">
+          <div className="fixed top-0 right-0 z-61 flex h-full w-72 max-w-[80vw] flex-col overflow-y-auto bg-white p-6">
             <button
               type="button"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={closeMobileMenuCtx}
               aria-label="Close menu"
               className="mb-4 flex h-9 w-9 cursor-pointer items-center justify-center self-end text-[#2c6e9b]"
             >
@@ -245,6 +246,30 @@ export default function Header() {
                 className="border-b border-black/5 py-3 text-sm font-medium"
               >
                 {t(lang, "nav.shop")}
+              </Link>
+
+              <Link
+                href="/attractions"
+                onClick={closeMobileMenu}
+                className="border-b border-black/5 py-3 text-sm font-medium"
+              >
+                {t(lang, "nav.attractions")}
+              </Link>
+
+              <Link
+                href="/local-experiences"
+                onClick={closeMobileMenu}
+                className="border-b border-black/5 py-3 text-sm font-medium"
+              >
+                {t(lang, "nav.localExperiences")}
+              </Link>
+
+              <Link
+                href="/bike-rentals"
+                onClick={closeMobileMenu}
+                className="border-b border-black/5 py-3 text-sm font-medium"
+              >
+                {t(lang, "nav.bikeRentals")}
               </Link>
 
               {session && !isStoreOwner && (

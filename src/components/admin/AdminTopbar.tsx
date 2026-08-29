@@ -2,13 +2,14 @@
 
 import {
   ArrowLeftOnRectangleIcon,
+  Bars3Icon,
   BellIcon,
 } from "@heroicons/react/24/outline";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function AdminTopbar() {
+export default function AdminTopbar({ onMenuClick }: { onMenuClick: () => void }) {
   const { data: session } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -28,7 +29,17 @@ export default function AdminTopbar() {
     .toUpperCase();
 
   return (
-    <header className="relative z-20 flex h-16 shrink-0 items-center justify-end gap-3 border-b border-black/5 bg-white px-6">
+    <header className="relative z-20 flex h-16 shrink-0 items-center justify-between gap-3 border-b border-black/5 bg-white px-4 lg:justify-end lg:px-6">
+      <button
+        type="button"
+        onClick={onMenuClick}
+        aria-label="Open menu"
+        className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-black/10 text-[#2c6e9b] transition hover:bg-black/5 lg:hidden"
+      >
+        <Bars3Icon className="h-5 w-5" />
+      </button>
+
+      <div className="flex items-center gap-3">
       <button
         type="button"
         onClick={() => toast("No new notifications")}
@@ -68,6 +79,7 @@ export default function AdminTopbar() {
             </button>
           </div>
         )}
+      </div>
       </div>
     </header>
   );
