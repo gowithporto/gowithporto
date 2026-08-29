@@ -1,6 +1,8 @@
+"use client";
+
 import { t } from "@/i18n";
+import { useLanguage } from "@/providers/LanguageProvider";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
-import { headers } from "next/headers";
 import Link from "@/components/ui/LocalizedLink";
 
 const LAST_UPDATED = "August 10, 2026";
@@ -57,9 +59,8 @@ function Section({
 
 const SHARING_PROVIDERS = ["google", "stripe", "mongodb", "cloudinary", "resend", "groq", "vercel"] as const;
 
-export default async function PrivacyPage() {
-  const hdrs = await headers();
-  const lang = hdrs.get("x-locale") || "en";
+export default function PrivacyPage() {
+  const { lang } = useLanguage();
 
   return (
     <div className="space-y-12 px-4 pt-24 pb-20 sm:px-8 sm:pt-28 lg:px-12">
