@@ -137,6 +137,7 @@
   "privacy.section.legalBasis.item.legalObligation.text": "— conservación de registros de pedidos y pagos según lo exige la legislación fiscal y contable.",
   "privacy.section.cookies.title": "5. Cookies y tecnologías similares",
   "privacy.section.cookies.p1": "GoWithPorto usa un número reducido de cookies estrictamente necesarias: una cookie de sesión segura para mantenerte conectado, y una cookie de preferencia para recordar el idioma elegido. No usamos cookies publicitarias ni de seguimiento de terceros.",
+  "privacy.section.cookies.p2": "Al finalizar la compra, nuestro procesador de pagos Stripe también establece sus propias cookies (como __stripe_mid y __stripe_sid) para detectar y prevenir el fraude en los pagos. Son esenciales para procesar tu pago de forma segura y no se pueden desactivar si deseas completar una compra.",
   "privacy.section.sharing.title": "6. Con quién compartimos datos",
   "privacy.section.sharing.intro": "Solo compartimos datos personales con proveedores de servicios que los procesan en nuestro nombre, estrictamente para operar el servicio:",
   "privacy.section.sharing.item.google.label": "Google",
@@ -179,6 +180,11 @@
   "privacy.section.contactUs.middle": "o a través de nuestra página de",
   "privacy.section.contactUs.linkText": "Contacto",
   "privacy.section.contactUs.suffix": ". Tenemos sede en Porto, Portugal.",
+
+  "cookieConsent.message": "Usamos cookies esenciales para mantenerte conectado, recordar tu idioma, y permitir que Stripe procese los pagos de forma segura y detecte fraudes. No usamos cookies publicitarias ni de seguimiento.",
+  "cookieConsent.accept": "Aceptar",
+  "cookieConsent.reject": "Solo necesarias",
+  "cookieConsent.learnMore": "Más información",
 
   "contact.title": "Contactar con Soporte",
   "contact.subtitle": "¿Tienes una pregunta sobre un pedido, una reserva, o sobre GoWithPorto en general? Somos un equipo pequeño con sede en Porto y leemos cada mensaje nosotros mismos.",

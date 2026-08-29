@@ -137,6 +137,7 @@
   "privacy.section.legalBasis.item.legalObligation.text": "— retaining order and payment records as required by tax and accounting law.",
   "privacy.section.cookies.title": "5. Cookies & Similar Technologies",
   "privacy.section.cookies.p1": "GoWithPorto uses a small number of strictly necessary cookies: a secure session cookie to keep you signed in, and a preference cookie to remember your chosen language. We do not use third-party advertising or tracking cookies.",
+  "privacy.section.cookies.p2": "When you check out, our payment processor Stripe also sets its own cookies (such as __stripe_mid and __stripe_sid) to detect and prevent payment fraud. These are essential to process your payment securely and cannot be disabled while still allowing you to check out.",
   "privacy.section.sharing.title": "6. Who We Share Data With",
   "privacy.section.sharing.intro": "We only share personal data with service providers who process it on our behalf, strictly to run the service:",
   "privacy.section.sharing.item.google.label": "Google",
@@ -179,6 +180,11 @@
   "privacy.section.contactUs.middle": "or via our",
   "privacy.section.contactUs.linkText": "Contact Support",
   "privacy.section.contactUs.suffix": "page. We're based in Porto, Portugal.",
+
+  "cookieConsent.message": "We use essential cookies to keep you signed in, remember your language, and let Stripe securely process payments and detect fraud. We don't use advertising or tracking cookies.",
+  "cookieConsent.accept": "Accept",
+  "cookieConsent.reject": "Necessary only",
+  "cookieConsent.learnMore": "Learn more",
 
   "contact.title": "Contact Support",
   "contact.subtitle": "Have a question about an order, a booking, or GoWithPorto in general? We're a small, Porto-based team and read every message ourselves.",

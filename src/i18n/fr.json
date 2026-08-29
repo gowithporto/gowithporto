@@ -137,6 +137,7 @@
   "privacy.section.legalBasis.item.legalObligation.text": "— conservation des registres de commandes et de paiement conformément à la législation fiscale et comptable.",
   "privacy.section.cookies.title": "5. Cookies et technologies similaires",
   "privacy.section.cookies.p1": "GoWithPorto utilise un nombre restreint de cookies strictement nécessaires : un cookie de session sécurisé pour vous maintenir connecté, et un cookie de préférence pour mémoriser la langue choisie. Nous n'utilisons pas de cookies publicitaires ou de suivi tiers.",
+  "privacy.section.cookies.p2": "Lors du paiement, notre prestataire de paiement Stripe dépose également ses propres cookies (tels que __stripe_mid et __stripe_sid) pour détecter et prévenir la fraude au paiement. Ces cookies sont indispensables pour traiter votre paiement en toute sécurité et ne peuvent pas être désactivés si vous souhaitez finaliser un achat.",
   "privacy.section.sharing.title": "6. Avec qui nous partageons les données",
   "privacy.section.sharing.intro": "Nous ne partageons les données personnelles qu'avec des prestataires de services qui les traitent en notre nom, strictement pour faire fonctionner le service :",
   "privacy.section.sharing.item.google.label": "Google",
@@ -179,6 +180,11 @@
   "privacy.section.contactUs.middle": "ou via notre page",
   "privacy.section.contactUs.linkText": "Contact",
   "privacy.section.contactUs.suffix": ". Nous sommes basés à Porto, au Portugal.",
+
+  "cookieConsent.message": "Nous utilisons des cookies essentiels pour vous maintenir connecté, mémoriser votre langue, et permettre à Stripe de traiter les paiements en toute sécurité et de détecter la fraude. Nous n'utilisons pas de cookies publicitaires ou de suivi.",
+  "cookieConsent.accept": "Accepter",
+  "cookieConsent.reject": "Nécessaires uniquement",
+  "cookieConsent.learnMore": "En savoir plus",
 
   "contact.title": "Contacter l'assistance",
   "contact.subtitle": "Une question sur une commande, une réservation, ou sur GoWithPorto en général ? Nous sommes une petite équipe basée à Porto et lisons chaque message nous-mêmes.",

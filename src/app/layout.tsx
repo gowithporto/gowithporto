@@ -6,6 +6,7 @@ import "./globals.css";
 
 import ConditionalFooter from "@/components/layout/ConditionalFooter";
 import ConnectivityBanner from "@/components/layout/ConnectivityBanner";
+import CookieConsentBanner from "@/components/layout/CookieConsentBanner";
 import Header from "@/components/layout/Header";
 import MobileBottomNav from "@/components/layout/MobileBottomNav";
 import { locales } from "@/i18n";
@@ -147,6 +148,7 @@ export default async function RootLayout({
                 aria-hidden
               />
               <MobileBottomNav />
+              <CookieConsentBanner />
             </MobileMenuProvider>
             </LanguageProvider>
           </ReduxProvider>

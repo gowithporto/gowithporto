@@ -149,6 +149,7 @@ export default function PrivacyPage() {
 
           <Section id="cookies" title={t(lang, "privacy.section.cookies.title")}>
             <p>{t(lang, "privacy.section.cookies.p1")}</p>
+            <p>{t(lang, "privacy.section.cookies.p2")}</p>
           </Section>
 
           <Section id="sharing" title={t(lang, "privacy.section.sharing.title")}>
