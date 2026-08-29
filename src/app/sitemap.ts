@@ -1,4 +1,5 @@
 import { locales } from "@/i18n";
+import { isShopEnabled } from "@/lib/marketplace";
 import { connectDB } from "@/lib/mongodb";
 import Attraction from "@/models/Attraction";
 import LocalExperience from "@/models/LocalExperience";
@@ -36,10 +37,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   const staticPaths = ["/", "/shop", "/attractions", "/local-experiences", "/ai"];
+  const shopEnabled = isShopEnabled();
 
   return [
     ...staticPaths.map((path) => localizedEntry(path)),
-    ...products.map((p) => localizedEntry(`/shop/${p.slug}`, p.updatedAt)),
+    // Individual product pages redirect to /shop while the marketplace is gated off — don't submit URLs that 307.
+    ...(shopEnabled
+      ? products.map((p) => localizedEntry(`/shop/${p.slug}`, p.updatedAt))
+      : []),
     ...attractions.map((a) =>
       localizedEntry(`/attractions/${a.slug}`, a.updatedAt),
     ),

@@ -1,19 +1,10 @@
 import { locales } from "@/i18n";
 import { resolveLocalized } from "@/lib/localizeContent";
-import { connectDB } from "@/lib/mongodb";
-import Product from "@/models/Product";
+import { PRODUCT_TRANSLATABLE_FIELDS as TRANSLATABLE_FIELDS, getProduct } from "@/lib/products";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { cache } from "react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://www.gowithporto.pt";
-
-const TRANSLATABLE_FIELDS = ["title", "description"] as const;
-
-const getProduct = cache(async (slug: string) => {
-  await connectDB();
-  return Product.findOne({ slug, active: true }).lean<any>();
-});
 
 export async function generateMetadata({
   params,
@@ -31,7 +22,9 @@ export async function generateMetadata({
 
   const description =
     product.description?.slice(0, 155) ||
-    `${product.title} — available on GoWithPorto, Porto's local souvenir marketplace.`;
+    `${product.title} — an authentic Porto souvenir, available on GoWithPorto.`;
+
+  const image = product.images?.[0];
 
   const languages: Record<string, string> = {};
   for (const l of locales) {
@@ -39,13 +32,13 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${product.title} | GoWithPorto`,
+    title: `${product.title} | GoWithPorto Shop`,
     description,
     alternates: { languages },
     openGraph: {
       title: product.title,
       description,
-      images: product.images?.[0] ? [product.images[0]] : undefined,
+      images: image ? [image] : undefined,
       type: "website",
     },
   };
@@ -70,7 +63,7 @@ export default async function ProductLayout({
         "@type": "Product",
         name: product.title,
         description: product.description,
-        image: product.images,
+        image: product.images?.length ? product.images : undefined,
         offers: {
           "@type": "Offer",
           price: product.price,

@@ -1,5 +1,6 @@
 import { resolveLocalized } from "@/lib/localizeContent";
 import { connectDB } from "@/lib/mongodb";
+import "@/models";
 import Product from "@/models/Product";
 import { NextRequest, NextResponse } from "next/server";
 
