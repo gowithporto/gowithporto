@@ -40,7 +40,17 @@ export async function PUT(
 
   const { id } = await params;
   const body = await req.json();
-  const { name, location, deliveryFee, commissionRate, fulfillmentPin } = body;
+  const {
+    name,
+    location,
+    email,
+    phone,
+    deliveryFee,
+    deliveryZoneFees,
+    googleMapsLink,
+    commissionRate,
+    fulfillmentPin,
+  } = body;
 
   if (!name || !location) {
     return NextResponse.json(
@@ -67,12 +77,29 @@ export async function PUT(
     );
   }
 
+  const zoneKeys = ["porto", "innerRing", "outerRing"] as const;
+  if (deliveryZoneFees) {
+    for (const key of zoneKeys) {
+      const value = deliveryZoneFees[key];
+      if (value !== undefined && value !== null && (typeof value !== "number" || value < 0)) {
+        return NextResponse.json(
+          { error: `Zone fee "${key}" must be 0 or more` },
+          { status: 400 }
+        );
+      }
+    }
+  }
+
   await connectDB();
 
   const update: Record<string, unknown> = {
     name,
     location,
+    email: email || undefined,
+    phone: phone || undefined,
     deliveryFee,
+    deliveryZoneFees: deliveryZoneFees || undefined,
+    googleMapsLink: googleMapsLink || undefined,
     commissionRate,
   };
 

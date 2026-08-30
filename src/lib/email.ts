@@ -46,6 +46,17 @@ import {
   adminPayoutSubject,
   type AdminPayoutData,
 } from "./emailTemplates/adminPayout";
+import {
+  adminDisputeAlertHtml,
+  adminDisputeAlertSubject,
+  type AdminDisputeAlertData,
+} from "./emailTemplates/adminDisputeAlert";
+import {
+  newOrderForStoreOwnerHtml,
+  newOrderForStoreOwnerSubject,
+  type NewOrderForStoreOwnerData,
+} from "./emailTemplates/newOrderForStoreOwner";
+import Store from "@/models/Store";
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@gowithporto.pt";
 
@@ -128,6 +139,16 @@ export function sendAdminPayoutEmail(data: AdminPayoutData) {
   return send(ADMIN_EMAIL, adminPayoutSubject(data), adminPayoutHtml(data));
 }
 
+/** Notifies the admin inbox the moment a dispute exists — reported by buyer/handler, or auto-detected after the 24h unconfirmed timeout. */
+export function sendAdminDisputeAlertEmail(data: AdminDisputeAlertData) {
+  return send(ADMIN_EMAIL, adminDisputeAlertSubject(data), adminDisputeAlertHtml(data));
+}
+
+/** Notifies a store owner that a new order has come in. */
+export function sendNewOrderForStoreOwnerEmail(to: string, data: NewOrderForStoreOwnerData) {
+  return send(to, newOrderForStoreOwnerSubject(data), newOrderForStoreOwnerHtml(data));
+}
+
 interface OrderLike {
   _id: { toString(): string };
   userEmail?: string;
@@ -136,6 +157,8 @@ interface OrderLike {
   cardBrand?: string;
   cardLast4?: string;
   createdAt?: Date;
+  storeId?: { toString(): string };
+  deliveryType?: "pickup" | "delivery";
 }
 
 function orderNumber(order: OrderLike) {
@@ -149,6 +172,19 @@ interface OrderItemLike {
     outcome?: string;
     buyerRefundAmount?: number;
   };
+  issueReport?: {
+    reportedBy?: "buyer" | "handler" | "system";
+    reasonCode?: string;
+    note?: string;
+  };
+}
+
+function formatReasonCode(code?: string) {
+  if (!code) return "Unspecified";
+  return code
+    .split("_")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
 }
 
 async function recipientNameFor(email: string) {
@@ -246,5 +282,43 @@ export async function sendDisputeResolvedForOrder(order: OrderLike, item: OrderI
     itemTitle: item.title || "Item",
     outcome: (item.resolution?.outcome as DisputeResolvedData["outcome"]) || "buyer_fault",
     buyerRefundAmount: item.resolution?.buyerRefundAmount || 0,
+  });
+}
+
+/** Notifies the admin inbox immediately when a dispute is created — reported by buyer/handler, or system-detected after the 24h unconfirmed timeout. */
+export async function sendAdminDisputeAlertForOrder(
+  order: OrderLike,
+  item: OrderItemLike,
+  source: "buyer" | "handler" | "timeout"
+) {
+  const store = order.storeId ? await Store.findById(order.storeId).select("name") : null;
+
+  await sendAdminDisputeAlertEmail({
+    source,
+    orderNumber: orderNumber(order),
+    storeName: store?.name || "Unknown store",
+    itemTitle: item.title || "Item",
+    reasonLabel: formatReasonCode(item.issueReport?.reasonCode),
+    note: item.issueReport?.note,
+  });
+}
+
+/** Notifies the store owner that a new order has come in — silent no-op if the store has no email on file yet. */
+export async function sendNewOrderAlertForOrder(order: OrderLike) {
+  if (!order.storeId) return;
+
+  const store = await Store.findById(order.storeId).select("name email");
+  if (!store?.email) return;
+
+  await sendNewOrderForStoreOwnerEmail(store.email, {
+    storeName: store.name,
+    orderNumber: orderNumber(order),
+    deliveryType: order.deliveryType || "pickup",
+    items: order.items.map((item) => ({
+      title: item.title || "Item",
+      quantity: item.quantity || 1,
+      price: item.price || 0,
+    })),
+    total: order.total,
   });
 }

@@ -136,6 +136,11 @@ stateDiagram-v2
     dispatched --> issue_reported: buyer declines<br/>or handler reports
     ready_for_pickup --> issue_reported: buyer declines<br/>or handler reports
 
+    dispatched --> delivered: unconfirmed 24h+,<br/>operator marks delivered
+    ready_for_pickup --> picked_up: unconfirmed 24h+,<br/>operator marks delivered
+    dispatched --> issue_reported: unconfirmed 24h+,<br/>operator marks not delivered
+    ready_for_pickup --> issue_reported: unconfirmed 24h+,<br/>operator marks not delivered
+
     issue_reported --> resolved: operator resolves<br/>(seller_fault | buyer_fault | split)
 
     delivered --> delivered: legal exception refund<br/>(reversal + refund, status unchanged)
@@ -166,6 +171,8 @@ Each guard is enforced server-side and returns before any external call.
 |---|---|
 | → `dispatched` / `ready_for_pickup` | Caller has role `STORE_OWNER`; the item's product belongs to the caller's store; current status is exactly `pending`; a non-empty ETA string is supplied; the order has a `paymentIntentId` (legacy orders are routed to the old shipping flow instead) |
 | → `delivered` / `picked_up` | Token matches an item currently in `dispatched` or `ready_for_pickup`; submitted PIN bcrypt-matches the store's `fulfillmentPinHash`; rate limit not exceeded |
+| → `delivered` / `picked_up` (operator, stale item) | Caller has role `ADMIN`; item is in `dispatched` or `ready_for_pickup` — no 24h check re-enforced server-side beyond the admin panel only surfacing items past that age |
+| → `issue_reported` (operator, stale item) | Caller has role `ADMIN`; item is in `dispatched` or `ready_for_pickup`; `issueReport.reportedBy` recorded as `"system"` to distinguish from a buyer/handler report |
 | → `issue_reported` (buyer) | Authenticated session owns the order; reason code is in the allowed set; item is in `dispatched` or `ready_for_pickup` |
 | → `issue_reported` (handler) | Token matches an item in `dispatched` or `ready_for_pickup`; reason code in the allowed handler set |
 | → `resolved` | Caller has role `ADMIN`; **item status is exactly `issue_reported`** — checked before any Stripe call; outcome is valid; split percentages sum to ≤ 100 |
@@ -344,7 +351,7 @@ Stated plainly, because a reader will find them.
 
 | Gap | Consequence | Why it stands |
 |---|---|---|
-| **No timeout on unconfirmed handover** | An item dispatched and never confirmed stays `dispatched` forever; the seller is never paid and the buyer is never refunded. Money sits on the platform balance indefinitely | Any automatic rule (auto-release after N days? auto-refund?) picks a side without evidence. At current volume the operator can see and chase stale items. **This is the most likely source of a real complaint** and needs a policy before launch |
+| ~~No timeout on unconfirmed handover~~ **Implemented** | An item dispatched/ready-for-pickup and unconfirmed for 24h+ now surfaces in `/admin/disputes` as a "stale" row (checked once daily via Vercel Cron, `/api/cron/check-stale-fulfillments` — detection is within ~24-48h of the threshold, not exact, given the once-daily Hobby-plan cron limit). The operator picks up manually — "Mark Delivered" (normal payout) or "Not Delivered" (promotes to a regular `issue_reported` dispute for seller_fault/buyer_fault/split adjudication) — no automatic side is picked. An immediate Resend email now also fires to the admin inbox for every dispute (reported or auto-detected), closing the "operator has to notice on their own" gap this row used to describe. | — |
 | **No automated Stripe ↔ database reconciliation** | A transfer that succeeded at Stripe but failed to persist locally leaves the two ledgers disagreeing, and nothing detects it | `transfer_group` makes manual reconciliation possible. Automation is warranted above roughly 50 orders/month |
 | **`transferPending` has no retry** | A failed transfer waits for the operator to notice — and nothing alerts them | Depends on `10-OPERATIONS` §4.3 |
 | **Multi-store carts are not supported** | Checkout takes `products[0].storeId` for the whole cart. A cart mixing two stores would attribute the entire order to one of them | Genuine defect at the boundary. The UI does not currently offer cross-store carts, so it is unreachable — but it is unguarded rather than prevented. **Should be an explicit rejection, and is in `TODO.md`** |

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 interface DisputeRow {
+  type: "reported" | "stale";
   orderId: string;
   itemId: string;
   storeName: string;
@@ -13,10 +14,19 @@ interface DisputeRow {
   price: number;
   deliveryType?: string;
   deliveryFee?: number;
-  reportedBy?: "buyer" | "handler";
+  reportedBy?: "buyer" | "handler" | "system";
   reasonCode?: string;
   note?: string;
   reportedAt?: string;
+  dispatchedAt?: string;
+  etaText?: string;
+}
+
+function timeAgo(iso: string) {
+  const ms = Date.now() - new Date(iso).getTime();
+  const hours = Math.floor(ms / (60 * 60 * 1000));
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
 }
 
 const REASON_LABELS: Record<string, string> = {
@@ -27,6 +37,7 @@ const REASON_LABELS: Record<string, string> = {
   wrong_address: "Wrong address",
   buyer_refused: "Buyer refused",
   item_issue: "Problem with the item",
+  unconfirmed_after_timeout: "Never confirmed (24h timeout)",
   other: "Other",
 };
 
@@ -34,6 +45,7 @@ export default function DisputesPage() {
   const [rows, setRows] = useState<DisputeRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [resolving, setResolving] = useState<DisputeRow | null>(null);
+  const [actingOn, setActingOn] = useState<string | null>(null);
 
   const fetchDisputes = async () => {
     setLoading(true);
@@ -51,6 +63,27 @@ export default function DisputesPage() {
   useEffect(() => {
     fetchDisputes();
   }, []);
+
+  const actOnStale = async (row: DisputeRow, action: "mark-delivered" | "mark-undelivered") => {
+    const key = `${row.orderId}:${row.itemId}`;
+    setActingOn(key);
+    try {
+      const res = await fetch(
+        `/api/admin/disputes/${row.orderId}/items/${row.itemId}/${action}`,
+        { method: "POST" }
+      );
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Failed");
+      toast.success(
+        action === "mark-delivered" ? "Marked as delivered" : "Moved to reported disputes"
+      );
+      fetchDisputes();
+    } catch (error: any) {
+      toast.error(error.message || "Something went wrong");
+    } finally {
+      setActingOn(null);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -103,44 +136,90 @@ export default function DisputesPage() {
                   </td>
                 </tr>
               ) : (
-                rows.map((row) => (
-                  <tr key={`${row.orderId}:${row.itemId}`} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-900">
-                      #{row.orderId.slice(-6)}
-                    </td>
-                    <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
-                      {row.storeName}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
-                      {row.itemTitle} × {row.quantity}
-                    </td>
-                    <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500 capitalize">
-                      {row.reportedBy}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
-                      {REASON_LABELS[row.reasonCode || ""] || row.reasonCode}
-                      {row.note && (
-                        <span className="block max-w-[200px] truncate text-xs text-gray-400">
-                          {row.note}
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
-                      {row.reportedAt
-                        ? new Date(row.reportedAt).toLocaleDateString()
-                        : ""}
-                    </td>
-                    <td className="px-6 py-4 text-right text-sm whitespace-nowrap">
-                      <button
-                        type="button"
-                        onClick={() => setResolving(row)}
-                        className="cursor-pointer rounded-lg bg-[#2c6e9b] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#2c6e9b]/90"
-                      >
-                        Resolve
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                rows.map((row) => {
+                  const key = `${row.orderId}:${row.itemId}`;
+                  const isStale = row.type === "stale";
+                  return (
+                    <tr key={key} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-900">
+                        #{row.orderId.slice(-6)}
+                      </td>
+                      <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
+                        {row.storeName}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
+                        {row.itemTitle} × {row.quantity}
+                      </td>
+                      <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500 capitalize">
+                        {isStale ? (
+                          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">
+                            Unconfirmed
+                          </span>
+                        ) : (
+                          row.reportedBy
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
+                        {isStale ? (
+                          <>
+                            Dispatched {row.dispatchedAt ? timeAgo(row.dispatchedAt) : "—"}
+                            {row.etaText && (
+                              <span className="block text-xs text-gray-400">
+                                ETA: {row.etaText}
+                              </span>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {REASON_LABELS[row.reasonCode || ""] || row.reasonCode}
+                            {row.note && (
+                              <span className="block max-w-[200px] truncate text-xs text-gray-400">
+                                {row.note}
+                              </span>
+                            )}
+                          </>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
+                        {row.reportedAt
+                          ? new Date(row.reportedAt).toLocaleDateString()
+                          : row.dispatchedAt
+                            ? new Date(row.dispatchedAt).toLocaleDateString()
+                            : ""}
+                      </td>
+                      <td className="px-6 py-4 text-right text-sm whitespace-nowrap">
+                        {isStale ? (
+                          <div className="flex justify-end gap-2">
+                            <button
+                              type="button"
+                              disabled={actingOn === key}
+                              onClick={() => actOnStale(row, "mark-delivered")}
+                              className="cursor-pointer rounded-lg bg-green-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-green-700 disabled:opacity-60"
+                            >
+                              Mark Delivered
+                            </button>
+                            <button
+                              type="button"
+                              disabled={actingOn === key}
+                              onClick={() => actOnStale(row, "mark-undelivered")}
+                              className="cursor-pointer rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-50 disabled:opacity-60"
+                            >
+                              Not Delivered
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setResolving(row)}
+                            className="cursor-pointer rounded-lg bg-[#2c6e9b] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#2c6e9b]/90"
+                          >
+                            Resolve
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>

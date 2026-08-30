@@ -19,5 +19,5 @@ export default async function ProductDetailPage({
 
   const product = resolveLocalized(raw, lang, PRODUCT_TRANSLATABLE_FIELDS);
 
-  return <ProductDetailView product={product as any} />;
+  return <ProductDetailView product={JSON.parse(JSON.stringify(product))} />;
 }

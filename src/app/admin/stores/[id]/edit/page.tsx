@@ -9,7 +9,13 @@ import { toast } from "react-hot-toast";
 type StoreFormState = {
   name: string;
   location: string;
+  email: string;
+  phone: string;
   deliveryFee: string;
+  deliveryZonePorto: string;
+  deliveryZoneInnerRing: string;
+  deliveryZoneOuterRing: string;
+  googleMapsLink: string;
   commissionRate: string;
   fulfillmentPin: string;
 };
@@ -31,7 +37,13 @@ export default function EditStorePage() {
         setForm({
           name: store.name,
           location: store.location,
+          email: store.email ?? "",
+          phone: store.phone ?? "",
           deliveryFee: String(store.deliveryFee ?? 0),
+          deliveryZonePorto: String(store.deliveryZoneFees?.porto ?? ""),
+          deliveryZoneInnerRing: String(store.deliveryZoneFees?.innerRing ?? ""),
+          deliveryZoneOuterRing: String(store.deliveryZoneFees?.outerRing ?? ""),
+          googleMapsLink: store.googleMapsLink ?? "",
           commissionRate: String(store.commissionRate ?? 10),
           fulfillmentPin: "",
         })
@@ -51,7 +63,15 @@ export default function EditStorePage() {
         body: JSON.stringify({
           name: form.name,
           location: form.location,
+          email: form.email.trim() || undefined,
+          phone: form.phone.trim() || undefined,
           deliveryFee: parseFloat(form.deliveryFee) || 0,
+          deliveryZoneFees: {
+            porto: form.deliveryZonePorto.trim() === "" ? undefined : parseFloat(form.deliveryZonePorto),
+            innerRing: form.deliveryZoneInnerRing.trim() === "" ? undefined : parseFloat(form.deliveryZoneInnerRing),
+            outerRing: form.deliveryZoneOuterRing.trim() === "" ? undefined : parseFloat(form.deliveryZoneOuterRing),
+          },
+          googleMapsLink: form.googleMapsLink.trim() || undefined,
           commissionRate: parseFloat(form.commissionRate) || 0,
           fulfillmentPin: form.fulfillmentPin,
         }),
@@ -107,9 +127,97 @@ export default function EditStorePage() {
               onChange={(e) => setForm({ ...form, location: e.target.value })}
             />
           </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label className="mb-1 block text-sm font-medium text-gray-700">
+                Store Owner Email
+              </label>
+              <Input
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                placeholder="owner@example.com"
+              />
+              <p className="mt-1 text-xs text-gray-400">
+                Used to email the store owner about new orders.
+              </p>
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-gray-700">
+                Store Owner Phone
+              </label>
+              <Input
+                type="tel"
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                placeholder="+351 900 000 000"
+              />
+            </div>
+          </div>
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700">
-              Delivery Fee (€)
+              Google Maps Link
+            </label>
+            <Input
+              value={form.googleMapsLink}
+              onChange={(e) =>
+                setForm({ ...form, googleMapsLink: e.target.value })
+              }
+              placeholder="Paste the shop's Google Maps share link"
+            />
+            <p className="mt-1 text-xs text-gray-400">
+              Shown to customers who choose pickup, as a &quot;Get Directions&quot; link.
+            </p>
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-gray-700">
+              Delivery Zone Fees (€)
+            </label>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div>
+                <label className="mb-1 block text-xs text-gray-500">Porto</label>
+                <Input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={form.deliveryZonePorto}
+                  onChange={(e) =>
+                    setForm({ ...form, deliveryZonePorto: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs text-gray-500">Inner AMP</label>
+                <Input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={form.deliveryZoneInnerRing}
+                  onChange={(e) =>
+                    setForm({ ...form, deliveryZoneInnerRing: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs text-gray-500">Outer AMP</label>
+                <Input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={form.deliveryZoneOuterRing}
+                  onChange={(e) =>
+                    setForm({ ...form, deliveryZoneOuterRing: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+            <p className="mt-1 text-xs text-gray-400">
+              Leave a zone blank to use the fallback fee below for it.
+            </p>
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-gray-700">
+              Fallback Fee (€)
             </label>
             <Input
               required
@@ -122,7 +230,7 @@ export default function EditStorePage() {
               }
             />
             <p className="mt-1 text-xs text-gray-400">
-              Kept 100% by the store — commission isn&apos;t taken from delivery.
+              Used for any zone not set above. Kept 100% by the store — commission isn&apos;t taken from delivery.
             </p>
           </div>
           <div>

@@ -72,20 +72,31 @@ a rebuild. This list is the closest thing the project has to infrastructure stat
 
 | Environment | Exists | URL | Database | Stripe | Purpose |
 |---|---|---|---|---|---|
-| Local | Yes | `localhost:3000` | **Shared production Atlas cluster** | Test keys | Development |
-| Preview | Implicitly, per Vercel deployment | `*.vercel.app` | Same cluster | Test keys | Not used deliberately |
+| Local | Yes | `localhost:3000` | **Shared production Atlas cluster** | Live keys (shop + AI credits + payouts) | Development |
+| Preview | Implicitly, per Vercel deployment | `*.vercel.app` | Same cluster | Live keys | Not used deliberately |
 | **Staging** | **No** | — | — | — | — |
 | Production | Yes | `www.gowithporto.pt` | Atlas M0 | Live keys | — |
 
-Two problems here, and the first is worse than the missing staging environment.
+Three problems here, and the first is worse than the missing staging environment.
 
 **Local development runs against the production database.** There is no separate
 development cluster; `.env.local` points at the same Atlas M0 instance that serves
-production. A careless script, a mistaken `deleteMany`, or an experiment with a
-schema change operates on live data. This is the same class of exposure as SEC-1
-(`07-SECURITY` §1) arriving from a different direction, and the remedy is the same
-size: create a second free M0 cluster for development and repoint `.env.local`.
-Fifteen minutes.
+production — confirmed still true as of the live-payments cutover below. A careless
+script, a mistaken `deleteMany`, or an experiment with a schema change operates on
+live data. This is the same class of exposure as SEC-1 (`07-SECURITY` §1) arriving
+from a different direction, and the remedy is the same size: create a second free
+M0 cluster for development and repoint `.env.local`. Fifteen minutes — more urgent
+now than when this was first written, since real store owners and real orders will
+start populating this database.
+
+**Local development can no longer safely exercise the shop money path at all.**
+Shop checkout, order confirm, refunds, dispute resolution, fulfillment-confirm,
+payouts, and Connect onboarding all switched from `STRIPE_SECRET_KEY` (test) to
+`STRIPE_SECRET_KEY_LIVE` as part of going live for real product payments. Only AI
+credits ran on the live key before this. There is no local-only way to test any of
+this money path anymore — it either runs against Stripe with real money, or it
+isn't tested locally. Verification now happens by pushing and checking the
+deployed site directly, given there's no staging environment (next point).
 
 **There is no staging.** Changes go from a laptop to production, verified by the
 developer clicking through the live site. Vercel preview deployments exist

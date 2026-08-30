@@ -36,9 +36,15 @@ export default function StoresPage() {
     name: "",
     slug: "",
     location: "",
+    email: "",
+    phone: "",
     storeCode: "",
     password: "",
     deliveryFee: 0,
+    googleMapsLink: "",
+    deliveryZonePorto: 2.5,
+    deliveryZoneInnerRing: 4,
+    deliveryZoneOuterRing: 6,
   });
 
   const fetchStores = async () => {
@@ -66,7 +72,22 @@ export default function StoresPage() {
       const res = await fetch("/api/admin/stores", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          slug: formData.slug,
+          location: formData.location,
+          email: formData.email || undefined,
+          phone: formData.phone || undefined,
+          storeCode: formData.storeCode,
+          password: formData.password,
+          deliveryFee: formData.deliveryFee,
+          googleMapsLink: formData.googleMapsLink || undefined,
+          deliveryZoneFees: {
+            porto: formData.deliveryZonePorto,
+            innerRing: formData.deliveryZoneInnerRing,
+            outerRing: formData.deliveryZoneOuterRing,
+          },
+        }),
       });
 
       const data = await res.json();
@@ -81,9 +102,15 @@ export default function StoresPage() {
         name: "",
         slug: "",
         location: "",
+        email: "",
+        phone: "",
         storeCode: "",
         password: "",
         deliveryFee: 0,
+        googleMapsLink: "",
+        deliveryZonePorto: 2.5,
+        deliveryZoneInnerRing: 4,
+        deliveryZoneOuterRing: 6,
       });
       fetchStores();
     } catch (error: any) {
@@ -155,7 +182,32 @@ export default function StoresPage() {
               </div>
               <div>
                 <label className="mb-1 block text-sm font-medium text-gray-700">
-                  Delivery Fee ($)
+                  Store Owner Email
+                </label>
+                <Input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="owner@example.com"
+                />
+                <p className="mt-1 text-xs text-gray-400">
+                  Used to email the store owner about new orders.
+                </p>
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  Store Owner Phone
+                </label>
+                <Input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  placeholder="+351 900 000 000"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  Fallback Delivery Fee (€)
                 </label>
                 <Input
                   required
@@ -167,6 +219,69 @@ export default function StoresPage() {
                     setFormData({
                       ...formData,
                       deliveryFee: e.target.value === "" ? 0 : parseFloat(e.target.value),
+                    })
+                  }
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  Google Maps Link
+                </label>
+                <Input
+                  value={formData.googleMapsLink}
+                  onChange={(e) =>
+                    setFormData({ ...formData, googleMapsLink: e.target.value })
+                  }
+                  placeholder="Paste the shop's Google Maps share link"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  Zone Fee: Porto (€)
+                </label>
+                <Input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={formData.deliveryZonePorto}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      deliveryZonePorto: e.target.value === "" ? 0 : parseFloat(e.target.value),
+                    })
+                  }
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  Zone Fee: Inner AMP (€)
+                </label>
+                <Input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={formData.deliveryZoneInnerRing}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      deliveryZoneInnerRing: e.target.value === "" ? 0 : parseFloat(e.target.value),
+                    })
+                  }
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  Zone Fee: Outer AMP (€)
+                </label>
+                <Input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={formData.deliveryZoneOuterRing}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      deliveryZoneOuterRing: e.target.value === "" ? 0 : parseFloat(e.target.value),
                     })
                   }
                 />

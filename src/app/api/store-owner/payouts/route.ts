@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_LIVE!);
 
 // Sends the store owner to Stripe's own hosted Express dashboard, where
 // they can see real payout status/history/arrival dates straight from

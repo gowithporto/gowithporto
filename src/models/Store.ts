@@ -5,12 +5,20 @@ export interface IStore extends Document {
   slug: string;
   location: string;
   active: boolean;
+  email?: string;
+  phone?: string;
 
   // 🔐 Store Owner Auth
   storeCode: string;
   passwordHash: string;
   role: "STORE_OWNER";
   deliveryFee: number;
+  deliveryZoneFees?: {
+    porto?: number;
+    innerRing?: number;
+    outerRing?: number;
+  };
+  googleMapsLink?: string;
 
   // 📦 Fulfillment (given to delivery/pickup staff — never the login storeCode)
   fulfillmentPinHash?: string;
@@ -30,6 +38,8 @@ const StoreSchema = new Schema<IStore>(
     slug: { type: String, required: true, unique: true },
     location: { type: String, required: true },
     active: { type: Boolean, default: true },
+    email: { type: String },
+    phone: { type: String },
 
     // 🔐 Store Owner Auth
     storeCode: { type: String, required: true, unique: true },
@@ -39,6 +49,12 @@ const StoreSchema = new Schema<IStore>(
       type: Number,
       default: 0,
     },
+    deliveryZoneFees: {
+      porto: { type: Number },
+      innerRing: { type: Number },
+      outerRing: { type: Number },
+    },
+    googleMapsLink: { type: String },
 
     // 📦 Fulfillment (given to delivery/pickup staff — never the login storeCode)
     fulfillmentPinHash: { type: String },

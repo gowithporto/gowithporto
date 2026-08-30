@@ -1,3 +1,4 @@
+import { resolveDeliveryFee } from "@/lib/deliveryZones";
 import { connectDB } from "@/lib/mongodb";
 import Product from "@/models/Product";
 import Store from "@/models/Store";
@@ -5,7 +6,7 @@ import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_LIVE!);
 
 export async function POST(req: Request) {
   const { items, deliveryType, address } = await req.json();
@@ -59,9 +60,19 @@ export async function POST(req: Request) {
   const orderId = new mongoose.Types.ObjectId();
 
   let deliveryFee = 0;
+  let deliveryZone: string | undefined;
 
   if (deliveryType === "delivery") {
-    deliveryFee = Number(store.deliveryFee || 0);
+    const quote = resolveDeliveryFee(store, address?.city);
+    if ("error" in quote) {
+      return NextResponse.json(
+        { error: "This address is outside our delivery area" },
+        { status: 400 }
+      );
+    }
+
+    deliveryFee = quote.fee;
+    deliveryZone = quote.zone;
 
     if (deliveryFee > 0) {
       lineItems.push({
@@ -89,6 +100,7 @@ export async function POST(req: Request) {
       orderId: orderId.toString(),
       deliveryType,
       deliveryFee,
+      deliveryZone: deliveryZone || "",
       address: address ? JSON.stringify(address) : "",
       productIds: items.map((i: any) => i.productId).join(","),
       variantIds: items.map((i: any) => i.variantId || "").join(","),

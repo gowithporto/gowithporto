@@ -41,7 +41,7 @@ export default function Home() {
             Mobile: text overlaps the whole image width, so a uniform light overlay
             keeps the photo visible everywhere. Desktop: text sits in the left column
             only, so a left-to-right gradient keeps the right side of the photo clear. */}
-        <div className="absolute inset-0 bg-[var(--bg)]/25 lg:bg-gradient-to-r lg:from-[var(--bg)]/70 lg:via-[var(--bg)]/40 lg:to-transparent" />
+        <div className="absolute inset-0 bg-[var(--bg)]/20 lg:bg-gradient-to-r lg:from-[var(--bg)]/70 lg:via-[var(--bg)]/40 lg:to-transparent" />
 
         {/* Content */}
         <div

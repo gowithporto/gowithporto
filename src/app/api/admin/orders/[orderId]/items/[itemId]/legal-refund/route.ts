@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_LIVE!);
 
 // Manual, low-volume path for post-confirmation legal-exception refunds (EU
 // withdrawal/conformity rights) — the transfer to the seller already fired,

@@ -1,7 +1,11 @@
 import { buildOrderFromStripeSession } from "@/lib/buildOrderFromStripeSession";
 import { grantAiCreditsFromSession } from "@/lib/creditAiPurchase";
 import { decrementStockForOrder } from "@/lib/decrementStock";
-import { sendAdminPayoutEmail, sendOrderConfirmationForOrder } from "@/lib/email";
+import {
+  sendAdminPayoutEmail,
+  sendNewOrderAlertForOrder,
+  sendOrderConfirmationForOrder,
+} from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import Store from "@/models/Store";
@@ -21,9 +25,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing signature" }, { status: 400 });
   }
 
-  // Shop checkout (test mode) and AI-credit checkout (live mode) currently share
-  // this one endpoint URL but are registered as separate Stripe webhook
-  // destinations, each with its own signing secret — try both.
+  // Shop checkout and AI-credit checkout both run live now, but this one
+  // endpoint URL is registered as two separate Stripe webhook destinations
+  // (test mode + live mode), each with its own signing secret — try both, so
+  // test-mode events (e.g. store-owner Connect testing) still verify too.
   let event: Stripe.Event;
   let stripe = stripeTest;
 
@@ -110,14 +115,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ received: true });
   }
 
-  if (event.livemode) {
-    // Shop checkout only ever runs in test mode today — a live-mode event
-    // reaching this branch means something is misconfigured. Don't build an
-    // Order off it.
-    console.error("Unexpected live-mode event for shop order path:", event.id);
-    return NextResponse.json({ received: true });
-  }
-
   const existing = await Order.findOne({
     stripeSessionId: sessionSummary.id,
   });
@@ -140,6 +137,7 @@ export async function POST(req: Request) {
     const order = await Order.create(orderData);
     await decrementStockForOrder(order.items);
     await sendOrderConfirmationForOrder(order);
+    await sendNewOrderAlertForOrder(order);
     return NextResponse.json({ received: true, orderId: order._id });
   } catch (err: any) {
     // Duplicate key on stripeSessionId means /api/orders/confirm already created it — fine.

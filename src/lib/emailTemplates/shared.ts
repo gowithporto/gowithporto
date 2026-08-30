@@ -14,6 +14,7 @@ export const colors = {
 export const logoUrl = `${BASE_URL}/logo-email.png`;
 export const shopUrl = `${BASE_URL}/shop`;
 export const ordersUrl = `${BASE_URL}/dashboard/orders`;
+export const adminDisputesUrl = `${BASE_URL}/admin/disputes`;
 export const aiUrl = `${BASE_URL}/ai`;
 export const googleReviewUrl = process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL || "";
 

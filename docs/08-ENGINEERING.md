@@ -345,22 +345,28 @@ Enumerated by `grep -rho "process\.env\.[A-Z_0-9]*" src scripts next.config.mjs`
 | Variable | References | Purpose |
 |---|---|---|
 | `NEXTAUTH_URL` | 12 | Absolute-URL base for Stripe redirects and email links |
-| `STRIPE_SECRET_KEY` | 10 | Server-side Stripe client construction |
+| `STRIPE_SECRET_KEY_LIVE` | 11 | Server-side Stripe client construction — as of the live-payments cutover, this covers shop checkout, order confirm, refunds, dispute resolution, fulfillment-confirm, payouts, and Connect onboarding, not just AI credits |
 | `NEXT_PUBLIC_BASE_URL` | 8 | Client-visible base URL |
-| `MONGODB_URI` | 6 | Atlas connection string |
-| `GEMINI_API_KEY` | 4 | Gemini client (incl. `scripts/`) |
+| `MONGODB_URI` | 7 | Atlas connection string |
+| `GEMINI_API_KEY` | 3 | Gemini client (incl. `scripts/`) |
+| `GROQ_API_KEY` | 1 | Active AI itinerary provider (`src/services/ai/index.ts`) — coexists with `GEMINI_API_KEY` above; which one is actually in the critical path is worth confirming if this surprises you |
 | `SUPPORT_EMAIL` | 2 | Contact-form destination |
-| `ADMIN_EMAIL` | 2 | New-user and payout notification destination (defaults to `admin@gowithporto.pt`) |
+| `STRIPE_WEBHOOK_SECRET_LIVE` | 2 | Live-mode webhook signature verification |
 | `RESEND_API_KEY` | 2 | Transactional email |
-| `STRIPE_WEBHOOK_SECRET` | 1 | Webhook signature verification |
+| `STRIPE_WEBHOOK_SECRET` | 1 | Test-mode webhook signature verification (the shop-checkout webhook destination still tries this first, then falls back to the live secret — see `03-ARCHITECTURE`) |
+| `STRIPE_SECRET_KEY` | 1 | Test-mode-only Stripe client, remaining solely in the webhook route's test-mode signature verification branch |
+| `NEXT_PUBLIC_SHOP_ENABLED` | 1 | Feature flag gating shop browsing/cart/checkout (`src/lib/marketplace.ts`, enforced in `src/proxy.ts`) |
+| `CRON_SECRET` | 1 | Authenticates Vercel Cron's daily call to `/api/cron/check-stale-fulfillments` — must be set in Vercel project env vars, Vercel sends it automatically as a bearer token |
+| `NEXT_PUBLIC_GOOGLE_REVIEW_URL` | 1 | Optional review-prompt link in post-purchase/credit emails |
 | `GOOGLE_CLIENT_ID` | 1 | Google OAuth |
 | `GOOGLE_CLIENT_SECRET` | 1 | Google OAuth |
 | `EMAIL_FROM` | 1 | Sender identity |
+| `ADMIN_EMAIL` | 1 | New-user, payout, and dispute-alert notification destination (defaults to `admin@gowithporto.pt`) |
 | `CLOUDINARY_CLOUD_NAME` | 1 | Image hosting |
 | `CLOUDINARY_API_KEY` | 1 | Image hosting |
 | `CLOUDINARY_API_SECRET` | 1 | Image hosting |
 
-Fifteen distinct variables. `NEXTAUTH_SECRET` is required by NextAuth but never appears in application code — it is read by the library itself, so it does not show up in this grep and would not be caught by a naive audit of `process.env` usage.
+Twenty distinct variables (up from fifteen, largely from the live-payments cutover and the two features that shipped alongside it). `NEXTAUTH_SECRET` is required by NextAuth but never appears in application code — it is read by the library itself, so it does not show up in this grep and would not be caught by a naive audit of `process.env` usage.
 
 Supply: `.env.local` in development (`.gitignore` line 34 excludes `.env*`, verified — no `.env` file is tracked), Vercel project environment variables in production. `scripts/*.js` are run with `node --env-file=.env.local`.
 

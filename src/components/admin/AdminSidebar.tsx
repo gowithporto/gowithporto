@@ -4,6 +4,7 @@ import {
   BanknotesIcon,
   BuildingStorefrontIcon,
   Cog6ToothIcon,
+  CubeIcon,
   CurrencyEuroIcon,
   ExclamationTriangleIcon,
   HomeIcon,
@@ -27,6 +28,7 @@ const navigation = [
   { name: "Dashboard", href: "/admin", icon: HomeIcon, exact: true },
   { name: "Revenue", href: "/admin/revenue", icon: BanknotesIcon },
   { name: "Stores", href: "/admin/stores", icon: BuildingStorefrontIcon },
+  { name: "Products", href: "/admin/products", icon: CubeIcon },
   { name: "Attractions", href: "/admin/attractions", icon: MapPinIcon },
   {
     name: "Local Experiences",

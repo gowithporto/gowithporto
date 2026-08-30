@@ -1,3 +1,4 @@
+import { sendAdminDisputeAlertForOrder } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 import Order from "@/models/Order";
@@ -62,6 +63,7 @@ export async function POST(
   };
 
   await order.save();
+  await sendAdminDisputeAlertForOrder(order, item, "handler");
 
   return NextResponse.json({ success: true });
 }

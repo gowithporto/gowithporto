@@ -15,6 +15,7 @@ export default function NewProductPage() {
   const [form, setForm] = useState({
     title: "",
     slug: "",
+    description: "",
     price: "",
     category: "",
     images: [] as string[],
@@ -157,6 +158,22 @@ export default function NewProductPage() {
             value={form.quantity}
             onChange={(e) => setForm({ ...form, quantity: e.target.value })}
           />
+        </div>
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-black/60">
+            Details
+          </label>
+          <textarea
+            rows={4}
+            placeholder="What is this, what's it made of, why would someone want it..."
+            value={form.description}
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+            className="w-full rounded-xl border border-black/10 px-3 py-2 text-sm text-black/80 focus:border-[#2c6e9b] focus:outline-none"
+          />
+          <p className="mt-1 text-xs text-black/40">
+            Shown on this product&apos;s shop page.
+          </p>
         </div>
 
         <div>

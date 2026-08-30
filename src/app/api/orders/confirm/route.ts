@@ -1,12 +1,12 @@
 import { buildOrderFromStripeSession } from "@/lib/buildOrderFromStripeSession";
 import { decrementStockForOrder } from "@/lib/decrementStock";
-import { sendOrderConfirmationForOrder } from "@/lib/email";
+import { sendNewOrderAlertForOrder, sendOrderConfirmationForOrder } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_LIVE!);
 
 export async function POST(req: Request) {
   const { sessionId } = await req.json();
@@ -45,6 +45,7 @@ export async function POST(req: Request) {
     const order = await Order.create(orderData);
     await decrementStockForOrder(order.items);
     await sendOrderConfirmationForOrder(order);
+    await sendNewOrderAlertForOrder(order);
     return NextResponse.json({ success: true, orderId: order._id });
   } catch (err: any) {
     // Duplicate key on stripeSessionId means the webhook won the race — fine, fetch it.

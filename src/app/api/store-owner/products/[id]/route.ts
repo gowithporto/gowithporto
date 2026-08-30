@@ -20,6 +20,7 @@ export async function PUT(
 
   const updateData = {
     title: body.title,
+    description: body.description,
     price: body.price,
     category: body.category,
     images: body.images,

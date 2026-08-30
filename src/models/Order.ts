@@ -10,7 +10,7 @@ const AddressSchema = new mongoose.Schema({
 
 const IssueReportSchema = new mongoose.Schema(
   {
-    reportedBy: { type: String, enum: ["buyer", "handler"] },
+    reportedBy: { type: String, enum: ["buyer", "handler", "system"] },
     reasonCode: String,
     note: String,
     reportedAt: Date,
@@ -88,6 +88,7 @@ const OrderSchema = new mongoose.Schema(
         etaText: String,
         dispatchedAt: Date,
         confirmedAt: Date,
+        staleAlertSentAt: Date,
 
         transferId: String,
         transferAmount: Number,
@@ -103,6 +104,7 @@ const OrderSchema = new mongoose.Schema(
     total: Number,
     deliveryType: { type: String, enum: ["pickup", "delivery"] },
     deliveryFee: { type: Number, default: 0 },
+    deliveryZone: String,
     platformFeeAmount: Number,
     storeOwnerAmount: Number,
     storeStripeAccountId: String,

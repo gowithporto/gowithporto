@@ -1,17 +1,13 @@
 import { authOptions } from "@/lib/auth";
-import { sendAdminDisputeAlertForOrder } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-const REASON_CODES = [
-  "item_not_received",
-  "item_defective_or_wrong",
-  "no_longer_needed",
-  "other",
-];
-
+// Promotes a stale (dispatched/ready_for_pickup, unconfirmed >24h) item into
+// a normal reported dispute — no Stripe call here. Admin investigates
+// (contacting the store owner and/or buyer) and resolves it afterward
+// through the existing seller_fault/buyer_fault/split flow, unchanged.
 export async function POST(
   req: Request,
   context: { params: Promise<{ orderId: string; itemId: string }> }
@@ -19,19 +15,14 @@ export async function POST(
   const { orderId, itemId } = await context.params;
 
   const session = await getServerSession(authOptions);
-  if (!session?.user?.email) {
+  if (session?.user?.role !== "ADMIN") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const { reasonCode, note } = await req.json();
-  if (!REASON_CODES.includes(reasonCode)) {
-    return NextResponse.json({ error: "Invalid reason" }, { status: 400 });
   }
 
   await connectDB();
 
   const order = await Order.findById(orderId);
-  if (!order || order.userEmail !== session.user.email) {
+  if (!order) {
     return NextResponse.json({ error: "Order not found" }, { status: 404 });
   }
 
@@ -42,21 +33,19 @@ export async function POST(
 
   if (!["dispatched", "ready_for_pickup"].includes(item.fulfillmentStatus)) {
     return NextResponse.json(
-      { error: "This item is no longer eligible to report an issue" },
+      { error: "This item is not awaiting confirmation" },
       { status: 400 }
     );
   }
 
   item.fulfillmentStatus = "issue_reported";
   item.issueReport = {
-    reportedBy: "buyer",
-    reasonCode,
-    note: typeof note === "string" ? note.slice(0, 500) : undefined,
+    reportedBy: "system",
+    reasonCode: "unconfirmed_after_timeout",
     reportedAt: new Date(),
   };
 
   await order.save();
-  await sendAdminDisputeAlertForOrder(order, item, "buyer");
 
   return NextResponse.json({ success: true });
 }

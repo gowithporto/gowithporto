@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import centerLine from "@/assets/center line 3.png";
 import OrderReviewCard from "@/components/checkout/OrderReviewCard";
 import Input from "@/components/ui/Input";
+import { AMP_MUNICIPALITIES } from "@/lib/deliveryZones";
 import { RootState } from "@/store";
 
 type Address = {
@@ -32,6 +33,12 @@ const REQUIRED_FIELDS: (keyof Address)[] = [
   "country",
 ];
 
+type StoreInfo = {
+  name: string;
+  location: string;
+  googleMapsLink: string | null;
+};
+
 export default function CheckoutPage() {
   const [mounted, setMounted] = useState(false);
   const cart = useSelector((state: RootState) => state.cart.items);
@@ -48,9 +55,56 @@ export default function CheckoutPage() {
     country: "Portugal",
   });
 
+  const [storeInfo, setStoreInfo] = useState<StoreInfo | null>(null);
+  const [deliveryFee, setDeliveryFee] = useState<number | null>(null);
+  const [quoting, setQuoting] = useState(false);
+  const [quoteError, setQuoteError] = useState<string | null>(null);
+
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (cart.length === 0) return;
+
+    fetch("/api/checkout/store-info", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: cart }),
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => setStoreInfo(data))
+      .catch(() => setStoreInfo(null));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart.length]);
+
+  useEffect(() => {
+    if (deliveryType !== "delivery" || !address.city) {
+      setDeliveryFee(null);
+      setQuoteError(null);
+      return;
+    }
+
+    setQuoting(true);
+    setQuoteError(null);
+
+    fetch("/api/delivery/quote", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: cart, city: address.city }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Failed to quote delivery fee");
+        setDeliveryFee(data.fee);
+      })
+      .catch((err) => {
+        setDeliveryFee(null);
+        setQuoteError(err.message);
+      })
+      .finally(() => setQuoting(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deliveryType, address.city]);
 
   if (!mounted) {
     return <p className="pt-32 text-center text-gray-500">Loading checkout…</p>;
@@ -68,6 +122,7 @@ export default function CheckoutPage() {
         setErrors(nextErrors);
         return;
       }
+      if (quoting || quoteError || deliveryFee === null) return;
     }
     setErrors({});
     setLoading(true);
@@ -150,6 +205,25 @@ export default function CheckoutPage() {
                       Pick up from store
                     </p>
                     <p className="text-xs text-gray-500">Collect your order in person</p>
+                    {deliveryType === "pickup" && storeInfo && (
+                      <p className="mt-1 text-xs text-gray-600">
+                        {storeInfo.name}
+                        {storeInfo.googleMapsLink && (
+                          <>
+                            {" — "}
+                            <a
+                              href={storeInfo.googleMapsLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#2c6e9b] underline"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              Get Directions
+                            </a>
+                          </>
+                        )}
+                      </p>
+                    )}
                   </div>
                   <span className="text-xs font-medium text-green-600">Free</span>
                 </label>
@@ -208,13 +282,30 @@ export default function CheckoutPage() {
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <Input
-                        label="City"
+                      <label className="mb-1 block text-sm text-gray-600">City</label>
+                      <select
                         value={address.city}
                         onChange={(e) => setAddress({ ...address, city: e.target.value })}
-                      />
+                        className="w-full rounded-xl border border-black/10 px-3 py-2 text-sm text-[var(--text)]"
+                      >
+                        <option value="">Select your area</option>
+                        {AMP_MUNICIPALITIES.map((zone) => (
+                          <optgroup key={zone.id} label={zone.label}>
+                            {zone.municipalities.map((city) => (
+                              <option key={city} value={city}>
+                                {city}
+                              </option>
+                            ))}
+                          </optgroup>
+                        ))}
+                      </select>
                       {errors.city && (
                         <p className="mt-1 text-xs text-red-500">{errors.city}</p>
+                      )}
+                      {quoteError && (
+                        <p className="mt-1 text-xs text-red-500">
+                          Sorry, we don&apos;t deliver to that area.
+                        </p>
                       )}
                     </div>
 
@@ -251,6 +342,9 @@ export default function CheckoutPage() {
             items={cart}
             subtotal={subtotal}
             deliveryType={deliveryType}
+            deliveryFee={deliveryFee}
+            quoting={quoting}
+            quoteError={quoteError}
             loading={loading}
             onSubmit={handleCheckout}
           />

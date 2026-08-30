@@ -36,7 +36,18 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { name, storeCode, password, slug, location, deliveryFee } = body;
+    const {
+      name,
+      storeCode,
+      password,
+      slug,
+      location,
+      email,
+      phone,
+      deliveryFee,
+      deliveryZoneFees,
+      googleMapsLink,
+    } = body;
 
     // Basic validation
     if (!name || !storeCode || !password || !slug || !location) {
@@ -66,9 +77,13 @@ export async function POST(req: Request) {
       name,
       slug,
       location,
+      email: email || undefined,
+      phone: phone || undefined,
       storeCode,
       passwordHash: hashedPassword,
       deliveryFee: deliveryFee || 0,
+      deliveryZoneFees: deliveryZoneFees || undefined,
+      googleMapsLink: googleMapsLink || undefined,
       active: true,
       role: "STORE_OWNER",
     });

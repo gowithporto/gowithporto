@@ -82,6 +82,7 @@ The only model with an explicit `IStore extends Document` interface.
 | Field | Type | Constraint | Purpose |
 |---|---|---|---|
 | `name`, `location` | String | `required` | Public display |
+| `email`, `phone` | String | optional | Store owner contact — `email` is used to send the new-order notification; no notification sent until an admin backfills it |
 | `slug` | String | `required`, `unique` | URL key |
 | `storeCode` | String | `required`, `unique` | Store-owner login identifier |
 | `passwordHash` | String | `required` | bcrypt hash for store-owner login |

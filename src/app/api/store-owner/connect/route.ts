@@ -5,7 +5,11 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+// Connect onboarding runs on the live key even before the rest of the shop
+// money path does — store owners need to complete real (not test-mode) bank
+// onboarding well ahead of the checkout/payout cutover, since onboarding is
+// the slow, external-dependency step.
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_LIVE!);
 
 export async function POST() {
   const session = await getServerSession(authOptions);

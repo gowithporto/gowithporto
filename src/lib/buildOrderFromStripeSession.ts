@@ -92,6 +92,7 @@ export async function buildOrderFromStripeSession(
     status: "paid",
     deliveryType: session.metadata?.deliveryType,
     deliveryFee: Number(session.metadata?.deliveryFee || 0),
+    deliveryZone: session.metadata?.deliveryZone || undefined,
     address: address || undefined,
     storeId: session.metadata?.storeId,
     stripeSessionId: session.id,

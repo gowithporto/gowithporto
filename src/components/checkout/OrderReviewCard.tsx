@@ -17,6 +17,9 @@ type Props = {
   items: CartItem[];
   subtotal: number;
   deliveryType: "pickup" | "delivery";
+  deliveryFee?: number | null;
+  quoting?: boolean;
+  quoteError?: string | null;
   loading: boolean;
   onSubmit: () => void;
 };
@@ -25,9 +28,28 @@ export default function OrderReviewCard({
   items,
   subtotal,
   deliveryType,
+  deliveryFee = null,
+  quoting = false,
+  quoteError = null,
   loading,
   onSubmit,
 }: Props) {
+  const total = subtotal + (deliveryType === "delivery" ? deliveryFee ?? 0 : 0);
+  const canSubmit =
+    items.length > 0 &&
+    !loading &&
+    !(deliveryType === "delivery" && (quoting || !!quoteError || deliveryFee === null));
+
+  const shippingLabel =
+    deliveryType === "pickup"
+      ? "Free"
+      : quoting
+        ? "Calculating…"
+        : quoteError
+          ? "Unavailable"
+          : deliveryFee !== null
+            ? `€${deliveryFee.toFixed(2)}`
+            : "Select a delivery area";
   return (
     <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
       <h2 className="text-center font-serif text-xl font-medium text-[var(--primary)]">
@@ -66,22 +88,19 @@ export default function OrderReviewCard({
         </div>
         <div className="flex justify-between text-[var(--text)]">
           <span>Shipping</span>
-          <span>{deliveryType === "pickup" ? "Free" : "Calculated at payment"}</span>
+          <span>{shippingLabel}</span>
         </div>
       </div>
 
       <div className="mt-4 flex items-center justify-between border-t border-black/10 pt-4">
         <span className="font-serif text-lg font-medium text-[var(--primary)]">Total</span>
-        <span className="text-lg font-bold text-[#2c6e9b]">
-          €{subtotal.toFixed(2)}
-          {deliveryType === "delivery" && " +"}
-        </span>
+        <span className="text-lg font-bold text-[#2c6e9b]">€{total.toFixed(2)}</span>
       </div>
 
       <button
         type="button"
         onClick={onSubmit}
-        disabled={loading || items.length === 0}
+        disabled={!canSubmit}
         className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[#2c6e9b] py-3 text-sm font-medium text-white transition hover:scale-[1.02] hover:shadow-md disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
       >
         <LockClosedIcon className="h-4 w-4" />
