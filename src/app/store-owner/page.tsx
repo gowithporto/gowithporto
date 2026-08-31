@@ -116,7 +116,7 @@ export default function StoreOwnerDashboard() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        toast.error("Couldn't start payout setup. Try again.");
+        toast.error(data.error || "Couldn't start payout setup. Try again.");
       }
     } catch {
       toast.error("Couldn't start payout setup. Try again.");
@@ -133,7 +133,7 @@ export default function StoreOwnerDashboard() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        toast.error("Couldn't open your Stripe payouts. Try again.");
+        toast.error(data.error || "Couldn't open your Stripe payouts. Try again.");
       }
     } catch {
       toast.error("Couldn't open your Stripe payouts. Try again.");

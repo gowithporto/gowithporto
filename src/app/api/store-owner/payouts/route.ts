@@ -36,17 +36,24 @@ export async function POST() {
 
     return NextResponse.json({ url: loginLink.url });
   } catch (err: any) {
-    if (!isStaleStripeAccountError(err)) throw err;
+    if (isStaleStripeAccountError(err)) {
+      // Stale account id (e.g. from before the live-key cutover) — clear it
+      // so the dashboard shows "set up payouts" instead of erroring forever.
+      store.stripeAccountId = undefined;
+      store.stripeOnboardingComplete = false;
+      await store.save();
 
-    // Stale account id (e.g. from before the live-key cutover) — clear it so
-    // the dashboard shows "set up payouts" instead of erroring forever.
-    store.stripeAccountId = undefined;
-    store.stripeOnboardingComplete = false;
-    await store.save();
+      return NextResponse.json(
+        { error: "Your payout account needs to be reconnected — please redo onboarding" },
+        { status: 400 },
+      );
+    }
 
+    console.error("Stripe payout login link failed:", err);
     return NextResponse.json(
-      { error: "Your payout account needs to be reconnected — please redo onboarding" },
-      { status: 400 },
+      { error: err?.message || "Couldn't open your Stripe payouts" },
+      { status: 500 },
     );
   }
 }
+

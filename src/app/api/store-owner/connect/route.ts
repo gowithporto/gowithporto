@@ -45,36 +45,44 @@ export async function POST() {
     await store.save();
   };
 
-  if (!accountId) {
-    await createFreshAccount();
-  }
-
   const baseUrl = process.env.NEXTAUTH_URL;
 
-  let accountLink;
   try {
-    accountLink = await stripe.accountLinks.create({
-      account: accountId,
-      refresh_url: `${baseUrl}/store-owner?connect=refresh`,
-      return_url: `${baseUrl}/store-owner?connect=success`,
-      type: "account_onboarding",
-    });
+    if (!accountId) {
+      await createFreshAccount();
+    }
+
+    let accountLink;
+    try {
+      accountLink = await stripe.accountLinks.create({
+        account: accountId,
+        refresh_url: `${baseUrl}/store-owner?connect=refresh`,
+        return_url: `${baseUrl}/store-owner?connect=success`,
+        type: "account_onboarding",
+      });
+    } catch (err: any) {
+      // A stored account id from before the live-key cutover (or any other
+      // reason Stripe no longer recognizes it) — self-heal by starting a
+      // fresh account rather than leaving the store owner permanently stuck.
+      if (!isStaleStripeAccountError(err)) throw err;
+
+      await createFreshAccount();
+      accountLink = await stripe.accountLinks.create({
+        account: accountId,
+        refresh_url: `${baseUrl}/store-owner?connect=refresh`,
+        return_url: `${baseUrl}/store-owner?connect=success`,
+        type: "account_onboarding",
+      });
+    }
+
+    return NextResponse.json({ url: accountLink.url });
   } catch (err: any) {
-    // A stored account id from before the live-key cutover (or any other
-    // reason Stripe no longer recognizes it) — self-heal by starting a
-    // fresh account rather than leaving the store owner permanently stuck.
-    if (!isStaleStripeAccountError(err)) throw err;
-
-    await createFreshAccount();
-    accountLink = await stripe.accountLinks.create({
-      account: accountId,
-      refresh_url: `${baseUrl}/store-owner?connect=refresh`,
-      return_url: `${baseUrl}/store-owner?connect=success`,
-      type: "account_onboarding",
-    });
+    console.error("Stripe Connect onboarding failed:", err);
+    return NextResponse.json(
+      { error: err?.message || "Failed to start onboarding" },
+      { status: 500 },
+    );
   }
-
-  return NextResponse.json({ url: accountLink.url });
 }
 
 export async function GET() {
@@ -108,13 +116,16 @@ export async function GET() {
         await store.save();
       }
     } catch (err: any) {
-      // Stale account id (e.g. from before the live-key cutover) — clear it
-      // so the store shows as "not connected" instead of erroring, and the
-      // next onboarding attempt starts a fresh account.
-      if (!isStaleStripeAccountError(err)) throw err;
-      store.stripeAccountId = undefined;
-      store.stripeOnboardingComplete = false;
-      await store.save();
+      if (isStaleStripeAccountError(err)) {
+        // Stale account id (e.g. from before the live-key cutover) — clear it
+        // so the store shows as "not connected" instead of erroring, and the
+        // next onboarding attempt starts a fresh account.
+        store.stripeAccountId = undefined;
+        store.stripeOnboardingComplete = false;
+        await store.save();
+      } else {
+        console.error("Stripe Connect status check failed:", err);
+      }
     }
   }
 
