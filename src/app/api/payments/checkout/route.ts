@@ -88,29 +88,39 @@ export async function POST(req: Request) {
     }
   }
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    mode: "payment",
-    line_items: lineItems,
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items: lineItems,
 
-    success_url: `${process.env.NEXTAUTH_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.NEXTAUTH_URL}/checkout/cancel`,
+      success_url: `${process.env.NEXTAUTH_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXTAUTH_URL}/checkout/cancel`,
 
-    metadata: {
-      orderId: orderId.toString(),
-      deliveryType,
-      deliveryFee,
-      deliveryZone: deliveryZone || "",
-      address: address ? JSON.stringify(address) : "",
-      productIds: items.map((i: any) => i.productId).join(","),
-      variantIds: items.map((i: any) => i.variantId || "").join(","),
-      storeId: storeId.toString(),
-    },
+      metadata: {
+        orderId: orderId.toString(),
+        deliveryType,
+        deliveryFee,
+        deliveryZone: deliveryZone || "",
+        address: address ? JSON.stringify(address) : "",
+        productIds: items.map((i: any) => i.productId).join(","),
+        variantIds: items.map((i: any) => i.variantId || "").join(","),
+        storeId: storeId.toString(),
+      },
 
-    payment_intent_data: {
-      transfer_group: orderId.toString(),
-    },
-  });
+      payment_intent_data: {
+        transfer_group: orderId.toString(),
+      },
+    });
 
-  return NextResponse.json({ url: session.url });
+    return NextResponse.json({ url: session.url });
+  } catch (err: any) {
+    if (err?.code === "amount_too_small") {
+      return NextResponse.json(
+        { error: "This order total is below the €0.50 minimum we can charge — please add another item." },
+        { status: 400 }
+      );
+    }
+    throw err;
+  }
 }

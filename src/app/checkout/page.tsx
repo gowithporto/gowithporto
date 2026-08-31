@@ -9,6 +9,7 @@ import {
 import Image from "next/image";
 import Link from "@/components/ui/LocalizedLink";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 
 import centerLine from "@/assets/center line 3.png";
@@ -139,9 +140,14 @@ export default function CheckoutPage() {
       });
 
       const data = await res.json();
-      if (data.url) window.location.href = data.url;
-      else setLoading(false);
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        toast.error(data.error || "Failed to start checkout. Please try again.");
+        setLoading(false);
+      }
     } catch {
+      toast.error("Failed to start checkout. Please try again.");
       setLoading(false);
     }
   };
