@@ -1,5 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { connectDB } from "@/lib/mongodb";
+import { isStaleStripeAccountError } from "@/lib/stripeErrors";
 import Store from "@/models/Store";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
@@ -28,9 +29,24 @@ export async function POST() {
     );
   }
 
-  const loginLink = await stripe.accounts.createLoginLink(
-    store.stripeAccountId,
-  );
+  try {
+    const loginLink = await stripe.accounts.createLoginLink(
+      store.stripeAccountId,
+    );
 
-  return NextResponse.json({ url: loginLink.url });
+    return NextResponse.json({ url: loginLink.url });
+  } catch (err: any) {
+    if (!isStaleStripeAccountError(err)) throw err;
+
+    // Stale account id (e.g. from before the live-key cutover) — clear it so
+    // the dashboard shows "set up payouts" instead of erroring forever.
+    store.stripeAccountId = undefined;
+    store.stripeOnboardingComplete = false;
+    await store.save();
+
+    return NextResponse.json(
+      { error: "Your payout account needs to be reconnected — please redo onboarding" },
+      { status: 400 },
+    );
+  }
 }

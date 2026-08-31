@@ -1,5 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { connectDB } from "@/lib/mongodb";
+import { isStaleStripeAccountError } from "@/lib/stripeErrors";
 import Store from "@/models/Store";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
@@ -28,7 +29,7 @@ export async function POST() {
 
   let accountId = store.stripeAccountId;
 
-  if (!accountId) {
+  const createFreshAccount = async () => {
     const account = await stripe.accounts.create({
       type: "express",
       country: "PT",
@@ -40,17 +41,38 @@ export async function POST() {
 
     accountId = account.id;
     store.stripeAccountId = accountId;
+    store.stripeOnboardingComplete = false;
     await store.save();
+  };
+
+  if (!accountId) {
+    await createFreshAccount();
   }
 
   const baseUrl = process.env.NEXTAUTH_URL;
 
-  const accountLink = await stripe.accountLinks.create({
-    account: accountId,
-    refresh_url: `${baseUrl}/store-owner?connect=refresh`,
-    return_url: `${baseUrl}/store-owner?connect=success`,
-    type: "account_onboarding",
-  });
+  let accountLink;
+  try {
+    accountLink = await stripe.accountLinks.create({
+      account: accountId,
+      refresh_url: `${baseUrl}/store-owner?connect=refresh`,
+      return_url: `${baseUrl}/store-owner?connect=success`,
+      type: "account_onboarding",
+    });
+  } catch (err: any) {
+    // A stored account id from before the live-key cutover (or any other
+    // reason Stripe no longer recognizes it) — self-heal by starting a
+    // fresh account rather than leaving the store owner permanently stuck.
+    if (!isStaleStripeAccountError(err)) throw err;
+
+    await createFreshAccount();
+    accountLink = await stripe.accountLinks.create({
+      account: accountId,
+      refresh_url: `${baseUrl}/store-owner?connect=refresh`,
+      return_url: `${baseUrl}/store-owner?connect=success`,
+      type: "account_onboarding",
+    });
+  }
 
   return NextResponse.json({ url: accountLink.url });
 }
@@ -78,10 +100,20 @@ export async function GET() {
   // or missing Connect webhook can't permanently strand a store as "not
   // connected" even though Stripe already approved them.
   if (store.stripeAccountId && !store.stripeOnboardingComplete) {
-    const account = await stripe.accounts.retrieve(store.stripeAccountId);
-    const onboardingComplete = !!(account.charges_enabled && account.payouts_enabled);
-    if (onboardingComplete !== store.stripeOnboardingComplete) {
-      store.stripeOnboardingComplete = onboardingComplete;
+    try {
+      const account = await stripe.accounts.retrieve(store.stripeAccountId);
+      const onboardingComplete = !!(account.charges_enabled && account.payouts_enabled);
+      if (onboardingComplete !== store.stripeOnboardingComplete) {
+        store.stripeOnboardingComplete = onboardingComplete;
+        await store.save();
+      }
+    } catch (err: any) {
+      // Stale account id (e.g. from before the live-key cutover) — clear it
+      // so the store shows as "not connected" instead of erroring, and the
+      // next onboarding attempt starts a fresh account.
+      if (!isStaleStripeAccountError(err)) throw err;
+      store.stripeAccountId = undefined;
+      store.stripeOnboardingComplete = false;
       await store.save();
     }
   }
