@@ -15,6 +15,7 @@ import BikeRentalBanner from "@/components/home/BikeRentalBanner";
 import DiscoverPorto from "@/components/home/DiscoverPorto";
 import LocalFlavors from "@/components/home/LocalFlavors";
 import PopularCategories from "@/components/home/PopularCategories";
+import ShopSouvenirBanner from "@/components/home/ShopSouvenirBanner";
 import WhyChooseStayInspired from "@/components/home/WhyChooseStayInspired";
 
 export default function Home() {
@@ -95,6 +96,7 @@ export default function Home() {
       </section>
 
       <PopularCategories />
+      <ShopSouvenirBanner />
       <DiscoverPorto />
       <BikeRentalBanner />
       <LocalFlavors />
