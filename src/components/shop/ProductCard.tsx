@@ -3,6 +3,7 @@
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import Link from "@/components/ui/LocalizedLink";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 import { useFavorite } from "@/hooks/useFavorite";
@@ -29,7 +30,9 @@ type Product = {
 };
 
 export default function ProductCard({ product }: { product: Product }) {
+  const router = useRouter();
   const { favorited, toggle } = useFavorite("product", product._id);
+  const shopEnabled = isShopEnabled();
 
   const hasVariants = (product.variants?.length ?? 0) > 0;
   const variantPrices = hasVariants
@@ -41,8 +44,30 @@ export default function ProductCard({ product }: { product: Product }) {
     ? product.variants!.find((v) => v.image)?.image
     : product.images?.[0];
 
-  const cardContent = (
-    <>
+  const notifyComingSoon = () =>
+    toast("Buying is coming soon — browsing only for now!");
+
+  const goToDetails = () => {
+    if (shopEnabled) {
+      router.push(`/shop/${product.slug}`);
+    } else {
+      notifyComingSoon();
+    }
+  };
+
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={goToDetails}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          goToDetails();
+        }
+      }}
+      className="group block cursor-pointer overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:shadow-md"
+    >
       <div className="relative h-44 w-full overflow-hidden bg-gray-100">
         <img
           src={thumbnail}
@@ -75,40 +100,35 @@ export default function ProductCard({ product }: { product: Product }) {
         <p className="font-bold text-[var(--text)]">
           {pricesDiffer ? `From €${minVariantPrice}` : `€${minVariantPrice}`}
         </p>
-        <p className="text-xs text-gray-500">
-          {hasVariants
-            ? `${product.variants!.length} designs available`
-            : `Available: ${product.quantity || 0}`}
-        </p>
+        <div className="flex items-center justify-between pt-1">
+          <p className="text-xs text-gray-500">
+            {hasVariants
+              ? `${product.variants!.length} designs available`
+              : `Available: ${product.quantity || 0}`}
+          </p>
+          {shopEnabled ? (
+            <Link
+              href={`/shop/${product.slug}`}
+              onClick={(e) => e.stopPropagation()}
+              className="text-xs font-medium whitespace-nowrap text-[#2c6e9b] hover:underline"
+            >
+              See Details →
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                notifyComingSoon();
+              }}
+              className="cursor-pointer text-xs font-medium whitespace-nowrap text-[#2c6e9b] hover:underline"
+            >
+              See Details →
+            </button>
+          )}
+        </div>
       </div>
-    </>
-  );
-
-  if (!isShopEnabled()) {
-    return (
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={() => toast("Buying is coming soon — browsing only for now!")}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toast("Buying is coming soon — browsing only for now!");
-          }
-        }}
-        className="group block cursor-pointer overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:shadow-md"
-      >
-        {cardContent}
-      </div>
-    );
-  }
-
-  return (
-    <Link
-      href={`/shop/${product.slug}`}
-      className="group block overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:shadow-md"
-    >
-      {cardContent}
-    </Link>
+    </div>
   );
 }
