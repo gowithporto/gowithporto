@@ -11,6 +11,7 @@ import backgroundImage from "../assets/1. home page/banner2.png";
 import bottomLeftLine1 from "../assets/bottom left line 1.png";
 import bottomRightLine1 from "../assets/bottom right line 1.png";
 
+import AiTripPlannerBanner from "@/components/home/AiTripPlannerBanner";
 import BikeRentalBanner from "@/components/home/BikeRentalBanner";
 import DiscoverPorto from "@/components/home/DiscoverPorto";
 import LocalFlavors from "@/components/home/LocalFlavors";
@@ -100,6 +101,7 @@ export default function Home() {
       <DiscoverPorto />
       <BikeRentalBanner />
       <LocalFlavors />
+      <AiTripPlannerBanner />
       <WhyChooseStayInspired />
     </main>
   );
