@@ -22,6 +22,15 @@ export async function POST(req: Request) {
   const storeId = products[0].storeId;
   const store = await Store.findById(storeId);
 
+  // A cart item added before the store was deactivated could otherwise still
+  // reach checkout even though it's hidden from browsing now.
+  if (!store || !store.active) {
+    return NextResponse.json(
+      { error: "This store is currently unavailable." },
+      { status: 400 }
+    );
+  }
+
   // Resolve each cart line (not each unique product) — a cart can hold
   // several variants of the same product, and each is its own line item.
   const resolveLine = (item: any) => {

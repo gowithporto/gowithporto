@@ -30,6 +30,7 @@ export default function StoresPage() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [creating, setCreating] = useState(false);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -63,6 +64,30 @@ export default function StoresPage() {
   useEffect(() => {
     fetchStores();
   }, []);
+
+  const handleToggleActive = async (store: StoreType) => {
+    const nextActive = !store.active;
+    setTogglingId(store._id);
+    try {
+      const res = await fetch(`/api/admin/stores/${store._id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ active: nextActive }),
+      });
+      if (!res.ok) throw new Error("Failed");
+
+      setStores((prev) =>
+        prev.map((s) => (s._id === store._id ? { ...s, active: nextActive } : s))
+      );
+      toast.success(
+        nextActive ? `${store.name} is now active` : `${store.name} deactivated`
+      );
+    } catch {
+      toast.error("Failed to update store status");
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -342,14 +367,22 @@ export default function StoresPage() {
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
                   <BuildingStorefrontIcon className="h-6 w-6" />
                 </div>
-                <span
-                  className={`rounded-full px-3 py-1 text-xs font-medium ${store.active
+                <button
+                  type="button"
+                  onClick={() => handleToggleActive(store)}
+                  disabled={togglingId === store._id}
+                  title="Click to toggle active/inactive"
+                  className={`cursor-pointer rounded-full px-3 py-1 text-xs font-medium transition hover:opacity-80 disabled:cursor-wait disabled:opacity-60 ${store.active
                       ? "bg-green-100 text-green-700"
                       : "bg-red-100 text-red-700"
                     }`}
                 >
-                  {store.active ? "Active" : "Inactive"}
-                </span>
+                  {togglingId === store._id
+                    ? "..."
+                    : store.active
+                      ? "Active"
+                      : "Inactive"}
+                </button>
               </div>
 
               <h3 className="text-lg font-bold text-gray-900">{store.name}</h3>

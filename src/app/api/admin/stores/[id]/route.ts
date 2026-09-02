@@ -117,3 +117,42 @@ export async function PUT(
 
   return NextResponse.json(store);
 }
+
+// Lightweight active/inactive toggle, kept separate from PUT so the admin
+// stores list can flip status with one click without submitting the full
+// edit form. Deactivating also blocks that store owner's login (see
+// lib/auth.ts) and hides its products from the shop (see api/products and
+// lib/products.ts) — a documents/compliance suspension, not just a label.
+export async function PATCH(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const session = await getServerSession(authOptions);
+  if (session?.user?.role !== "ADMIN") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { id } = await params;
+  const { active } = await req.json();
+
+  if (typeof active !== "boolean") {
+    return NextResponse.json(
+      { error: "active must be a boolean" },
+      { status: 400 }
+    );
+  }
+
+  await connectDB();
+
+  const store = await Store.findByIdAndUpdate(
+    id,
+    { active },
+    { new: true }
+  ).select("-passwordHash -fulfillmentPinHash");
+
+  if (!store) {
+    return NextResponse.json({ error: "Store not found" }, { status: 404 });
+  }
+
+  return NextResponse.json(store);
+}

@@ -31,10 +31,15 @@ export async function GET(req: Request) {
 
     const products = await Product.find(filter)
       .sort(sortOption)
-      .populate("storeId", "name slug")
+      .populate({ path: "storeId", match: { active: true }, select: "name slug" })
       .lean();
 
-    const localized = products.map((p) => resolveLocalized(p, lang, TRANSLATABLE_FIELDS));
+    // populate's `match` doesn't exclude the product itself when the store
+    // doesn't match — it just nulls out storeId — so a deactivated store's
+    // products must be filtered out here to actually disappear from the shop.
+    const activeStoreProducts = products.filter((p: any) => p.storeId);
+
+    const localized = activeStoreProducts.map((p) => resolveLocalized(p, lang, TRANSLATABLE_FIELDS));
 
     return NextResponse.json(localized);
   } catch (err) {
