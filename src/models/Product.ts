@@ -11,6 +11,9 @@ const ProductSchema = new Schema(
   {
     title: String,
     slug: { type: String, unique: true },
+    // Retired slugs this product used to answer to, so old links/search
+    // results can be redirected to the current slug instead of 404ing.
+    previousSlugs: { type: [String], default: [], index: true },
     description: String,
     price: Number,
     images: [String],

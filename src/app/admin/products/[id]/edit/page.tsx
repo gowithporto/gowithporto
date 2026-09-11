@@ -41,6 +41,7 @@ export default function AdminEditProductPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: product.title,
+          slug: product.slug,
           description: product.description,
           price: product.price,
           category: product.category,
@@ -83,6 +84,13 @@ export default function AdminEditProductPage() {
             required
             value={product.title}
             onChange={(e) => setProduct({ ...product, title: e.target.value })}
+          />
+
+          <Input
+            label="Slug (URL Friendly)"
+            required
+            value={product.slug || ""}
+            onChange={(e) => setProduct({ ...product, slug: e.target.value })}
           />
 
           <Input

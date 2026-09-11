@@ -17,3 +17,12 @@ export const getProduct = cache(async (slug: string) => {
   // excluding the product — treat that as not-found so the page 404s.
   return product?.storeId ? product : null;
 });
+
+/** Looks up the current slug for a product that used to answer to `slug`, so a stale/old URL can be redirected instead of 404ing. */
+export const getCurrentSlugForRetiredSlug = cache(async (slug: string) => {
+  await connectDB();
+  const product = await Product.findOne({ previousSlugs: slug, active: true })
+    .select("slug")
+    .lean<any>();
+  return product?.slug || null;
+});

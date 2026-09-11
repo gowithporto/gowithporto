@@ -33,11 +33,27 @@ export async function POST(req: Request) {
 
   await connectDB();
 
-  const product = await Product.create({
-    ...body,
-    storeId: session.user.storeId,
-    active: true,
-  });
+  try {
+    const product = await Product.create({
+      ...body,
+      storeId: session.user.storeId,
+      active: true,
+    });
 
-  return NextResponse.json(product);
+    return NextResponse.json(product);
+  } catch (error: any) {
+    if (error?.code === 11000 && error?.keyPattern?.slug) {
+      return NextResponse.json(
+        {
+          error: `The slug "${body.slug}" is already used by another product. Please choose a different one.`,
+        },
+        { status: 409 },
+      );
+    }
+
+    return NextResponse.json(
+      { error: "Failed to create product" },
+      { status: 500 },
+    );
+  }
 }

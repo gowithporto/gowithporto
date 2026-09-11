@@ -18,6 +18,7 @@ export async function PUT(
 
   const updateData = {
     title: body.title,
+    slug: body.slug,
     description: body.description,
     price: body.price,
     category: body.category,
@@ -28,13 +29,40 @@ export async function PUT(
 
   await connectDB();
 
-  const updated = await Product.findByIdAndUpdate(id, updateData, {
-    new: true,
-  }).populate("storeId", "name");
+  try {
+    const existing = await Product.findById(id);
+    if (!existing) {
+      return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    }
 
-  if (!updated) {
-    return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    const update: any = { $set: updateData };
+    if (body.slug && body.slug !== existing.slug) {
+      update.$addToSet = { previousSlugs: existing.slug };
+    }
+
+    const updated = await Product.findByIdAndUpdate(id, update, {
+      new: true,
+      runValidators: true,
+    }).populate("storeId", "name");
+
+    if (!updated) {
+      return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(updated);
+  } catch (error: any) {
+    if (error?.code === 11000 && error?.keyPattern?.slug) {
+      return NextResponse.json(
+        {
+          error: `The slug "${body.slug}" is already used by another product. Please choose a different one.`,
+        },
+        { status: 409 },
+      );
+    }
+
+    return NextResponse.json(
+      { error: "Failed to update product" },
+      { status: 500 },
+    );
   }
-
-  return NextResponse.json(updated);
 }

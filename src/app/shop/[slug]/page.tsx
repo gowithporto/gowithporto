@@ -1,9 +1,13 @@
 import { headers } from "next/headers";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import ProductDetailView from "@/components/shop/ProductDetailView";
 import { resolveLocalized } from "@/lib/localizeContent";
-import { PRODUCT_TRANSLATABLE_FIELDS, getProduct } from "@/lib/products";
+import {
+  PRODUCT_TRANSLATABLE_FIELDS,
+  getCurrentSlugForRetiredSlug,
+  getProduct,
+} from "@/lib/products";
 
 export default async function ProductDetailPage({
   params,
@@ -15,7 +19,11 @@ export default async function ProductDetailPage({
   const lang = hdrs.get("x-locale") || "en";
 
   const raw = await getProduct(slug);
-  if (!raw) notFound();
+  if (!raw) {
+    const currentSlug = await getCurrentSlugForRetiredSlug(slug);
+    if (currentSlug) permanentRedirect(`/shop/${currentSlug}`);
+    notFound();
+  }
 
   const product = resolveLocalized(raw, lang, PRODUCT_TRANSLATABLE_FIELDS);
 
