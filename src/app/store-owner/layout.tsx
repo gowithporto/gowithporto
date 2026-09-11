@@ -22,11 +22,11 @@ export default function Layout({
 
   return (
     <StoreOwnerGuard>
-      <div className="flex min-h-screen mt-32 bg-[#f4f6f9]">
+      <div className="flex min-h-screen bg-[#f4f6f9]">
         <StoreOwnerSidebar isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
-        <div className="flex flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 flex-col">
           <StoreOwnerTopbar onMenuClick={() => setMobileNavOpen(true)} />
-          <main className="flex-1 p-6 lg:p-8">{children}</main>
+          <main className="min-w-0 flex-1 p-6 lg:p-8">{children}</main>
         </div>
       </div>
     </StoreOwnerGuard>

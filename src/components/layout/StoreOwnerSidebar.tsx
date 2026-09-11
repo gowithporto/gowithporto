@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ArrowLeftOnRectangleIcon,
   BuildingStorefrontIcon,
   Cog6ToothIcon,
   CreditCardIcon,
@@ -9,7 +10,7 @@ import {
   Squares2X2Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -25,8 +26,6 @@ const links = [
   { href: "/store-owner/orders", label: "Orders", icon: ShoppingBagIcon },
   { href: "/store-owner/profile", label: "Shop Profile", icon: BuildingStorefrontIcon },
 ];
-
-const comingSoon = [{ label: "Settings", icon: Cog6ToothIcon }];
 
 function SidebarBrand() {
   const { data: session } = useSession();
@@ -104,17 +103,28 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
         {openingPayouts ? "Opening Stripe..." : "Payouts"}
       </button>
 
-      {comingSoon.map((l) => (
-        <button
-          key={l.label}
-          type="button"
-          onClick={() => toast("Coming soon!")}
-          className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm font-medium text-[#3d4f5c]/50 transition hover:bg-black/5"
-        >
-          <l.icon className="h-5 w-5" />
-          {l.label}
-        </button>
-      ))}
+      <Link
+        href="/store-owner/settings"
+        onClick={onNavigate}
+        className={cn(
+          "flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition",
+          pathname === "/store-owner/settings" || pathname.startsWith("/store-owner/settings/")
+            ? "bg-[#2c6e9b] text-white shadow-sm"
+            : "text-[#3d4f5c] hover:bg-black/5",
+        )}
+      >
+        <Cog6ToothIcon className="h-5 w-5" />
+        Settings
+      </Link>
+
+      <button
+        type="button"
+        onClick={() => signOut({ callbackUrl: "/store-owner/login" })}
+        className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm font-medium text-red-500 transition hover:bg-red-50"
+      >
+        <ArrowLeftOnRectangleIcon className="h-5 w-5" />
+        Logout
+      </button>
     </nav>
   );
 }

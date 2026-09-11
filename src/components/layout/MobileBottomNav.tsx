@@ -67,10 +67,17 @@ export default function MobileBottomNav() {
   const currentPath = stripLocale(pathname);
 
   return (
-    <nav
-      className="fixed inset-x-0 bottom-0 z-50 flex items-stretch justify-around border-t border-black/5 bg-white/80 backdrop-blur-lg lg:hidden"
-      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
-    >
+    <>
+      {/* Reserves scroll space so this fixed bar never covers page content */}
+      <div
+        className="lg:hidden"
+        style={{ height: "calc(3.75rem + env(safe-area-inset-bottom))" }}
+        aria-hidden
+      />
+      <nav
+        className="fixed inset-x-0 bottom-0 z-50 flex items-stretch justify-around border-t border-black/5 bg-white/80 backdrop-blur-lg lg:hidden"
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      >
       {NAV_ITEMS.map((item) => {
         const isActive = item.exact
           ? currentPath === item.href
@@ -114,6 +121,7 @@ export default function MobileBottomNav() {
         <Bars3Icon className="h-6 w-6 text-[var(--text)]/50" />
         <span className="text-[var(--text)]/50">{t(lang, "nav.more")}</span>
       </button>
-    </nav>
+      </nav>
+    </>
   );
 }

@@ -140,13 +140,6 @@ export default async function RootLayout({
               <Header />
               {children}
               <ConditionalFooter />
-
-              {/* Reserves scroll space so the fixed mobile bottom nav never covers page content */}
-              <div
-                className="lg:hidden"
-                style={{ height: "calc(3.75rem + env(safe-area-inset-bottom))" }}
-                aria-hidden
-              />
               <MobileBottomNav />
               <CookieConsentBanner />
             </MobileMenuProvider>

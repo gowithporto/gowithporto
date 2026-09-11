@@ -1,5 +1,8 @@
+"use client";
+
 import Button from "@/components/ui/Button";
 import { t } from "@/i18n";
+import { useLanguage } from "@/providers/LanguageProvider";
 import {
   GlobeAltIcon,
   HeartIcon,
@@ -7,12 +10,10 @@ import {
   ShoppingBagIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
-import { headers } from "next/headers";
 import Link from "@/components/ui/LocalizedLink";
 
-export default async function AboutPage() {
-  const hdrs = await headers();
-  const lang = hdrs.get("x-locale") || "en";
+export default function AboutPage() {
+  const { lang } = useLanguage();
 
   const OFFERINGS = [
     {

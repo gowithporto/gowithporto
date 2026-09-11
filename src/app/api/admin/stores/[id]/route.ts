@@ -50,6 +50,9 @@ export async function PUT(
     googleMapsLink,
     commissionRate,
     fulfillmentPin,
+    logoUrl,
+    bannerUrl,
+    images,
   } = body;
 
   if (!name || !location) {
@@ -101,6 +104,9 @@ export async function PUT(
     deliveryZoneFees: deliveryZoneFees || undefined,
     googleMapsLink: googleMapsLink || undefined,
     commissionRate,
+    logoUrl: logoUrl || undefined,
+    bannerUrl: bannerUrl || undefined,
+    images: Array.isArray(images) ? images : undefined,
   };
 
   if (typeof fulfillmentPin === "string" && fulfillmentPin.trim()) {

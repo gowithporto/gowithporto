@@ -141,7 +141,7 @@ export default function Header() {
 
   const cartCount = useCartCount();
 
-  if (session?.user?.role === "ADMIN") return null;
+  if (session?.user?.role === "ADMIN" || isStoreOwner) return null;
 
   const switchLanguage = (nextLang: string) => {
     const segments = pathname.split("/");

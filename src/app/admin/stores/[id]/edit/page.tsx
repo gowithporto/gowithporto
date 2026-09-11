@@ -1,7 +1,9 @@
 "use client";
 
 import Button from "@/components/ui/Button";
+import ImageUploader from "@/components/ui/ImageUploader";
 import Input from "@/components/ui/Input";
+import SingleImagePicker from "@/components/ui/SingleImagePicker";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -18,6 +20,9 @@ type StoreFormState = {
   googleMapsLink: string;
   commissionRate: string;
   fulfillmentPin: string;
+  logoUrl: string;
+  bannerUrl: string;
+  images: string[];
 };
 
 export default function EditStorePage() {
@@ -46,6 +51,9 @@ export default function EditStorePage() {
           googleMapsLink: store.googleMapsLink ?? "",
           commissionRate: String(store.commissionRate ?? 10),
           fulfillmentPin: "",
+          logoUrl: store.logoUrl ?? "",
+          bannerUrl: store.bannerUrl ?? "",
+          images: store.images ?? [],
         })
       )
       .catch(() => setNotFound(true));
@@ -74,6 +82,9 @@ export default function EditStorePage() {
           googleMapsLink: form.googleMapsLink.trim() || undefined,
           commissionRate: parseFloat(form.commissionRate) || 0,
           fulfillmentPin: form.fulfillmentPin,
+          logoUrl: form.logoUrl,
+          bannerUrl: form.bannerUrl,
+          images: form.images,
         }),
       });
 
@@ -125,6 +136,36 @@ export default function EditStorePage() {
               required
               value={form.location}
               onChange={(e) => setForm({ ...form, location: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-gray-700">
+              Logo
+            </label>
+            <SingleImagePicker
+              value={form.logoUrl}
+              onChange={(url) => setForm({ ...form, logoUrl: url })}
+              folder="stores/logo"
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-gray-700">
+              Cover Photo
+            </label>
+            <SingleImagePicker
+              value={form.bannerUrl}
+              onChange={(url) => setForm({ ...form, bannerUrl: url })}
+              folder="stores/banner"
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-gray-700">
+              Shop Gallery
+            </label>
+            <ImageUploader
+              value={form.images}
+              onChange={(urls) => setForm({ ...form, images: urls })}
+              folder="stores/gallery"
             />
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
