@@ -43,6 +43,7 @@ export type AttractionFormState = {
   history: string;
   highlights: string[];
   gallery: string[];
+  overlayColor: string;
   bestTimeToVisit: string;
   openingHours: string;
   entryFee: string;
@@ -63,6 +64,7 @@ const emptyState: AttractionFormState = {
   history: "",
   highlights: [],
   gallery: [],
+  overlayColor: "#1d3d5c",
   bestTimeToVisit: "",
   openingHours: "",
   entryFee: "",
@@ -473,6 +475,51 @@ export default function AttractionForm({
           onChange={(gallery) => setForm({ ...form, gallery })}
           folder="attractions"
         />
+
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-black/60">
+            Card Overlay Color
+          </label>
+          <p className="text-xs text-black/40">
+            The gradient overlay shown on the listing card, over the cover
+            photo. Pick a color that matches this attraction&apos;s image.
+          </p>
+          <div className="flex items-center gap-3">
+            <input
+              type="color"
+              value={form.overlayColor}
+              onChange={(e) =>
+                setForm({ ...form, overlayColor: e.target.value })
+              }
+              className="h-11 w-14 cursor-pointer rounded-lg border border-black/10 bg-white p-1"
+            />
+            <Input
+              className="w-32"
+              placeholder="#1d3d5c"
+              value={form.overlayColor}
+              onChange={(e) =>
+                setForm({ ...form, overlayColor: e.target.value })
+              }
+            />
+            {form.gallery[0] && (
+              <div
+                className="relative h-16 w-24 overflow-hidden rounded-lg border border-black/10 bg-gray-100"
+                style={{
+                  backgroundImage: `url(${form.gallery[0]})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: `linear-gradient(to top, ${form.overlayColor} 0%, ${form.overlayColor}99 45%, transparent 100%)`,
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="space-y-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">

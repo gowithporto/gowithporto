@@ -24,6 +24,7 @@ const AttractionSchema = new Schema(
     highlights: [String],
     coverImage: String,
     gallery: [String],
+    overlayColor: { type: String, default: "#1d3d5c" },
     bestTimeToVisit: String,
     openingHours: String,
     entryFee: String,
