@@ -6,7 +6,10 @@ import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import Link from "@/components/ui/LocalizedLink";
 
 const LAST_UPDATED = "August 10, 2026";
+// Displayed as the support address, but no mailbox exists for it yet —
+// mailto: links route to the admin inbox, which is actually monitored.
 const SUPPORT_EMAIL = "support@gowithporto.pt";
+const SUPPORT_EMAIL_MAILTO = "admin@gowithporto.pt";
 
 const SECTION_IDS = [
   "who-we-are",
@@ -101,7 +104,7 @@ export default function PrivacyPage() {
             <p>{t(lang, "privacy.section.whoWeAre.p1")}</p>
             <p>
               {t(lang, "privacy.section.whoWeAre.contactPrefix")}{" "}
-              <a href={`mailto:${SUPPORT_EMAIL}`} className="font-medium text-[#2c6e9b] underline hover:no-underline">
+              <a href={`mailto:${SUPPORT_EMAIL_MAILTO}`} className="font-medium text-[#2c6e9b] underline hover:no-underline">
                 {SUPPORT_EMAIL}
               </a>
               .
@@ -184,7 +187,7 @@ export default function PrivacyPage() {
             </ul>
             <p>
               {t(lang, "privacy.section.yourRights.exercisePrefix")}{" "}
-              <a href={`mailto:${SUPPORT_EMAIL}`} className="font-medium text-[#2c6e9b] underline hover:no-underline">
+              <a href={`mailto:${SUPPORT_EMAIL_MAILTO}`} className="font-medium text-[#2c6e9b] underline hover:no-underline">
                 {SUPPORT_EMAIL}
               </a>
               {t(lang, "privacy.section.yourRights.complaintSuffix")}
@@ -206,7 +209,7 @@ export default function PrivacyPage() {
           <Section id="contact" title={t(lang, "privacy.section.contactUs.title")}>
             <p>
               {t(lang, "privacy.section.contactUs.prefix")}{" "}
-              <a href={`mailto:${SUPPORT_EMAIL}`} className="font-medium text-[#2c6e9b] underline hover:no-underline">
+              <a href={`mailto:${SUPPORT_EMAIL_MAILTO}`} className="font-medium text-[#2c6e9b] underline hover:no-underline">
                 {SUPPORT_EMAIL}
               </a>{" "}
               {t(lang, "privacy.section.contactUs.middle")}{" "}

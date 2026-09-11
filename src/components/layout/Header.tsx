@@ -148,6 +148,12 @@ export default function Header() {
     const hasPrefix = (locales as readonly string[]).includes(segments[1]);
     const rest = hasPrefix ? "/" + segments.slice(2).join("/") : pathname;
     const cleanRest = rest === "/" ? "" : rest;
+
+    // Record this as a deliberate choice before navigating, so proxy.ts's
+    // Accept-Language auto-redirect never second-guesses a manual switch —
+    // including switching back to English, which has no URL prefix of its own.
+    document.cookie = `gwp-locale=${nextLang}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+
     router.push(nextLang === "en" ? cleanRest || "/" : `/${nextLang}${cleanRest}`);
   };
 

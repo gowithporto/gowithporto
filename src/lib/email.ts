@@ -123,10 +123,9 @@ export function sendWelcomeEmail(to: string, data: WelcomeData) {
   return send(to, welcomeSubject(), welcomeHtml(data));
 }
 
-/** Notifies the support inbox of a contact-form submission; reply-to is the submitter's email. */
+/** Notifies the admin inbox of a contact-form submission; reply-to is the submitter's email. */
 export function sendContactMessageEmail(data: ContactMessageData) {
-  const supportEmail = process.env.SUPPORT_EMAIL || "support@gowithporto.pt";
-  return send(supportEmail, contactMessageSubject(data), contactMessageHtml(data), data.email);
+  return send(ADMIN_EMAIL, contactMessageSubject(data), contactMessageHtml(data), data.email);
 }
 
 /** Notifies the admin inbox whenever a new user registers. */

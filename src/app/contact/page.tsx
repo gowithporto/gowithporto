@@ -24,7 +24,10 @@ const TOPIC_KEYS = [
   "contact.topics.other",
 ];
 
+// Displayed as the support address, but no mailbox exists for it yet —
+// mailto: links route to the admin inbox, which is actually monitored.
 const SUPPORT_EMAIL = "support@gowithporto.pt";
+const SUPPORT_EMAIL_MAILTO = "admin@gowithporto.pt";
 
 export default function ContactPage() {
   const { lang } = useLanguage();
@@ -53,7 +56,7 @@ export default function ContactPage() {
             <div>
               <p className="text-sm font-medium text-[#1d3d5c]">{t(lang, "contact.info.email")}</p>
               <a
-                href={`mailto:${SUPPORT_EMAIL}`}
+                href={`mailto:${SUPPORT_EMAIL_MAILTO}`}
                 className="text-sm text-[var(--text)] hover:text-[#2c6e9b] hover:underline"
               >
                 {SUPPORT_EMAIL}
