@@ -12,6 +12,7 @@ const LocalExperienceSchema = new Schema(
     included: [String],
     gallery: [String],
     coverImage: String,
+    overlayColor: { type: String, default: "#1d3d5c" },
     duration: String,
     durationCategory: String,
     price: Number,
