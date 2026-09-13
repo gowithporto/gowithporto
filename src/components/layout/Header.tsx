@@ -101,7 +101,7 @@ export default function Header() {
 
   const { isOpen: mobileMenuOpen, open: openMobileMenu, close: closeMobileMenuCtx } = useMobileMenu();
   const [hideMobileHeader, setHideMobileHeader] = useState(false);
-  const lastScrollY = useRef(0);
+  const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
@@ -110,16 +110,19 @@ export default function Header() {
     };
   }, [mobileMenuOpen]);
 
-  // Mobile top bar hides on scroll-down, reappears on scroll-up — stays
-  // visible near the top (< 80px) so it doesn't flicker on tiny scrolls.
+  // EXPERIMENT: mobile top bar hides the instant scrolling starts (either
+  // direction) and reappears once scrolling has stopped for a beat.
   useEffect(() => {
     const handleScroll = () => {
-      const currentY = window.scrollY;
-      setHideMobileHeader(currentY > lastScrollY.current && currentY > 80);
-      lastScrollY.current = currentY;
+      setHideMobileHeader(true);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+      scrollTimeout.current = setTimeout(() => setHideMobileHeader(false), 400);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    };
   }, []);
 
   // NextAuth redirects auth failures back to "/" with ?error=... (see pages.error
@@ -162,7 +165,7 @@ export default function Header() {
       {/* Mobile top bar — fixed so it stays visible on every page, even mid-scroll.
           Slides out of view on scroll-down and back in on scroll-up. */}
       <div
-        className={`fixed top-0 left-0 z-50 flex w-full items-center justify-between border-b border-black/5 bg-white/50 px-4 py-3 backdrop-blur-lg transition-transform duration-300 lg:hidden ${
+        className={`fixed top-0 left-0 z-50 flex w-full items-center justify-between px-4 py-3 transition-transform duration-300 lg:hidden ${
           hideMobileHeader ? "-translate-y-full" : "translate-y-0"
         }`}
         style={{ paddingTop: "calc(0.75rem + env(safe-area-inset-top))" }}

@@ -3,9 +3,7 @@
 import { locales, t } from "@/i18n";
 import { useCartCount } from "@/hooks/useCartCount";
 import { useLanguage } from "@/providers/LanguageProvider";
-import { useMobileMenu } from "@/providers/MobileMenuProvider";
 import {
-  Bars3Icon,
   HomeIcon,
   ShoppingBagIcon,
   ShoppingCartIcon,
@@ -58,7 +56,6 @@ export default function MobileBottomNav() {
   const { lang } = useLanguage();
   const pathname = usePathname();
   const cartCount = useCartCount();
-  const { open: openMobileMenu } = useMobileMenu();
 
   if (session?.user?.role === "ADMIN" || session?.user?.role === "STORE_OWNER") {
     return null;
@@ -112,15 +109,6 @@ export default function MobileBottomNav() {
           </Link>
         );
       })}
-
-      <button
-        type="button"
-        onClick={openMobileMenu}
-        className="flex flex-1 flex-col items-center justify-center gap-0.5 py-2.5 text-[11px]"
-      >
-        <Bars3Icon className="h-6 w-6 text-[var(--text)]/50" />
-        <span className="text-[var(--text)]/50">{t(lang, "nav.more")}</span>
-      </button>
       </nav>
     </>
   );
