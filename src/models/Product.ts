@@ -17,6 +17,7 @@ const ProductSchema = new Schema(
     description: String,
     price: Number,
     images: [String],
+    overlayColor: { type: String, default: "#1d3d5c" },
     category: String,
     quantity: { type: Number, default: 0 },
     variants: [VariantSchema],

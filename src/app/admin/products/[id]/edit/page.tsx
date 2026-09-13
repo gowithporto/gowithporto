@@ -46,6 +46,7 @@ export default function AdminEditProductPage() {
           price: product.price,
           category: product.category,
           images: product.images,
+          overlayColor: product.overlayColor,
           quantity: product.quantity,
           active: product.active,
         }),
@@ -145,6 +146,51 @@ export default function AdminEditProductPage() {
             value={product.images || []}
             onChange={(images) => setProduct({ ...product, images })}
           />
+        </div>
+
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-gray-700">
+            Card Overlay Color
+          </label>
+          <p className="text-xs text-gray-400">
+            The gradient overlay shown on the shop listing card, over the
+            product photo. Admin-only — store owners can't change this.
+          </p>
+          <div className="flex items-center gap-3">
+            <input
+              type="color"
+              value={product.overlayColor || "#1d3d5c"}
+              onChange={(e) =>
+                setProduct({ ...product, overlayColor: e.target.value })
+              }
+              className="h-11 w-14 cursor-pointer rounded-lg border border-black/10 bg-white p-1"
+            />
+            <Input
+              className="w-32"
+              placeholder="#1d3d5c"
+              value={product.overlayColor || "#1d3d5c"}
+              onChange={(e) =>
+                setProduct({ ...product, overlayColor: e.target.value })
+              }
+            />
+            {product.images?.[0] && (
+              <div
+                className="relative h-16 w-24 overflow-hidden rounded-lg border border-black/10 bg-gray-100"
+                style={{
+                  backgroundImage: `url(${product.images[0]})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: `linear-gradient(to top, ${product.overlayColor || "#1d3d5c"} 0%, ${product.overlayColor || "#1d3d5c"}99 45%, transparent 100%)`,
+                  }}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
         <label className="flex items-center gap-2 text-sm text-gray-700">

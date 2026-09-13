@@ -23,6 +23,7 @@ export async function PUT(
     price: body.price,
     category: body.category,
     images: body.images,
+    overlayColor: body.overlayColor,
     quantity: body.quantity,
     active: body.active,
   };
