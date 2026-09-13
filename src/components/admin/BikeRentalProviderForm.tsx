@@ -8,6 +8,7 @@ import { useState } from "react";
 export type BikeRentalProviderFormState = {
   name: string;
   coverImage: string;
+  overlayColor: string;
   address: string;
   googleMapsUrl: string;
   startingPrice: string;
@@ -20,6 +21,7 @@ export type BikeRentalProviderFormState = {
 const emptyState: BikeRentalProviderFormState = {
   name: "",
   coverImage: "",
+  overlayColor: "#1d3d5c",
   address: "",
   googleMapsUrl: "",
   startingPrice: "",
@@ -33,6 +35,7 @@ function normalizeInitial(
   initial?: Partial<{
     name: string;
     coverImage: string;
+    overlayColor: string;
     address: string;
     googleMapsUrl: string;
     startingPrice: string;
@@ -69,6 +72,7 @@ export default function BikeRentalProviderForm({
   initial?: Partial<{
     name: string;
     coverImage: string;
+    overlayColor: string;
     address: string;
     googleMapsUrl: string;
     startingPrice: string;
@@ -80,6 +84,7 @@ export default function BikeRentalProviderForm({
   onSubmit: (form: {
     name: string;
     coverImage: string;
+    overlayColor: string;
     address: string;
     googleMapsUrl: string;
     startingPrice: string;
@@ -100,6 +105,7 @@ export default function BikeRentalProviderForm({
     onSubmit({
       name: form.name,
       coverImage: form.coverImage,
+      overlayColor: form.overlayColor,
       address: form.address,
       googleMapsUrl: form.googleMapsUrl,
       startingPrice: form.startingPrice,
@@ -190,6 +196,51 @@ export default function BikeRentalProviderForm({
           onChange={(coverImage) => setForm({ ...form, coverImage })}
           folder="bike-rentals"
         />
+
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-black/60">
+            Card Overlay Color
+          </label>
+          <p className="text-xs text-black/40">
+            The gradient overlay shown on the listing card, over the cover
+            photo. Pick a color that matches this shop&apos;s image.
+          </p>
+          <div className="flex items-center gap-3">
+            <input
+              type="color"
+              value={form.overlayColor}
+              onChange={(e) =>
+                setForm({ ...form, overlayColor: e.target.value })
+              }
+              className="h-11 w-14 cursor-pointer rounded-lg border border-black/10 bg-white p-1"
+            />
+            <Input
+              className="w-32"
+              placeholder="#1d3d5c"
+              value={form.overlayColor}
+              onChange={(e) =>
+                setForm({ ...form, overlayColor: e.target.value })
+              }
+            />
+            {form.coverImage && (
+              <div
+                className="relative h-16 w-24 overflow-hidden rounded-lg border border-black/10 bg-gray-100"
+                style={{
+                  backgroundImage: `url(${form.coverImage})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: `linear-gradient(to top, ${form.overlayColor} 0%, ${form.overlayColor}99 45%, transparent 100%)`,
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="flex items-center gap-6 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">

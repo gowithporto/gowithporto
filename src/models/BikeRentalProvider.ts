@@ -4,6 +4,7 @@ const BikeRentalProviderSchema = new Schema(
   {
     name: { type: String, required: true },
     coverImage: { type: String, required: true },
+    overlayColor: { type: String, default: "#1d3d5c" },
     address: String,
     googleMapsUrl: { type: String, required: true },
     startingPrice: String,
