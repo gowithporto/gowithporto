@@ -187,12 +187,12 @@ export default function ProductDetailView({ product }: { product: Product }) {
       ) : (
         <div className="grid gap-10 lg:grid-cols-2">
           <div className="space-y-4">
-            <div className="relative aspect-square overflow-hidden rounded-2xl border border-black/5 bg-gray-100 shadow-sm">
+            <div className="relative overflow-hidden rounded-2xl border border-black/5 bg-gray-100 shadow-sm">
               {images[activeImage] && (
                 <img
                   src={images[activeImage]}
                   alt={product.title}
-                  className="h-full w-full object-cover"
+                  className="mx-auto h-auto max-h-[70vh] w-auto max-w-full"
                 />
               )}
               <button

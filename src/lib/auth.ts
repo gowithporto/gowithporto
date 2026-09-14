@@ -5,9 +5,29 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { sendAdminNewUserEmail, sendWelcomeEmail } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
-import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
+import {
+  checkLoginLock,
+  clearLoginAttempts,
+  getClientIp,
+  LoginLockCheck,
+  recordLoginFailure,
+} from "@/lib/rateLimit";
 import Store from "@/models/Store";
 import User from "@/models/User";
+
+// Encodes a lockout as `LOCKED_STAGE<1|2>|<minutesLeft>[|<ip>]` — thrown from
+// authorize() below, this Error's message survives to the client as
+// `res.error` (verified against the installed next-auth@4.24.13 source: it
+// passes `error.message` through unchanged via the redirect's `error` query
+// param, which signIn(..., {redirect:false}) then reads back). `|` is used
+// instead of `:` so an IPv6 address in the ip segment can't be mistaken for
+// an extra field. Shared by both the admin and store-owner credential flows.
+function lockoutMessage(check: LoginLockCheck & { allowed: false }, ip: string): string {
+  const minutesLeft = Math.ceil((check.lockedUntilMs - Date.now()) / 60000);
+  return check.stage === 1
+    ? `LOCKED_STAGE1|${minutesLeft}`
+    : `LOCKED_STAGE2|${minutesLeft}|${ip}`;
+}
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -39,8 +59,11 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) return null;
 
         const ip = getClientIp(req?.headers);
-        if (!checkRateLimit(`admin-login:${ip}:${credentials.email}`)) {
-          return null;
+        const key = `admin-login:${ip}:${credentials.email}`;
+
+        const lock = checkLoginLock(key);
+        if (!lock.allowed) {
+          throw new Error(lockoutMessage(lock, ip));
         }
 
         await connectDB();
@@ -49,18 +72,21 @@ export const authOptions: NextAuthOptions = {
           email: credentials.email,
         }).select("+password +role");
 
-        if (!user) return null;
+        const isValid =
+          !!user &&
+          user.role === "ADMIN" &&
+          !!user.password &&
+          (await bcrypt.compare(credentials.password, user.password));
 
-        if (user.role !== "ADMIN") return null;
+        if (!isValid) {
+          const result = recordLoginFailure(key);
+          if (!result.allowed) {
+            throw new Error(lockoutMessage(result, ip));
+          }
+          return null;
+        }
 
-        if (!user.password) return null;
-
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isValid) return null;
+        clearLoginAttempts(key);
 
         return {
           id: user._id.toString(),
@@ -84,8 +110,11 @@ export const authOptions: NextAuthOptions = {
         if (!credentials) return null;
 
         const ip = getClientIp(req?.headers);
-        if (!checkRateLimit(`store-owner-login:${ip}:${credentials.storeCode}`)) {
-          return null;
+        const key = `store-owner-login:${ip}:${credentials.storeCode}`;
+
+        const lock = checkLoginLock(key);
+        if (!lock.allowed) {
+          throw new Error(lockoutMessage(lock, ip));
         }
 
         await connectDB();
@@ -96,14 +125,18 @@ export const authOptions: NextAuthOptions = {
           active: true,
         });
 
-        if (!store) return null;
+        const valid =
+          !!store && (await bcrypt.compare(credentials.password, store.passwordHash));
 
-        const valid = await bcrypt.compare(
-          credentials.password,
-          store.passwordHash
-        );
+        if (!valid) {
+          const result = recordLoginFailure(key);
+          if (!result.allowed) {
+            throw new Error(lockoutMessage(result, ip));
+          }
+          return null;
+        }
 
-        if (!valid) return null;
+        clearLoginAttempts(key);
 
         return {
           id: store._id.toString(),

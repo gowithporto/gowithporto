@@ -1,6 +1,7 @@
 import { locales } from "@/i18n";
 import { resolveLocalized } from "@/lib/localizeContent";
 import { PRODUCT_TRANSLATABLE_FIELDS as TRANSLATABLE_FIELDS, getProduct } from "@/lib/products";
+import { safeJsonLd } from "@/lib/seo";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 
@@ -81,7 +82,7 @@ export default async function ProductLayout({
       {jsonLd && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       )}
       {children}

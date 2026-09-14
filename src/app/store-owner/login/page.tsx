@@ -16,6 +16,7 @@ import { toast } from "react-hot-toast";
 
 import HeroBg from "@/assets/1. home page/Hero banner.png";
 import Divider from "@/assets/line top center.png";
+import { describeLoginError } from "@/utils/loginLockoutMessage";
 
 export default function StoreOwnerLoginPage() {
   const [storeCode, setStoreCode] = useState("");
@@ -36,7 +37,11 @@ export default function StoreOwnerLoginPage() {
     setLoading(false);
 
     if (res?.error) {
-      toast.error("Invalid store code or password");
+      const locked = res.error.startsWith("LOCKED_");
+      toast.error(
+        describeLoginError(res.error, "Invalid store code or password"),
+        locked ? { duration: 7000 } : undefined,
+      );
     } else {
       window.location.href = "/store-owner";
     }

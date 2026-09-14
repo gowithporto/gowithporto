@@ -10,6 +10,7 @@ import CookieConsentBanner from "@/components/layout/CookieConsentBanner";
 import Header from "@/components/layout/Header";
 import MobileBottomNav from "@/components/layout/MobileBottomNav";
 import { locales } from "@/i18n";
+import { safeJsonLd } from "@/lib/seo";
 import AuthProvider from "@/providers/AuthProvider";
 import { LanguageProvider } from "@/providers/LanguageProvider";
 import { MobileMenuProvider } from "@/providers/MobileMenuProvider";
@@ -118,7 +119,7 @@ export default async function RootLayout({
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(businessJsonLd) }}
         />
         <AuthProvider>
           <ReduxProvider>

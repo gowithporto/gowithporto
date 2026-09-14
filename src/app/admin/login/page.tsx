@@ -16,6 +16,7 @@ import { toast } from "react-hot-toast";
 
 import HeroBg from "@/assets/1. home page/Hero banner.png";
 import Divider from "@/assets/line top center.png";
+import { describeLoginError } from "@/utils/loginLockoutMessage";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -35,7 +36,11 @@ export default function AdminLoginPage() {
       });
 
       if (result?.error) {
-        toast.error("Invalid credentials or unauthorized access");
+        const locked = result.error.startsWith("LOCKED_");
+        toast.error(
+          describeLoginError(result.error, "Invalid credentials or unauthorized access"),
+          locked ? { duration: 7000 } : undefined,
+        );
       } else {
         toast.success("Welcome back, Admin");
         router.push("/admin");

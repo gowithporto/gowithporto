@@ -4,6 +4,7 @@ import {
   getExperience,
 } from "@/lib/localExperiences";
 import { resolveLocalized } from "@/lib/localizeContent";
+import { safeJsonLd } from "@/lib/seo";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 
@@ -94,7 +95,7 @@ export default async function LocalExperienceLayout({
       {jsonLd && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       )}
       {children}

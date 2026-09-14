@@ -11,7 +11,7 @@ export default function CategoryCard({ name, slug, count, thumbnail }: Props) {
   return (
     <Link
       href={`/shop/category/${slug}`}
-      className="group relative block h-56 w-full overflow-hidden rounded-2xl bg-gray-100 shadow-sm transition hover:shadow-lg"
+      className="group relative block h-72 w-full overflow-hidden rounded-2xl bg-gray-100 shadow-sm transition hover:shadow-lg"
     >
       {thumbnail && (
         <img
