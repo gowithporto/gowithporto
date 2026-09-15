@@ -39,7 +39,7 @@ const navigation = [
   { name: "Orders", href: "/admin/orders", icon: ShoppingBagIcon },
   { name: "Disputes", href: "/admin/disputes", icon: ExclamationTriangleIcon },
   { name: "Users", href: "/admin/users", icon: UserGroupIcon },
-  { name: "Credit Pricing", href: "/admin/credit-pricing", icon: CurrencyEuroIcon },
+  { name: "Pricing", href: "/admin/pricing", icon: CurrencyEuroIcon },
 ];
 
 const comingSoon = [

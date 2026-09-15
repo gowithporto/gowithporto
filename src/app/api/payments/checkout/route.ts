@@ -1,5 +1,6 @@
 import { resolveDeliveryFee } from "@/lib/deliveryZones";
 import { connectDB } from "@/lib/mongodb";
+import { getShopMinOrderCents } from "@/lib/shopSettings";
 import Product from "@/models/Product";
 import Store from "@/models/Store";
 import mongoose from "mongoose";
@@ -62,6 +63,21 @@ export async function POST(req: Request) {
     }
   );
 
+  const productsSubtotalCents = items.reduce((sum: number, item: any) => {
+    const { price } = resolveLine(item);
+    return sum + Math.round(price * 100) * item.quantity;
+  }, 0);
+
+  const minOrderCents = await getShopMinOrderCents();
+  if (minOrderCents > 0 && productsSubtotalCents < minOrderCents) {
+    return NextResponse.json(
+      {
+        error: `You need to buy at least €${(minOrderCents / 100).toFixed(2)} to checkout — please add more items to your cart.`,
+      },
+      { status: 400 }
+    );
+  }
+
   // Money no longer splits at checkout — the full charge goes to the platform's
   // own Stripe balance. The seller's cut only transfers once delivery/pickup is
   // confirmed (see /api/fulfill/[token]/confirm), using this pre-generated id as
@@ -99,7 +115,6 @@ export async function POST(req: Request) {
 
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
       mode: "payment",
       line_items: lineItems,
 
