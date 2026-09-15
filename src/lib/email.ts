@@ -47,6 +47,11 @@ import {
   type AdminPayoutData,
 } from "./emailTemplates/adminPayout";
 import {
+  sellerPayoutHtml,
+  sellerPayoutSubject,
+  type SellerPayoutData,
+} from "./emailTemplates/sellerPayout";
+import {
   adminDisputeAlertHtml,
   adminDisputeAlertSubject,
   type AdminDisputeAlertData,
@@ -136,6 +141,21 @@ export function sendAdminNewUserEmail(data: AdminNewUserData) {
 /** Notifies the admin inbox when Stripe pays out (or fails to pay out) the platform balance to the linked bank account. */
 export function sendAdminPayoutEmail(data: AdminPayoutData) {
   return send(ADMIN_EMAIL, adminPayoutSubject(data), adminPayoutHtml(data));
+}
+
+/** Notifies a store owner when Stripe pays out (or fails to pay out) their connected-account balance — silent no-op if the store has no email on file. */
+export async function sendSellerPayoutEmailForAccount(
+  stripeAccountId: string,
+  data: Omit<SellerPayoutData, "storeName">
+) {
+  const store = await Store.findOne({ stripeAccountId }).select("name email");
+  if (!store?.email) return;
+
+  await send(
+    store.email,
+    sellerPayoutSubject(data),
+    sellerPayoutHtml({ ...data, storeName: store.name })
+  );
 }
 
 /** Notifies the admin inbox the moment a dispute exists — reported by buyer/handler, or auto-detected after the 24h unconfirmed timeout. */

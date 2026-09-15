@@ -5,6 +5,7 @@ import {
   sendAdminPayoutEmail,
   sendNewOrderAlertForOrder,
   sendOrderConfirmationForOrder,
+  sendSellerPayoutEmailForAccount,
 } from "@/lib/email";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
@@ -25,35 +26,36 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing signature" }, { status: 400 });
   }
 
-  // Shop checkout and AI-credit checkout both run live now, but this one
-  // endpoint URL is registered as two separate Stripe webhook destinations
-  // (test mode + live mode), each with its own signing secret — try both, so
-  // test-mode events (e.g. store-owner Connect testing) still verify too.
-  let event: Stripe.Event;
+  // This one endpoint URL is registered as multiple Stripe webhook
+  // destinations — test mode, live mode "Your account", and live mode
+  // "Connected accounts" (for seller payout events) — each with its own
+  // signing secret. Try each in turn until one verifies.
+  const secretsToTry: { secret: string | undefined; client: Stripe }[] = [
+    { secret: process.env.STRIPE_WEBHOOK_SECRET, client: stripeTest },
+    { secret: process.env.STRIPE_WEBHOOK_SECRET_LIVE, client: stripeLive ?? stripeTest },
+    {
+      secret: process.env.STRIPE_WEBHOOK_SECRET_CONNECT_LIVE,
+      client: stripeLive ?? stripeTest,
+    },
+  ];
+
+  let event: Stripe.Event | undefined;
   let stripe = stripeTest;
 
-  try {
-    event = stripeTest.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
-  } catch (testErr) {
-    if (!stripeLive || !process.env.STRIPE_WEBHOOK_SECRET_LIVE) {
-      console.error("Stripe webhook signature verification failed:", testErr);
-      return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-    }
+  for (const { secret, client } of secretsToTry) {
+    if (!secret) continue;
     try {
-      event = stripeLive.webhooks.constructEvent(
-        body,
-        signature,
-        process.env.STRIPE_WEBHOOK_SECRET_LIVE
-      );
-      stripe = stripeLive;
-    } catch (liveErr) {
-      console.error("Stripe webhook signature verification failed:", liveErr);
-      return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+      event = client.webhooks.constructEvent(body, signature, secret);
+      stripe = client;
+      break;
+    } catch {
+      continue;
     }
+  }
+
+  if (!event) {
+    console.error("Stripe webhook signature verification failed for all configured secrets");
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
   if (event.type === "account.updated") {
@@ -73,24 +75,39 @@ export async function POST(req: Request) {
     return NextResponse.json({ received: true });
   }
 
-  if (
-    (event.type === "payout.paid" || event.type === "payout.failed") &&
-    !event.account // platform's own payout to the founder's bank, not a connected store's payout to its own bank
-  ) {
+  if (event.type === "payout.paid" || event.type === "payout.failed") {
     const payout = event.data.object as Stripe.Payout;
-
-    await sendAdminPayoutEmail({
-      payoutId: payout.id,
-      amount: payout.amount / 100,
-      currency: payout.currency,
-      status: event.type === "payout.paid" ? "paid" : "failed",
-      arrivalDate: new Date(payout.arrival_date * 1000).toLocaleDateString("en-GB", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-      failureMessage: payout.failure_message || undefined,
+    const status = event.type === "payout.paid" ? "paid" : "failed";
+    const arrivalDate = new Date(payout.arrival_date * 1000).toLocaleDateString("en-GB", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
+
+    if (!event.account) {
+      // Platform's own payout to the founder's bank.
+      await sendAdminPayoutEmail({
+        payoutId: payout.id,
+        amount: payout.amount / 100,
+        currency: payout.currency,
+        status,
+        arrivalDate,
+        failureMessage: payout.failure_message || undefined,
+      });
+    } else {
+      // A connected store's payout to its own bank — only arrives here if the
+      // "Connected accounts" event destination is set up in Stripe for
+      // payout.paid/payout.failed alongside the platform's own destination.
+      await connectDB();
+      await sendSellerPayoutEmailForAccount(event.account, {
+        payoutId: payout.id,
+        amount: payout.amount / 100,
+        currency: payout.currency,
+        status,
+        arrivalDate,
+        failureMessage: payout.failure_message || undefined,
+      });
+    }
 
     return NextResponse.json({ received: true });
   }
