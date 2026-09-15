@@ -151,11 +151,8 @@ export async function sendSellerPayoutEmailForAccount(
   const store = await Store.findOne({ stripeAccountId }).select("name email");
   if (!store?.email) return;
 
-  await send(
-    store.email,
-    sellerPayoutSubject(data),
-    sellerPayoutHtml({ ...data, storeName: store.name })
-  );
+  const fullData: SellerPayoutData = { ...data, storeName: store.name };
+  await send(store.email, sellerPayoutSubject(fullData), sellerPayoutHtml(fullData));
 }
 
 /** Notifies the admin inbox the moment a dispute exists — reported by buyer/handler, or auto-detected after the 24h unconfirmed timeout. */
